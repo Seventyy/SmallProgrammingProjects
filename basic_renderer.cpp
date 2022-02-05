@@ -59,8 +59,8 @@ class CubeFace
 {
 public:
     Vector3 normal;
-    float position;
-    CubeFace(Vector3 _normal, float _position) : normal(_normal), position(_position) {}
+    float extrusion;
+    CubeFace(Vector3 _normal, float _extrusion) : normal(_normal), extrusion(_extrusion) {}
 };
 
 class Cube
@@ -83,14 +83,14 @@ public:
     
     void create_faces()
     {
-        *faces[0] = CubeFace(Vector3(-1,0,0));
-        *faces[1] = CubeFace(Vector3( 1,0,0));
+        faces[0] = new CubeFace(Vector3(-1,0,0), size.x / 2);
+        faces[1] = new CubeFace(Vector3( 1,0,0), size.x / 2);
 
-        *faces[2] = CubeFace(Vector3(0,-1,0));
-        *faces[3] = CubeFace(Vector3(0, 1,0));
+        faces[2] = new CubeFace(Vector3(0,-1,0), size.y / 2);
+        faces[3] = new CubeFace(Vector3(0, 1,0), size.y / 2);
 
-        *faces[4] = CubeFace(Vector3(0,0,-1));
-        *faces[5] = CubeFace(Vector3(0,0, 1));
+        faces[4] = new CubeFace(Vector3(0,0,-1), size.z / 2);
+        faces[5] = new CubeFace(Vector3(0,0, 1), size.z / 2);
     }
     
     bool is_intersecting(Vector3 _vec)
@@ -98,13 +98,24 @@ public:
         if (_vec.x >= position.x - size.x / 2 && _vec.x <= position.x + size.x / 2 &&
             _vec.y >= position.y - size.y / 2 && _vec.y <= position.y + size.y / 2 &&
             _vec.z >= position.z - size.z / 2 && _vec.z <= position.z + size.z / 2)
-            return 1;
+        {
+		determine_face(_vec)
+		return 1;
+	}
         return 0;
     }
 
-    void determine_face(Vector3 _intersecting, Vector3 _before)
+    void determine_face(Vector3 _vec, Vector3 _before)
     {
-        
+	//distance to face x positive
+        float dis_xn = position.x + faces[0].extrusion - _vec.x;
+        float dis_xp = position.x - faces[1].extrusion - _vec.x; // not sure here
+
+        float dis_yn = position.y + faces[2].extrusion - _vec.y;
+        float dis_yp = position.y - faces[3].extrusion - _vec.y;
+
+        float dis_zn = position.z + faces[4].extrusion - _vec.z;
+        float dis_zp = position.z - faces[5].extrusion - _vec.z;
     }
 };
 
@@ -200,8 +211,8 @@ public:
     void print()
     {
         string image_sring;
-        char gray_shades[5] = {char(32), char(219), char(178), char(177), char(176)}; // from darkest to ligterst, starting with space
-        //char gray_shades[13] = {' ','.',',','-','~',':',';','=','!','*','#','$','@'};
+        //char gray_shades[5] = {char(32), char(219), char(178), char(177), char(176)}; // from darkest to ligterst, starting with space
+        char gray_shades[9] = {' ','-','~',':','!','=','#','$','@'};
         //char gray_shades[5] = {char(32), char(176), char(177), char(178), char(219)}; // from lighest to darkest
 
         // cout << "   0 1 2 3 4 5 6 7 8 9 ";
@@ -209,12 +220,12 @@ public:
         //     cout << i;
         // cout << '\n';
 
-        image_sring += char(201); // ╔
+        image_sring += '+'; // char(201); // ╔
         for (int i = 0; i < MAPSIZE_X * 2; i++)
         {
-            image_sring += char(205); // ═
+            image_sring += '-'; // char(205); // ═
         }
-        image_sring += char(187); // ╗
+        image_sring += '+'; //char(187); // ╗
         image_sring += '\n';
 
       //  for (char i = 0; i<256;i++) cout<< i;
@@ -224,37 +235,22 @@ public:
             // cout << y << ' ';
             // if (y < 10)
                 // cout << ' ';
-            image_sring += char(186); // ║
+            image_sring += '!'; // char(186); // ║
             for (int x = 0; x < MAPSIZE_X; x++)
             {
-                image_sring += gray_shades[int(ceil(depth_map[x][y] * 4))];
-                image_sring += gray_shades[int(ceil(depth_map[x][y] * 4))];
-                /*
-                if (image[x][y])
-                {
-                    // image_sring += char(219);
-                    // image_sring += char(219);
-
-                    image_sring += gray_shades[int(ceil(depth_map[x][y] * 4))];
-                    image_sring += gray_shades[int(ceil(depth_map[x][y] * 4))];
-                }
-                else
-                {
-                    image_sring += gray_shades[4]; // ' '
-                    image_sring += gray_shades[4]; // ' '
-                }
-                */
+                image_sring += gray_shades[int(ceil(depth_map[x][y] * 8))];
+                image_sring += gray_shades[int(ceil(depth_map[x][y] * 8))];
             }
-            image_sring += char(186); // ║
+            image_sring += '!'; //char(186); // ║
             image_sring += '\n';
         }
 
-        image_sring += char(200); // ╚
+        image_sring += '+'; // char(200); // ╚
         for (int i = 0; i < MAPSIZE_X * 2; i++)
         {
-            image_sring += char(205); // ═
+            image_sring += '-'; // char(205); // ═
         }
-        image_sring += char(188); // ╝
+        image_sring += '+'; // char(188); // ╝
         image_sring += '\n';
 
         // image_sring[2 * ((image_size.x + 3) * int((image_size.y + 2) / 2) + int((image_size.x + 2) / 2) + 1)] = '+'; // cursor
@@ -303,7 +299,6 @@ int main()
 
         //input = getch();
         cin >> input;
-
 
         camera.move(input);
     }

@@ -1,19 +1,41 @@
 fn main() {
-    let mut map:[[bool; 39]; 20];
+    //let mut map:[[bool; 39]; 20];
     
-    let mut test_line:[bool; 39] = [false; 39];
-    print(&test_line);
+    let mut first_line:[bool; 39] = [false; 39];
+    first_line[19] = true;    
+    let mut current_line:[bool; 39] = first_line;
+   
+    let test_arr = [0,1,2,3,4,5,6,7];
 
-    map[1][19] = true;    
-    for i in map {
-        
+    for i in &test_arr[2..5] {
+        println!("{}", i);
+    }
+
+    for i in 0i32..139 {
+         print(&current_line);
+         current_line = calculate_next(&current_line);        
     }
 }
 
 fn calculate_next(previous:&[bool; 39]) -> [bool; 39] {
     let mut next:[bool; 39] = [false; 39];
-    for i in previous { // array out of bounds
-        
+    for i in 0usize..37 { 
+        if &previous[i..i+3] == (true, true, false) |
+        &previous[i..i+3] == (true, false, false) |        
+        &previous[i..i+3] == (false, true, false) |
+        &previous[i..i+3] == (false, false, true) {
+            next[i] = true;
+        }
+
+
+    }
+    for i in 0usize..37 {
+        match &previous[i..i+3] {
+            (true, true, false) => next[i] = true;
+            (true, false, false) => next[i] = true;
+            (false, true, false) => next[i] = true;
+            (false, false, true) => next[i] = true;
+        }
     }
     next
 }
