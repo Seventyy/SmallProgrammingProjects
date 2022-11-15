@@ -1,0 +1,32 @@
+[gd_scene load_steps=20 format=2]
+
+[ext_resource path="res://tile_map.gd" type="Script" id=1]
+[ext_resource path="res://icon.png" type="Texture" id=2]
+[ext_resource path="res://Tile0.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Tile1.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Tile2.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Tile3.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Tile4.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Tile5.tscn" type="PackedScene" id=9]
+[ext_resource path="res://Tile12.tscn" type="PackedScene" id=10]
+[ext_resource path="res://Tile14.tscn" type="PackedScene" id=11]
+[ext_resource path="res://Tile15.tscn" type="PackedScene" id=12]
+[ext_resource path="res://Tile13.tscn" type="PackedScene" id=13]
+[ext_resource path="res://Tile16.tscn" type="PackedScene" id=14]
+[ext_resource path="res://Tile7.tscn" type="PackedScene" id=15]
+[ext_resource path="res://Tile6.tscn" type="PackedScene" id=16]
+[ext_resource path="res://Tile8.tscn" type="PackedScene" id=17]
+[ext_resource path="res://Tile9.tscn" type="PackedScene" id=18]
+[ext_resource path="res://Tile10.tscn" type="PackedScene" id=19]
+[ext_resource path="res://Tile11.tscn" type="PackedScene" id=20]
+
+[node name="Main" type="Node2D"]
+
+[node name="TileMap" type="Node2D" parent="."]
+script = ExtResource( 1 )
+size = Vector2( 16, 10 )
+tiles = [ ExtResource( 4 ), ExtResource( 5 ), ExtResource( 6 ), ExtResource( 7 ), ExtResource( 8 ), ExtResource( 9 ), ExtResource( 16 ), ExtResource( 15 ), ExtResource( 17 ), ExtResource( 18 ), ExtResource( 19 ), ExtResource( 20 ), ExtResource( 10 ), ExtResource( 13 ), ExtResource( 11 ), ExtResource( 12 ), ExtResource( 14 ) ]
+
+[node name="Icon" type="Sprite" parent="TileMap"]
+position = Vector2( 512, 320 )
+texture = ExtResource( 2 )

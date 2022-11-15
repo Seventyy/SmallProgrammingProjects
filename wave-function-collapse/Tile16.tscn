@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Tile.tscn" type="PackedScene" id=1]
+
+[node name="Tile16" instance=ExtResource( 1 )]
+texture = null
+air = true
