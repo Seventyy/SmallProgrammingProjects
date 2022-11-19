@@ -4,8 +4,8 @@
 #include "vector.h"
 // #include <conio.h>
 
-#define MAPSIZE_X 62
-#define MAPSIZE_Y 35
+#define MAPSIZE_X 30
+#define MAPSIZE_Y 17
 
 using namespace std;
 
