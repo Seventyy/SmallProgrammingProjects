@@ -4,10 +4,12 @@
 #include "vector.h"
 // #include <conio.h>
 
+using namespace std;
+
 #define MAPSIZE_X 30
 #define MAPSIZE_Y 17
 
-using namespace std;
+
 
 /*
  *      ^y
@@ -141,6 +143,7 @@ public:
 			break;
 		}
 	}
+	
 	void render(Space _space)
 	{
 		Vector3 v_step;

@@ -1,13 +1,12 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <math.h>
 
 using namespace std;
 
-#define MAPSIZE_X 30
-#define MAPSIZE_Y 17
-
-float depth_map[MAPSIZE_X][MAPSIZE_Y];
+#define SCREEN_SIZE_X 30
+#define SCREEN_SIZE_Y 30
 
 class Vector3
 {
@@ -15,6 +14,21 @@ public:
     float x, y, z;
 
     Vector3(float _x = 0, float _y = 0, float _z = 0) : x(_x), y(_y), z(_z) {}
+
+    Vector3 operator+(const Vector3 &_vec) { return Vector3(x + _vec.x, y + _vec.y, z + _vec.z); }
+    Vector3 operator-(const Vector3 &_vec) { return Vector3(x - _vec.x, y - _vec.y, z - _vec.z); }
+    Vector3 operator*(const float &_var) { return Vector3(x * _var, y * _var, z * _var); }
+    Vector3 operator/(const float &_var) { return Vector3(x / _var, y / _var, z / _var); }
+
+    float get_length()
+    {
+        return sqrt(x * x + y * y + z * z);
+    }
+
+    Vector3 normalize()
+    {
+        return *this / this->get_length();
+    }
 };
 
 class Matrix
@@ -35,59 +49,112 @@ public:
         g * vec.x + h * vec.y + i * vec.z); }
 };
 
-void print()
+class Cube
 {
-    string image_string;
-    // char gray_shades[5] = {char(32), char(219), char(178), char(177), char(176)}; // from darkest to ligterst, starting with space
-    char gray_shades[9] = {' ', '-', '~', ':', '!', '=', '#', '$', '@'};
-    // char gray_shades[5] = {char(32), char(176), char(177), char(178), char(219)}; // from lighest to darkest
+public:
+    float a = 1;
 
-    image_string += '+';
-    for (int i = 0; i < MAPSIZE_X * 2; i++)
+    bool is_intersecting(Vector3 vec)
     {
-        image_string += '-';
+        if (vec.x <= a / 2.0f && vec.x >= -a / 2.0f &&
+            vec.y <= a / 2.0f && vec.y >= -a / 2.0f &&
+            vec.z <= a / 2.0f && vec.z >= -a / 2.0f)
+            return true;
+        return false;
     }
-    image_string += '+';
-    image_string += '\n';
+};
 
-    //  for (char i = 0; i<256;i++) cout<< i;
+class Camera
+{
+public:
 
-    for (int y = 0; y < MAPSIZE_Y; y++)
+    // float depth_map[SCREEN_SIZE_X][SCREEN_SIZE_Y]; // 0.0 - 1.0
+    bool bool_map[SCREEN_SIZE_X][SCREEN_SIZE_Y];
+
+    float render_distance = 10;
+    float ray_step = 1;
+
+    Vector3 position = Vector3(5, 0, 0);
+    // Vector3 normal = Vector3(-1, 0, 0);
+
+    bool ray_cast(Vector3 vec, Cube cube) // assuming vec is normalised
     {
-        // cout << y << ' ';
-        // if (y < 10)
-        // cout << ' ';
-        image_string += '!';
-        for (int x = 0; x < MAPSIZE_X; x++)
+        for (float i = 0; i <= render_distance; i += ray_step)
+            if (cube.is_intersecting(position + (vec * i)))
+                return true;
+        return false;
+    }
+
+    void render(Cube cube)
+    {
+        float pixel_angle = 0.03491;
+
+        for (int y = -SCREEN_SIZE_Y / 2; y < (SCREEN_SIZE_Y / 2); y++)
         {
-            image_string += gray_shades[int(ceil(depth_map[x][y] * 8))];
-            image_string += gray_shades[int(ceil(depth_map[x][y] * 8))];
+            for (int x = -SCREEN_SIZE_X / 2; x < (SCREEN_SIZE_X / 2); x++)
+            {
+                if (ray_cast(Vector3(-1, tan(pixel_angle * y), tan(pixel_angle * x)), cube))
+                    bool_map[x][y] = true;
+                else // not needed???
+                    bool_map[x][y] = false;
+            }
         }
-        image_string += '!';
-        image_string += '\n';
     }
 
-    image_string += '+';
-    for (int i = 0; i < MAPSIZE_X * 2; i++)
+    void print()
     {
-        image_string += '-';
+        for (int y = 0; y < SCREEN_SIZE_Y; y++)
+        {
+            for (int x = 0; x < SCREEN_SIZE_X; x++)
+            {
+                if (bool_map[x][y])
+                    cout << "[]";
+                else
+                    cout << "  ";
+            }
+            cout << endl;
+        }
     }
-    image_string += '+';
-    image_string += '\n';
-
-    // image_string[2 * ((image_size.x + 3) * int((image_size.y + 2) / 2) + int((image_size.x + 2) / 2) + 1)] = '+'; // cursor
-    image_string[(int(MAPSIZE_Y / 2) + 1) * (2 * MAPSIZE_X + 3) + MAPSIZE_X + 1] = '[';
-    image_string[(int(MAPSIZE_Y / 2) + 1) * (2 * MAPSIZE_X + 3) + MAPSIZE_X + 2] = ']';
-
-    cout << image_string;
-}
+};
 
 int main()
 {
-    Vector3 v1 = Vector3(3, 4, 1);
-    Matrix m1 = Matrix(-1, 0, 0, 0, 0, 2, 0, -1, 0);
+    Cube c1;
+    Camera cam;
 
-    Vector3 v2 = m1 * v1;
+    cam.render(c1);
+    cam.print();
 
-    cout << v2.x << ", " << v2.y << ", " << v2.z << endl;
+    cout << c1.is_intersecting(Vector3(.1, .3, -.4)) << endl;
+    cout << c1.is_intersecting(Vector3(.1, .3, -1.9)) << endl;
+
+    cout << cam.ray_cast(Vector3(-1, 0, 0), c1) << endl;
+    cout << cam.ray_cast(Vector3(0, 1, 0), c1) << endl;
 }
+
+// void render(Space _space)
+// {
+//     Vector3 v_step;
+//     Vector3 h_step;
+//     Vector3 vision_ray;
+
+//     for (int y = 0; y < SCREEN_SIZE_Y; y++)
+//     {
+//         for (int x = 0; x < SCREEN_SIZE_X; x++)
+//         {
+//             h_step = Vector3(0, 0, tan((2 * x * -h_angle) / SCREEN_SIZE_X + h_angle));
+//             v_step = Vector3(0, tan((2 * y * -v_angle) / SCREEN_SIZE_Y + v_angle), 0); // these asume normal is perpendicular to y and z axis
+
+//             for (float k = 0; k <= render_distance; k += step)
+//             {
+//                 vision_ray = (normal + h_step + v_step).normalize() * k;
+//                 if (_space.is_intersecting(position + vision_ray))
+//                 {
+//                     image[x][y] = 1;
+//                     depth_map[x][y] = k / render_distance;
+//                     break;
+//                 }
+//             }
+//         }
+//     }
+// }
