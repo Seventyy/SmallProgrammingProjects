@@ -1,0 +1,11 @@
+MeshInstance3D
+TextureRect
+ColorRect
+Node3D
+SubViewport
+CanvasLayer
+Node
+Camera3D
+DirectionalLight3D
+WorldEnvironment
+StaticBody3D

@@ -1,4 +1,4 @@
 extends Node
 
-export var tiles:Array
+@export var tiles:Array
 

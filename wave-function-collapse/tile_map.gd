@@ -1,14 +1,14 @@
 extends Node2D
 
-export var size:Vector2
-export var tiles:Array
+@export var size:Vector2
+@export var tiles:Array
 
 var rng := RandomNumberGenerator.new()
 var tile_size:int = 64;
 var map:Array
 
 var tile_variant:int
-var tile_instance:Sprite
+var tile_instance:Sprite2D
 
 func _ready() -> void:
 
@@ -32,7 +32,7 @@ func initiate() -> void:
 	# var tile_variant:int = rng.randi_range(0,15)
 	# map[int(size.x/2)][int(size.y/2)] = tiles[tile_variant].instance() 
 
-func propagate(var x:int, var y:int) -> void:
+func propagate(x:int, y:int) -> void:
 	
 
 	if x+1 < size.x and map[x+1][y] == null:
@@ -44,7 +44,7 @@ func propagate(var x:int, var y:int) -> void:
 	if y-1 >= 0 and map[x][y-1] == null:
 		propagate(x, y-1)
 
-func collapse(var x:int, var y:int) -> void:
+func collapse(x:int, y:int) -> void:
 
 	
 
