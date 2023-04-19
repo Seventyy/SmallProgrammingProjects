@@ -1,9 +1,10 @@
-[gd_scene load_steps=18 format=3 uid="uid://b25fvjc1wfiqh"]
+[gd_scene load_steps=19 format=3 uid="uid://b25fvjc1wfiqh"]
 
 [ext_resource type="Shader" path="res://cartoon_shader/quad.gdshader" id="1_avfw0"]
 [ext_resource type="Shader" path="res://cartoon_shader/every_block.gdshader" id="2_1u1jw"]
 [ext_resource type="Shader" path="res://cartoon_shader/every_block2.gdshader" id="2_ho3rv"]
 [ext_resource type="ArrayMesh" uid="uid://p4kyfy5knyoi" path="res://cartoon_shader/ground_tile_v2.obj" id="3_mkwds"]
+[ext_resource type="ArrayMesh" uid="uid://cnmkc5frlmbyd" path="res://cartoon_shader/rock.obj" id="5_3302r"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_bicm5"]
 render_priority = 0
@@ -60,10 +61,10 @@ transform = Transform3D(0.834848, -0.238721, 0.496026, 0, 0.901077, 0.433659, -0
 current = true
 
 [node name="ShaderQuad" type="MeshInstance3D" parent="Camera3D"]
+transform = Transform3D(1, 0, 0, 1.49012e-08, 1, -2.98023e-08, 2.98023e-08, 0, 1, 0, 0, 0)
 material_override = SubResource("ShaderMaterial_bicm5")
 extra_cull_margin = 16384.0
 mesh = SubResource("QuadMesh_bcddk")
-skeleton = NodePath("../..")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_fhktn")
@@ -115,6 +116,7 @@ skeleton = NodePath("../MeshInstance3D2")
 
 [node name="The shaded one" type="MeshInstance3D" parent="Mesh"]
 transform = Transform3D(0.761062, 0, -4.64647, 0, 9.05197, 0, -1.11125, 0, -3.18222, -8.95282, 0.283518, -6.10594)
+visible = false
 material_override = SubResource("ShaderMaterial_q3qvv")
 mesh = SubResource("BoxMesh_rh308")
 skeleton = NodePath("../MeshInstance3D2")
@@ -133,3 +135,7 @@ skeleton = NodePath("../MeshInstance3D2")
 transform = Transform3D(0.874569, 0, -2.95889, 0, 3.38475, 0, 0.74793, 0, 3.45989, -12.9849, 0, 3.99233)
 mesh = SubResource("BoxMesh_t6t88")
 skeleton = NodePath("../MeshInstance3D2")
+
+[node name="MeshInstance3D7" type="MeshInstance3D" parent="Mesh"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.57878, 0.0148227, -0.814641)
+mesh = ExtResource("5_3302r")
