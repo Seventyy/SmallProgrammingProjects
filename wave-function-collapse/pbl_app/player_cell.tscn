@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://bghq4jvqqgoj5"]
+
+[node name="PlayerCell" type="HSplitContainer"]
+layout_direction = 3
+offset_right = 138.0
+offset_bottom = 31.0
+dragger_visibility = 1
+
+[node name="Button" type="Button" parent="."]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+text = "-"
+
+[node name="OptionButton" type="OptionButton" parent="."]
+layout_mode = 2
+item_count = 2
+popup/item_0/text = "Noob"
+popup/item_0/id = 0
+popup/item_1/text = "Pro"
+popup/item_1/id = 1

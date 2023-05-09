@@ -1,3 +1,6 @@
 res://default_env.tres
+res://pbl_app/pbl_test.tscn
+res://pbl_app/player_cell.tscn
+res://Main.tscn
+res://cartoon_shader/test_scene.tscn
 res://cartoon_shader/test_scene2.tscn
-res://cartoon_shader/quad.gdshader
