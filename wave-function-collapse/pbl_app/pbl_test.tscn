@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://cfcg2xq7oychl"]
+[gd_scene load_steps=3 format=3 uid="uid://bqmveqsn2wrnj"]
 
-[ext_resource type="PackedScene" uid="uid://bghq4jvqqgoj5" path="res://pbl_app/player_cell.tscn" id="1_6wxfk"]
+[ext_resource type="PackedScene" uid="uid://bghq4jvqqgoj5" path="res://pbl_app/edit_player.tscn" id="1_6wxfk"]
+[ext_resource type="PackedScene" uid="uid://cdnrlrx3qamp3" path="res://pbl_app/add_player.tscn" id="2_e18dy"]
 
 [node name="PblTest" type="Control"]
 layout_mode = 3
@@ -39,17 +40,14 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="PlayerCell" parent="ScrollContainer/VBoxContainer" instance=ExtResource("1_6wxfk")]
+[node name="EditPlayer" parent="ScrollContainer/VBoxContainer" instance=ExtResource("1_6wxfk")]
 layout_mode = 2
 
-[node name="Button" type="Button" parent="ScrollContainer/VBoxContainer"]
+[node name="EditPlayer2" parent="ScrollContainer/VBoxContainer" instance=ExtResource("1_6wxfk")]
 layout_mode = 2
-text = "button1"
 
-[node name="Button2" type="Button" parent="ScrollContainer/VBoxContainer"]
+[node name="EditPlayer3" parent="ScrollContainer/VBoxContainer" instance=ExtResource("1_6wxfk")]
 layout_mode = 2
-text = "button2"
 
-[node name="Button3" type="Button" parent="ScrollContainer/VBoxContainer"]
+[node name="AddPlayer" parent="ScrollContainer/VBoxContainer" instance=ExtResource("2_e18dy")]
 layout_mode = 2
-text = "button3"

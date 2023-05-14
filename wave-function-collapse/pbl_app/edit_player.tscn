@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://bghq4jvqqgoj5"]
 
-[node name="PlayerCell" type="HSplitContainer"]
+[node name="EditPlayer" type="HSplitContainer"]
 layout_direction = 3
 offset_right = 138.0
 offset_bottom = 31.0
@@ -12,6 +12,7 @@ layout_mode = 2
 text = "-"
 
 [node name="OptionButton" type="OptionButton" parent="."]
+layout_direction = 2
 layout_mode = 2
 item_count = 2
 popup/item_0/text = "Noob"
