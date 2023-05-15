@@ -1,6 +1,7 @@
 extends OptionButton
 
-@onready var clues_label: CluesLabel = %CluesLabel
-
 func _ready() -> void:
-	ready.connect(clues_label.update_label())
+	item_selected.connect(on_item_selected)
+
+func on_item_selected(index:int) -> void:
+	GlobalSignals.player_level_updated.emit(self, get_item_id(index))
