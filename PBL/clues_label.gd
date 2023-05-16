@@ -18,14 +18,14 @@ func on_room_difficulty_updated(new_difficulty:int) -> void:
 
 func on_player_skill_updated(instance_id:int, new_skill:int) -> void:
 	if not player_data.has(instance_id):
-		player_data[instance_id] = [-1, -1];
-	player_data[instance_id][0] = new_skill
+		player_data[instance_id] = {"skill": -1, "age": -1}
+	player_data[instance_id]["skill"] = new_skill
 	update_label()
 
 func on_player_age_updated(instance_id:int, new_age:int) -> void:
 	if not player_data.has(instance_id):
-		player_data[instance_id] = [-1, -1];
-	player_data[instance_id][1] = new_age
+		player_data[instance_id] = {"skill": -1, "age": -1}
+	player_data[instance_id]["age"] = new_age
 	update_label()
 
 func on_player_deleted(instance_id:int) -> void:
@@ -45,10 +45,9 @@ func calculate_clues() -> int:
 		return -1
 	
 	var skill_age_sum:int
-	
-	for i in player_data.values():
-		if i[0] == -1 or i[1] == -1:
+	for player in player_data.values():
+		if player["skill"] == -1 or player["age"] == -1:
 			return -1
-		skill_age_sum += i[0] * i[1]
+		skill_age_sum += player["skill"] * player["age"]
 	
 	return round(room_difficulty * skill_age_sum / player_data.size())
