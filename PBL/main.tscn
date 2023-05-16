@@ -1,8 +1,15 @@
-[gd_scene load_steps=4 format=3 uid="uid://bruro8vfx4vc0"]
+[gd_scene load_steps=7 format=3 uid="uid://bxvffh8mwonxk"]
 
-[ext_resource type="PackedScene" uid="uid://bu31hcjtwuyoi" path="res://edit_player.tscn" id="1_jni5f"]
-[ext_resource type="Script" path="res://add_player.gd" id="3_p0dgh"]
+[ext_resource type="PackedScene" uid="uid://bpl6leftyh1w3" path="res://player_edit.tscn" id="1_bvjfb"]
+[ext_resource type="Script" path="res://room_difficulty_select.gd" id="1_jarao"]
+[ext_resource type="Script" path="res://player_add.gd" id="3_6iq7j"]
 [ext_resource type="Script" path="res://clues_label.gd" id="5_2gmcg"]
+
+[sub_resource type="Theme" id="Theme_fl8y2"]
+default_font_size = 24
+
+[sub_resource type="LabelSettings" id="LabelSettings_pdkv7"]
+font_size = 48
 
 [node name="Main" type="Control"]
 layout_mode = 3
@@ -11,6 +18,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = SubResource("Theme_fl8y2")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 1
@@ -21,36 +29,79 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.160784, 0.196078, 0.286275, 1)
 
-[node name="PlayerEntries" type="VBoxContainer" parent="."]
-unique_name_in_owner = true
-layout_mode = 2
-offset_left = 117.5
-offset_top = 322.0
-offset_right = 522.5
-offset_bottom = 638.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="EditPlayer" parent="PlayerEntries" instance=ExtResource("1_jni5f")]
-layout_mode = 2
-
-[node name="EditPlayer2" parent="PlayerEntries" instance=ExtResource("1_jni5f")]
-layout_mode = 2
-
-[node name="AddPlayer" type="Button" parent="PlayerEntries"]
-layout_mode = 2
-text = "+"
-script = ExtResource("3_p0dgh")
-player_row = ExtResource("1_jni5f")
+[node name="Title" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.2
+offset_left = -185.5
+offset_right = 185.5
+grow_horizontal = 2
+text = "Clues Calculator"
+label_settings = SubResource("LabelSettings_pdkv7")
+horizontal_alignment = 1
+vertical_alignment = 2
 
 [node name="CluesLabel" type="Label" parent="."]
 unique_name_in_owner = true
 layout_mode = 1
-anchors_preset = 5
+anchors_preset = -1
 anchor_left = 0.5
+anchor_top = 0.8
 anchor_right = 0.5
-offset_left = -30.0
-offset_right = 30.0
-offset_bottom = 26.0
+anchor_bottom = 1.0
+offset_left = -88.0
+offset_right = 88.0
 grow_horizontal = 2
+grow_vertical = 0
+text = "Clues: 0"
+label_settings = SubResource("LabelSettings_pdkv7")
 script = ExtResource("5_2gmcg")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.25
+anchor_right = 0.5
+anchor_bottom = 0.75
+grow_horizontal = 2
+grow_vertical = 2
+follow_focus = true
+horizontal_scroll_mode = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="PlayerEntries" type="VBoxContainer" parent="ScrollContainer/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="DifficultySelect" type="OptionButton" parent="ScrollContainer/MarginContainer/PlayerEntries"]
+layout_mode = 2
+item_count = 3
+popup/item_0/text = "Easy"
+popup/item_0/id = 33
+popup/item_1/text = "Normal"
+popup/item_1/id = 50
+popup/item_2/text = "Hard"
+popup/item_2/id = 66
+script = ExtResource("1_jarao")
+
+[node name="HSeparator" type="HSeparator" parent="ScrollContainer/MarginContainer/PlayerEntries"]
+layout_mode = 2
+
+[node name="PlayerEdit" parent="ScrollContainer/MarginContainer/PlayerEntries" instance=ExtResource("1_bvjfb")]
+layout_mode = 2
+
+[node name="PlayerAdd" type="Button" parent="ScrollContainer/MarginContainer/PlayerEntries"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+text = "+"
+script = ExtResource("3_6iq7j")
+player_edit = ExtResource("1_bvjfb")
