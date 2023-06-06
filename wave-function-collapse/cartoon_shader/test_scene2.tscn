@@ -9,6 +9,7 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_bicm5"]
 render_priority = 0
 shader = ExtResource("1_avfw0")
+shader_parameter/edge_width = 1.0
 
 [sub_resource type="QuadMesh" id="QuadMesh_bcddk"]
 flip_faces = true

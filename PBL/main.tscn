@@ -93,6 +93,19 @@ popup/item_2/text = "Hard"
 popup/item_2/id = 66
 script = ExtResource("1_jarao")
 
+[node name="GridContainer" type="HSplitContainer" parent="ScrollContainer/MarginContainer/PlayerEntries"]
+layout_mode = 2
+split_offset = 175
+dragger_visibility = 1
+
+[node name="RoomSave" type="Button" parent="ScrollContainer/MarginContainer/PlayerEntries/GridContainer"]
+layout_mode = 2
+text = "Save"
+
+[node name="RoomLoad" type="Button" parent="ScrollContainer/MarginContainer/PlayerEntries/GridContainer"]
+layout_mode = 2
+text = "Load"
+
 [node name="HSeparator" type="HSeparator" parent="ScrollContainer/MarginContainer/PlayerEntries"]
 layout_mode = 2
 
