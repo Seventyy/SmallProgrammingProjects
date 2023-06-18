@@ -1,12 +1,64 @@
-[gd_scene load_steps=10 format=3 uid="uid://bxvffh8mwonxk"]
+[gd_scene load_steps=11 format=3 uid="uid://bxvffh8mwonxk"]
 
 [ext_resource type="PackedScene" uid="uid://bpl6leftyh1w3" path="res://player_edit.tscn" id="1_bvjfb"]
-[ext_resource type="Script" path="res://room_difficulty_select.gd" id="1_jarao"]
+[ext_resource type="Script" path="res://room_select.gd" id="2_yhdah"]
 [ext_resource type="Script" path="res://player_add.gd" id="3_6iq7j"]
+[ext_resource type="Script" path="res://room_saver.gd" id="3_nikrk"]
 [ext_resource type="Script" path="res://clues_label.gd" id="5_2gmcg"]
 
 [sub_resource type="Theme" id="Theme_fl8y2"]
 default_font_size = 24
+
+[sub_resource type="Animation" id="Animation_q001i"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Title:offset_bottom")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CluesLabel:offset_top")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("ScrollContainer:anchor_top")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.25]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Title:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
 
 [sub_resource type="Animation" id="Animation_xy2qv"]
 resource_name = "start_up"
@@ -81,57 +133,6 @@ tracks/5/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
-}
-
-[sub_resource type="Animation" id="Animation_q001i"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Title:offset_bottom")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [0.0]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("CluesLabel:offset_top")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [0.0]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("ScrollContainer:anchor_top")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [0.25]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("Title:modulate")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 1, 1)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_opmwu"]
@@ -221,27 +222,25 @@ theme_override_constants/margin_bottom = 5
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="DifficultySelect" type="OptionButton" parent="ScrollContainer/MarginContainer/PlayerEntries"]
+[node name="RoomSelect" type="OptionButton" parent="ScrollContainer/MarginContainer/PlayerEntries"]
 layout_mode = 2
-item_count = 3
-popup/item_0/text = "Easy"
-popup/item_0/id = 33
-popup/item_1/text = "Normal"
-popup/item_1/id = 50
-popup/item_2/text = "Hard"
-popup/item_2/id = 66
-script = ExtResource("1_jarao")
+item_count = 1
+popup/item_0/text = ""
+popup/item_0/id = 0
+script = ExtResource("2_yhdah")
 
-[node name="GridContainer" type="HSplitContainer" parent="ScrollContainer/MarginContainer/PlayerEntries"]
+[node name="RoomSaver" type="HSplitContainer" parent="ScrollContainer/MarginContainer/PlayerEntries"]
+unique_name_in_owner = true
 layout_mode = 2
 split_offset = 175
 dragger_visibility = 1
+script = ExtResource("3_nikrk")
 
-[node name="RoomSave" type="Button" parent="ScrollContainer/MarginContainer/PlayerEntries/GridContainer"]
+[node name="RoomSave" type="Button" parent="ScrollContainer/MarginContainer/PlayerEntries/RoomSaver"]
 layout_mode = 2
 text = "Save"
 
-[node name="RoomLoad" type="Button" parent="ScrollContainer/MarginContainer/PlayerEntries/GridContainer"]
+[node name="RoomLoad" type="Button" parent="ScrollContainer/MarginContainer/PlayerEntries/RoomSaver"]
 layout_mode = 2
 text = "Load"
 
