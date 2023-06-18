@@ -177,7 +177,7 @@ libraries = {
 "": SubResource("AnimationLibrary_opmwu")
 }
 
-[node name="ColorRect" type="Panel" parent="."]
+[node name="BackgroundPanel" type="Panel" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -239,8 +239,12 @@ theme_override_constants/margin_bottom = 5
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="RoomSelect" type="OptionButton" parent="ScrollContainer/MarginContainer/PlayerEntries"]
+[node name="Name" type="HBoxContainer" parent="ScrollContainer/MarginContainer/PlayerEntries"]
 layout_mode = 2
+
+[node name="RoomSelect" type="OptionButton" parent="ScrollContainer/MarginContainer/PlayerEntries/Name"]
+layout_mode = 2
+size_flags_horizontal = 3
 alignment = 1
 item_count = 1
 selected = 0
@@ -250,12 +254,23 @@ popup/item_0/disabled = true
 popup/item_0/separator = true
 script = ExtResource("2_yhdah")
 
+[node name="Button" type="Button" parent="ScrollContainer/MarginContainer/PlayerEntries/Name"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+text = "+"
+
+[node name="Button2" type="Button" parent="ScrollContainer/MarginContainer/PlayerEntries/Name"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+text = "-"
+
 [node name="HSeparator2" type="HSeparator" parent="ScrollContainer/MarginContainer/PlayerEntries"]
 modulate = Color(1, 1, 1, 0)
 layout_mode = 2
 
 [node name="RoomNameEdit" type="LineEdit" parent="ScrollContainer/MarginContainer/PlayerEntries"]
 layout_mode = 2
+size_flags_horizontal = 3
 placeholder_text = "Room name"
 alignment = 1
 
