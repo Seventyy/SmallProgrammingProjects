@@ -1,6 +1,6 @@
 class_name RoomSaver extends Node
 
-var rooms:Array[RoomResource]
+@export var rooms:Array[RoomResource]
 
 @onready var room_save:Button = $RoomSave
 @onready var room_load:Button = $RoomLoad

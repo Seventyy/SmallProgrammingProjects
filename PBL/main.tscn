@@ -1,13 +1,17 @@
-[gd_scene load_steps=11 format=3 uid="uid://bxvffh8mwonxk"]
+[gd_scene load_steps=15 format=3 uid="uid://bxvffh8mwonxk"]
 
 [ext_resource type="PackedScene" uid="uid://bpl6leftyh1w3" path="res://player_edit.tscn" id="1_bvjfb"]
 [ext_resource type="Script" path="res://room_select.gd" id="2_yhdah"]
 [ext_resource type="Script" path="res://player_add.gd" id="3_6iq7j"]
 [ext_resource type="Script" path="res://room_saver.gd" id="3_nikrk"]
+[ext_resource type="Script" path="res://room_resource.gd" id="4_imgpu"]
 [ext_resource type="Script" path="res://clues_label.gd" id="5_2gmcg"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_a5k0v"]
 
 [sub_resource type="Theme" id="Theme_fl8y2"]
 default_font_size = 24
+LineEdit/styles/focus = SubResource("StyleBoxEmpty_a5k0v")
 
 [sub_resource type="Animation" id="Animation_q001i"]
 length = 0.001
@@ -144,6 +148,20 @@ _data = {
 [sub_resource type="LabelSettings" id="LabelSettings_pdkv7"]
 font_size = 48
 
+[sub_resource type="Resource" id="Resource_yoort"]
+script = ExtResource("4_imgpu")
+name = &"TestRoom1"
+steps_min = 1
+steps_max = 2
+duration = 3
+
+[sub_resource type="Resource" id="Resource_toarc"]
+script = ExtResource("4_imgpu")
+name = &"TestRoom2"
+steps_min = 4
+steps_max = 5
+duration = 6
+
 [node name="Main" type="Control"]
 layout_mode = 3
 anchors_preset = 15
@@ -159,14 +177,13 @@ libraries = {
 "": SubResource("AnimationLibrary_opmwu")
 }
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="ColorRect" type="Panel" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.160784, 0.196078, 0.286275, 1)
 
 [node name="Title" type="Label" parent="."]
 layout_mode = 1
@@ -224,10 +241,62 @@ layout_mode = 2
 
 [node name="RoomSelect" type="OptionButton" parent="ScrollContainer/MarginContainer/PlayerEntries"]
 layout_mode = 2
+alignment = 1
 item_count = 1
-popup/item_0/text = ""
+selected = 0
+popup/item_0/text = "Select a room"
 popup/item_0/id = 0
+popup/item_0/disabled = true
+popup/item_0/separator = true
 script = ExtResource("2_yhdah")
+
+[node name="HSeparator2" type="HSeparator" parent="ScrollContainer/MarginContainer/PlayerEntries"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+
+[node name="RoomNameEdit" type="LineEdit" parent="ScrollContainer/MarginContainer/PlayerEntries"]
+layout_mode = 2
+placeholder_text = "Room name"
+alignment = 1
+
+[node name="MinSteps" type="HSplitContainer" parent="ScrollContainer/MarginContainer/PlayerEntries"]
+layout_mode = 2
+split_offset = 200
+dragger_visibility = 1
+
+[node name="MinStepsLabel" type="Label" parent="ScrollContainer/MarginContainer/PlayerEntries/MinSteps"]
+layout_mode = 2
+text = "Minmum steps:"
+
+[node name="MinStepsEdit" type="SpinBox" parent="ScrollContainer/MarginContainer/PlayerEntries/MinSteps"]
+layout_mode = 2
+alignment = 1
+
+[node name="MaxSteps" type="HSplitContainer" parent="ScrollContainer/MarginContainer/PlayerEntries"]
+layout_mode = 2
+split_offset = 200
+dragger_visibility = 1
+
+[node name="MaxStepsLabel" type="Label" parent="ScrollContainer/MarginContainer/PlayerEntries/MaxSteps"]
+layout_mode = 2
+text = "Maximum steps:"
+
+[node name="MaxStepsEdit" type="SpinBox" parent="ScrollContainer/MarginContainer/PlayerEntries/MaxSteps"]
+layout_mode = 2
+alignment = 1
+
+[node name="Duration" type="HSplitContainer" parent="ScrollContainer/MarginContainer/PlayerEntries"]
+layout_mode = 2
+split_offset = 200
+dragger_visibility = 1
+
+[node name="DurationLabel" type="Label" parent="ScrollContainer/MarginContainer/PlayerEntries/Duration"]
+layout_mode = 2
+text = "Duration:"
+
+[node name="DurationEdit" type="SpinBox" parent="ScrollContainer/MarginContainer/PlayerEntries/Duration"]
+layout_mode = 2
+alignment = 1
 
 [node name="RoomSaver" type="HSplitContainer" parent="ScrollContainer/MarginContainer/PlayerEntries"]
 unique_name_in_owner = true
@@ -235,6 +304,7 @@ layout_mode = 2
 split_offset = 175
 dragger_visibility = 1
 script = ExtResource("3_nikrk")
+rooms = Array[ExtResource("4_imgpu")]([SubResource("Resource_yoort"), SubResource("Resource_toarc")])
 
 [node name="RoomSave" type="Button" parent="ScrollContainer/MarginContainer/PlayerEntries/RoomSaver"]
 layout_mode = 2
