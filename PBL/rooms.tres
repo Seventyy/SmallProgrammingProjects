@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="RoomsResource" load_steps=2 format=3 uid="uid://dn6wn43t3xnqq"]
+
+[ext_resource type="Script" path="res://rooms_resource.gd" id="1_bc475"]
+
+[resource]
+script = ExtResource("1_bc475")
+rooms = Array[Resource("res://room_resource.gd")]([])
