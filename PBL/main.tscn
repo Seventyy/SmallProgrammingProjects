@@ -1,15 +1,10 @@
-[gd_scene load_steps=11 format=3 uid="uid://bxvffh8mwonxk"]
+[gd_scene load_steps=10 format=3 uid="uid://bxvffh8mwonxk"]
 
 [ext_resource type="PackedScene" uid="uid://bpl6leftyh1w3" path="res://player_edit.tscn" id="1_bvjfb"]
+[ext_resource type="Theme" uid="uid://b1ggdoxq8e5sj" path="res://ui.theme" id="1_i18v0"]
 [ext_resource type="Script" path="res://room_select.gd" id="2_yhdah"]
 [ext_resource type="Script" path="res://player_add.gd" id="3_6iq7j"]
 [ext_resource type="Script" path="res://clues_label.gd" id="5_2gmcg"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_a5k0v"]
-
-[sub_resource type="Theme" id="Theme_fl8y2"]
-default_font_size = 24
-LineEdit/styles/focus = SubResource("StyleBoxEmpty_a5k0v")
 
 [sub_resource type="Animation" id="Animation_q001i"]
 length = 0.001
@@ -145,6 +140,7 @@ _data = {
 
 [sub_resource type="LabelSettings" id="LabelSettings_pdkv7"]
 font_size = 48
+font_color = Color(1, 0.988235, 0.94902, 1)
 
 [node name="Main" type="Control"]
 layout_mode = 3
@@ -153,7 +149,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = SubResource("Theme_fl8y2")
+theme = ExtResource("1_i18v0")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "start_up"
@@ -230,6 +226,7 @@ layout_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 alignment = 1
+clip_text = true
 script = ExtResource("2_yhdah")
 
 [node name="RoomAdd" type="Button" parent="ScrollContainer/MarginContainer/PlayerEntries/RoomContoller"]

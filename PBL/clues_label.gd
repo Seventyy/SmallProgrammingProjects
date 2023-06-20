@@ -13,7 +13,7 @@ func _ready() -> void:
 	update_label()
 	
 func on_room_difficulty_updated(new_difficulty:int) -> void:
-	room_difficulty = new_difficulty / 100.0
+	room_difficulty = new_difficulty / 1000.0
 	update_label()
 
 func on_player_skill_updated(instance_id:int, new_skill:int) -> void:
@@ -50,5 +50,5 @@ func calculate_clues() -> int:
 			return -1
 		skill_age_sum += player["skill"] * player["age"]
 	
-	return round(room_difficulty * skill_age_sum / player_data.size())
+	return round(room_difficulty * skill_age_sum / pow(player_data.size(), 2.3))
 
