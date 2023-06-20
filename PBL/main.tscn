@@ -247,6 +247,7 @@ modulate = Color(1, 1, 1, 0)
 layout_mode = 2
 
 [node name="RoomNameEdit" type="LineEdit" parent="ScrollContainer/MarginContainer/PlayerEntries"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 placeholder_text = "Room name"
@@ -262,6 +263,7 @@ layout_mode = 2
 text = "Minmum steps:"
 
 [node name="MinStepsEdit" type="SpinBox" parent="ScrollContainer/MarginContainer/PlayerEntries/MinSteps"]
+unique_name_in_owner = true
 layout_mode = 2
 alignment = 1
 
@@ -275,6 +277,7 @@ layout_mode = 2
 text = "Maximum steps:"
 
 [node name="MaxStepsEdit" type="SpinBox" parent="ScrollContainer/MarginContainer/PlayerEntries/MaxSteps"]
+unique_name_in_owner = true
 layout_mode = 2
 alignment = 1
 
@@ -288,6 +291,7 @@ layout_mode = 2
 text = "Duration:"
 
 [node name="DurationEdit" type="SpinBox" parent="ScrollContainer/MarginContainer/PlayerEntries/Duration"]
+unique_name_in_owner = true
 layout_mode = 2
 max_value = 720.0
 step = 5.0
@@ -312,4 +316,7 @@ player_edit = ExtResource("1_bvjfb")
 
 [connection signal="pressed" from="ScrollContainer/MarginContainer/PlayerEntries/RoomContoller/RoomAdd" to="ScrollContainer/MarginContainer/PlayerEntries/RoomContoller/RoomSelect" method="_on_room_add_pressed"]
 [connection signal="pressed" from="ScrollContainer/MarginContainer/PlayerEntries/RoomContoller/RoomDelete" to="ScrollContainer/MarginContainer/PlayerEntries/RoomContoller/RoomSelect" method="_on_room_delete_pressed"]
-[connection signal="text_submitted" from="ScrollContainer/MarginContainer/PlayerEntries/RoomNameEdit" to="ScrollContainer/MarginContainer/PlayerEntries/RoomContoller/RoomSelect" method="_on_room_name_edit_text_submitted"]
+[connection signal="text_changed" from="ScrollContainer/MarginContainer/PlayerEntries/RoomNameEdit" to="ScrollContainer/MarginContainer/PlayerEntries/RoomContoller/RoomSelect" method="_on_room_name_edit_text_changed"]
+[connection signal="value_changed" from="ScrollContainer/MarginContainer/PlayerEntries/MinSteps/MinStepsEdit" to="ScrollContainer/MarginContainer/PlayerEntries/RoomContoller/RoomSelect" method="_on_min_steps_edit_value_changed"]
+[connection signal="value_changed" from="ScrollContainer/MarginContainer/PlayerEntries/MaxSteps/MaxStepsEdit" to="ScrollContainer/MarginContainer/PlayerEntries/RoomContoller/RoomSelect" method="_on_max_steps_edit_value_changed"]
+[connection signal="value_changed" from="ScrollContainer/MarginContainer/PlayerEntries/Duration/DurationEdit" to="ScrollContainer/MarginContainer/PlayerEntries/RoomContoller/RoomSelect" method="_on_duration_edit_value_changed"]

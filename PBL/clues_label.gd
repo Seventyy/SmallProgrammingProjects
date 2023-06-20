@@ -51,3 +51,4 @@ func calculate_clues() -> int:
 		skill_age_sum += player["skill"] * player["age"]
 	
 	return round(room_difficulty * skill_age_sum / player_data.size())
+

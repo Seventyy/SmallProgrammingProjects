@@ -1,7 +1,78 @@
-[gd_resource type="Resource" script_class="RoomsResource" load_steps=2 format=3 uid="uid://dn6wn43t3xnqq"]
+[gd_resource type="Resource" script_class="RoomsResource" load_steps=13 format=3]
 
 [ext_resource type="Script" path="res://rooms_resource.gd" id="1_bc475"]
+[ext_resource type="Script" path="res://room_resource.gd" id="1_fnexw"]
+
+[sub_resource type="Resource" id="Resource_eovmh"]
+script = ExtResource("1_fnexw")
+name = &"Aaadwawad"
+steps_min = 1
+steps_max = 5
+duration = 5
+
+[sub_resource type="Resource" id="Resource_ra6hq"]
+script = ExtResource("1_fnexw")
+name = &"Dupaasda"
+steps_min = 7
+steps_max = 24
+duration = 10
+
+[sub_resource type="Resource" id="Resource_7vikb"]
+script = ExtResource("1_fnexw")
+name = &"New Room"
+steps_min = 0
+steps_max = 0
+duration = 0
+
+[sub_resource type="Resource" id="Resource_guly0"]
+script = ExtResource("1_fnexw")
+name = &"New Room"
+steps_min = 0
+steps_max = 0
+duration = 0
+
+[sub_resource type="Resource" id="Resource_jlx2d"]
+script = ExtResource("1_fnexw")
+name = &"New Room"
+steps_min = 0
+steps_max = 0
+duration = 0
+
+[sub_resource type="Resource" id="Resource_h5ud3"]
+script = ExtResource("1_fnexw")
+name = &"New Room"
+steps_min = 0
+steps_max = 0
+duration = 0
+
+[sub_resource type="Resource" id="Resource_mf1tp"]
+script = ExtResource("1_fnexw")
+name = &"New Room"
+steps_min = 0
+steps_max = 0
+duration = 0
+
+[sub_resource type="Resource" id="Resource_iuumi"]
+script = ExtResource("1_fnexw")
+name = &"A"
+steps_min = 1
+steps_max = 20
+duration = 5
+
+[sub_resource type="Resource" id="Resource_ulqob"]
+script = ExtResource("1_fnexw")
+name = &"New Room"
+steps_min = 0
+steps_max = 0
+duration = 0
+
+[sub_resource type="Resource" id="Resource_t8se7"]
+script = ExtResource("1_fnexw")
+name = &"New Room"
+steps_min = 0
+steps_max = 0
+duration = 0
 
 [resource]
 script = ExtResource("1_bc475")
-rooms = Array[Resource("res://room_resource.gd")]([])
+rooms = Array[ExtResource("1_fnexw")]([SubResource("Resource_eovmh"), SubResource("Resource_ra6hq"), SubResource("Resource_7vikb"), SubResource("Resource_guly0"), SubResource("Resource_jlx2d"), SubResource("Resource_h5ud3"), SubResource("Resource_mf1tp"), SubResource("Resource_iuumi"), SubResource("Resource_ulqob"), SubResource("Resource_t8se7")])
