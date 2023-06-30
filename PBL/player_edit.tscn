@@ -37,7 +37,7 @@ popup/item_1/id = 1
 script = ExtResource("2_smkta")
 
 [node name="PlayerRemove" type="Button" parent="."]
-custom_minimum_size = Vector2(40, 0)
+custom_minimum_size = Vector2(60, 0)
 layout_mode = 2
 text = "-"
 script = ExtResource("3_nhi1v")

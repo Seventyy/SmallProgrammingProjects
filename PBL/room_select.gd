@@ -82,5 +82,11 @@ func calculate_difficuly() -> void:
 	else:
 		id = 500
 	
+	if (
+	rooms_resource.rooms[selected].duration == 0 or
+	rooms_resource.rooms[selected].steps_max == 0 or
+	rooms_resource.rooms[selected].steps_min == 0 ):
+		id = 0
+	
 	set_item_id(selected, id)
 	GlobalSignals.room_difficulty_updated.emit(id)

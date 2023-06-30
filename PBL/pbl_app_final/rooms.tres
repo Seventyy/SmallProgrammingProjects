@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="RoomsResource" load_steps=6 format=3]
+[gd_resource type="Resource" script_class="RoomsResource" load_steps=5 format=3]
 
 [ext_resource type="Script" path="res://room_resource.gd" id="1"]
 [ext_resource type="Script" path="res://rooms_resource.gd" id="2"]
@@ -17,13 +17,6 @@ steps_min = 8
 steps_max = 15
 duration = 45
 
-[sub_resource type="Resource" id="Resource_r3rrn"]
-script = ExtResource("1")
-name = &"Haunted Hideaway"
-steps_min = 10
-steps_max = 16
-duration = 90
-
 [resource]
 script = ExtResource("2")
-rooms = Array[ExtResource("1")]([SubResource("Resource_f5u7d"), SubResource("Resource_p78mq"), SubResource("Resource_r3rrn")])
+rooms = Array[ExtResource("1")]([SubResource("Resource_f5u7d"), SubResource("Resource_p78mq")])
