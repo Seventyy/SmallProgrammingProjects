@@ -7,6 +7,7 @@ uniform sampler2D screen_texture : hint_screen_texture;
 
 uniform float edge_width = 1.;
 uniform float depth_far = 1.;
+uniform float depth_cutoff = 128;
 
 void vertex() {
 	POSITION = vec4(VERTEX, 1.);
@@ -51,6 +52,7 @@ void fragment() {
 		));
 	
 	ALBEDO = edge_color;
+	ALBEDO = texture(screen_texture, SCREEN_UV).xyz + vec3(edge_color.x + edge_color.y + edge_color.z)*.2;
 //	ALBEDO = vec3(edge_color.x + edge_color.y + edge_color.z) * 256000.;
 //	ALBEDO = texture(screen_texture, SCREEN_UV).xyz - vec3(edge_color.x + edge_color.y + edge_color.z) * 256000.;
 //	ALBEDO = texture(depth_texture, SCREEN_UV).xxx;
