@@ -1,0 +1,19 @@
+[gd_resource type="ShaderMaterial" load_steps=4 format=3 uid="uid://bhilbtava0wf1"]
+
+[ext_resource type="Shader" path="res://cartoon_shader/every_block2.gdshader" id="1_5e3m1"]
+[ext_resource type="Shader" path="res://cartoon_shader/every_block.gdshader" id="2_80o4u"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ohdsr"]
+render_priority = 0
+shader = ExtResource("1_5e3m1")
+shader_parameter/albedo = Color(0.498039, 0.352941, 0.207843, 1)
+shader_parameter/specular = 0.0
+shader_parameter/metallic = 0.0
+shader_parameter/roughness = 0.0
+shader_parameter/edge_strength = 0.8
+shader_parameter/edge_color = Color(0.5, 0.5, 0.5, 1)
+
+[resource]
+render_priority = 0
+next_pass = SubResource("ShaderMaterial_ohdsr")
+shader = ExtResource("2_80o4u")

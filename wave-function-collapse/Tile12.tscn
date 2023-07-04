@@ -1,9 +1,0 @@
-[gd_scene load_steps=2 format=2]
-
-[ext_resource path="res://Tile.tscn" type="PackedScene" id=1]
-
-[node name="Tile12" instance=ExtResource( 1 )]
-frame = 12
-grass_down = true
-grass_left = true
-grass_up = true

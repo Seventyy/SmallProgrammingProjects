@@ -5,7 +5,7 @@ uniform sampler2D texture_albedo : source_color;
 uniform float specular;
 uniform float metallic;
 uniform float roughness : hint_range(0,1);
-uniform float edge_strength : hint_range(0,1) = 0.2;
+uniform float edge_strength : hint_range(0,1) = 0.8;
 uniform vec4 edge_color : source_color = vec4(0.5, 0.5, 0.5, 1.0);
 uniform sampler2D SCREEN_TEXTURE : hint_screen_texture, filter_linear_mipmap;
 
