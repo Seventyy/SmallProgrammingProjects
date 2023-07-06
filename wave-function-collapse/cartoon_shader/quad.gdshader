@@ -5,6 +5,10 @@ uniform sampler2D normal_texture : hint_normal_roughness_texture;
 uniform sampler2D depth_texture : hint_depth_texture;
 uniform sampler2D screen_texture : hint_screen_texture;
 
+
+uniform float a;
+uniform float b;
+
 uniform float edge_width = 1.;
 uniform float depth_far = 1.;
 uniform float depth_cutoff = 128;
@@ -42,17 +46,17 @@ void fragment() {
 //		texture(normal_texture, SCREEN_UV + vec2( 0.,-edge_width) * pixel_size).xyz
 //		);
 	
-	edge_color = vec3(
+	edge_color = vec3(smoothstep(a, b,
 		abs(
 		give_pixel_depth(vec2( edge_width, 0.), INV_PROJECTION_MATRIX, SCREEN_UV, pixel_size) -
 		give_pixel_depth(vec2(-edge_width, 0.), INV_PROJECTION_MATRIX, SCREEN_UV, pixel_size)) +
 		abs(
 		give_pixel_depth(vec2(0.,  edge_width), INV_PROJECTION_MATRIX, SCREEN_UV, pixel_size) -
 		give_pixel_depth(vec2(0., -edge_width), INV_PROJECTION_MATRIX, SCREEN_UV, pixel_size)
-		));
+		)));
 	
 	ALBEDO = edge_color;
-	ALBEDO = texture(screen_texture, SCREEN_UV).xyz + vec3(edge_color.x + edge_color.y + edge_color.z)*.2;
+//	ALBEDO = texture(screen_texture, SCREEN_UV).xyz + vec3(edge_color.x + edge_color.y + edge_color.z)*.2;
 //	ALBEDO = vec3(edge_color.x + edge_color.y + edge_color.z) * 256000.;
 //	ALBEDO = texture(screen_texture, SCREEN_UV).xyz - vec3(edge_color.x + edge_color.y + edge_color.z) * 256000.;
 //	ALBEDO = texture(depth_texture, SCREEN_UV).xxx;
