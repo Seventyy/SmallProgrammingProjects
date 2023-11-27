@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://b1xfn5hqixt30"]
+[gd_scene load_steps=11 format=3 uid="uid://b1xfn5hqixt30"]
 
 [ext_resource type="Texture2D" uid="uid://4a4b0cjgs7t0" path="res://grafika_task_2.svg" id="1_qr2rm"]
 [ext_resource type="Texture2D" uid="uid://751ewouglds" path="res://car.png" id="2_thm0q"]
@@ -21,6 +21,7 @@ point_count = 13
 [sub_resource type="Animation" id="Animation_23j0f"]
 resource_name = "main_animation"
 length = 20.0
+step = 1.0
 tracks/0/type = "bezier"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -28,9 +29,9 @@ tracks/0/path = NodePath("VignetteMask:texture:fill_to:x")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"handle_modes": PackedInt32Array(0, 2, 0),
-"points": PackedFloat32Array(0.51, -0.25, 0, 0.3, 1.91258, 1.53954, -0.4, -0.286856, 1.05785, 0.758625, 4.96934, -1.1, -1.27214, 0.25, 0),
-"times": PackedFloat32Array(0, 0.8, 2.5)
+"handle_modes": PackedInt32Array(0, 2, 0, 0, 0, 0),
+"points": PackedFloat32Array(0.51, -0.25, 0, 0.3, 1.91258, 1.53954, -0.4, -0.286856, 1.05785, 0.758625, 4.96934, -1.1, -1.27214, 0.25, 0, 5, -0.25, 0, 2.15007, -0.0931768, 0.926343, -0.599861, 0.990555, 0.15007, -0.247812, 0.501, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 0.8, 2.5, 14.9, 19.2, 19.9)
 }
 tracks/1/type = "bezier"
 tracks/1/imported = false
@@ -50,9 +51,9 @@ tracks/2/path = NodePath("Path2D/PathFollow2D:progress_ratio")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"handle_modes": PackedInt32Array(0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 0),
-"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 0.278055, -0.812233, -0.222377, 0.3, 0.0821355, 0.374225, -0.103091, -0.00470631, 0.429631, 0.0196136, 0.452909, -0.314406, -0.0205726, 1.15417, 0.0755209, 0.544133, -0.298667, -0.0252532, 1.61649, 0.136679, 0.728075, -0.683511, -0.0106364, 0.502663, 0.00782214, 0.759479, -0.492788, -0.0246751, 0.583332, 0.0292089, 0.862667, -0.795265, -0.00661955, 0.530596, 0.00441653, 0.88278, -0.157838, -0.00392896, 0.630596, 0.015697, 0.969637, -0.78394, -0.028914, 0.425591, 0.015697, 1, -0.574409, 0.0010308, 0.25, 0, 1, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0, 4.1, 4.7, 6, 7.9, 10.9, 12.8, 15.3, 16.4, 18.5, 20, 20.1)
+"handle_modes": PackedInt32Array(0, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 0.278055, -0.812233, -0.222377, 0.3, 0.0821355, 0.374225, -0.103091, -0.00470631, 0.429631, 0.0196136, 0.452909, -0.314406, -0.0205726, 1.15417, 0.0755209, 0.544133, -0.298667, -0.0252532, 1.61649, 0.136679, 0.728075, -0.683511, -0.0106364, 0.502663, 0.00782214, 0.759479, -0.492788, -0.0246751, 0.583332, 0.0292089, 0.862667, -0.795265, -0.00661955, 0.530596, 0.00441653, 0.88278, -0.157838, -0.00392896, 0.630596, 0.015697, 0.969637, -0.78394, -0.028914, 0.425591, 0.015697, 0.998508, -0.25, 0, 0.25, 0, 0.99946, -0.25, 0, 0.25, 0, 1, -0.574409, 0.0010308, 0.25, 0, 1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 4.1, 4.7, 6, 7.9, 10.7, 11.9, 14, 14.9, 17, 18.4493, 18.4667, 18.5, 18.6)
 }
 tracks/3/type = "value"
 tracks/3/imported = false
@@ -171,8 +172,12 @@ tracks/12/keys = {
 }]
 }
 
+[sub_resource type="Animation" id="Animation_r1ko8"]
+length = 0.001
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_y6ony"]
 _data = {
+"RESET": SubResource("Animation_r1ko8"),
 "main_animation": SubResource("Animation_23j0f")
 }
 
@@ -191,8 +196,9 @@ metadata/_edit_lock_ = true
 curve = SubResource("Curve2D_v6tww")
 
 [node name="PathFollow2D" type="PathFollow2D" parent="Path2D"]
-position = Vector2(43, 404)
-rotation = -0.152348
+position = Vector2(1709, 604)
+rotation = -0.315798
+progress = 2409.91
 
 [node name="Car" type="Sprite2D" parent="Path2D/PathFollow2D"]
 scale = Vector2(0.13, 0.13)
@@ -206,24 +212,24 @@ libraries = {
 
 [node name="FirstPoint" type="Polygon2D" parent="."]
 position = Vector2(483, 179)
-scale = Vector2(1e-05, 1e-05)
 color = Color(0.768627, 0, 0.0431373, 1)
-polygon = PackedVector2Array(0, -20, 10, -17.3205, 17.3205, -10, 20, 8.74228e-07, 17.3205, 10, 10, 17.3205, -1.74846e-06, 20, -10, 17.3205, -17.3205, 10, -20, -2.38498e-07, -17.3205, -10, -10, -17.3205)
+polygon = PackedVector2Array(0, -20, 10, -17.3205, 17.3205, -10, 20, 8.74228e-07, 17.3205, 10, 10, 27.3205, -1.74846e-06, 45, -10, 27.3205, -17.3205, 10, -20, -2.38498e-07, -17.3205, -10, -10, -17.3205)
 script = ExtResource("3_p21pb")
+progress = 25.0
 
 [node name="SecondPoint" type="Polygon2D" parent="."]
 position = Vector2(1117, 456)
-scale = Vector2(1e-05, 1e-05)
 color = Color(0.768627, 0, 0.0431373, 1)
-polygon = PackedVector2Array(0, -20, 10, -17.3205, 17.3205, -10, 20, 8.74228e-07, 17.3205, 10, 10, 17.3205, -1.74846e-06, 20, -10, 17.3205, -17.3205, 10, -20, -2.38498e-07, -17.3205, -10, -10, -17.3205)
+polygon = PackedVector2Array(0, -20, 10, -17.3205, 17.3205, -10, 20, 8.74228e-07, 17.3205, 10, 10, 27.3205, -1.74846e-06, 45, -10, 27.3205, -17.3205, 10, -20, -2.38498e-07, -17.3205, -10, -10, -17.3205)
 script = ExtResource("3_p21pb")
+progress = 25.0
 
 [node name="ThirdPoint" type="Polygon2D" parent="."]
 position = Vector2(1700, 537)
-scale = Vector2(1e-05, 1e-05)
 color = Color(0.768627, 0, 0.0431373, 1)
-polygon = PackedVector2Array(0, -20, 10, -17.3205, 17.3205, -10, 20, 8.74228e-07, 17.3205, 10, 10, 17.3205, -1.74846e-06, 20, -10, 17.3205, -17.3205, 10, -20, -2.38498e-07, -17.3205, -10, -10, -17.3205)
+polygon = PackedVector2Array(0, -20, 10, -17.3205, 17.3205, -10, 20, 8.74228e-07, 17.3205, 10, 10, 27.3205, -1.74846e-06, 45, -10, 27.3205, -17.3205, 10, -20, -2.38498e-07, -17.3205, -10, -10, -17.3205)
 script = ExtResource("3_p21pb")
+progress = 25.0
 
 [node name="VignetteMask" type="Sprite2D" parent="."]
 material = SubResource("CanvasItemMaterial_kqwbq")
