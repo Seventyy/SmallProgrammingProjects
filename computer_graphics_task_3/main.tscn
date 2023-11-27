@@ -1,9 +1,16 @@
-[gd_scene load_steps=9 format=3 uid="uid://b1xfn5hqixt30"]
+[gd_scene load_steps=10 format=3 uid="uid://b1xfn5hqixt30"]
 
 [ext_resource type="Texture2D" uid="uid://4a4b0cjgs7t0" path="res://grafika_task_2.svg" id="1_qr2rm"]
 [ext_resource type="Texture2D" uid="uid://751ewouglds" path="res://car.png" id="2_thm0q"]
 [ext_resource type="Texture2D" uid="uid://ym0rolbooexi" path="res://vignette_mask.tres" id="3_d6y50"]
 [ext_resource type="Script" path="res://polygon.gd" id="3_p21pb"]
+
+[sub_resource type="GDScript" id="GDScript_nbflq"]
+script/source = "extends Node2D
+
+func end() -> void:
+	get_tree().quit()
+"
 
 [sub_resource type="Curve2D" id="Curve2D_v6tww"]
 _data = {
@@ -43,43 +50,125 @@ tracks/2/path = NodePath("Path2D/PathFollow2D:progress_ratio")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"handle_modes": PackedInt32Array(0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0),
-"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 0.278055, -0.812233, -0.222377, 0.3, 0.0821355, 0.374225, -0.103091, -0.00470631, 0.429631, 0.0196136, 0.452909, -0.314406, -0.0205726, 1.15417, 0.0755209, 0.544133, -0.298667, -0.0252532, 1.61649, 0.136679, 0.728075, -0.683511, -0.0106364, 0.502663, 0.00782214, 0.759479, -0.492788, -0.0246751, 0.583332, 0.0292089, 0.862667, -0.795265, -0.00661955, 0.530596, 0.00441653, 0.88278, -0.157838, -0.00392896, 0.630596, 0.015697, 0.969637, -0.78394, -0.028914, 0.425591, 0.015697, 1, -0.574409, 0.0010308, 0.25, 0),
-"times": PackedFloat32Array(0, 4.1, 4.7, 6, 7.9, 10.9, 12.8, 15.3, 16.4, 18.5, 20)
+"handle_modes": PackedInt32Array(0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 0.278055, -0.812233, -0.222377, 0.3, 0.0821355, 0.374225, -0.103091, -0.00470631, 0.429631, 0.0196136, 0.452909, -0.314406, -0.0205726, 1.15417, 0.0755209, 0.544133, -0.298667, -0.0252532, 1.61649, 0.136679, 0.728075, -0.683511, -0.0106364, 0.502663, 0.00782214, 0.759479, -0.492788, -0.0246751, 0.583332, 0.0292089, 0.862667, -0.795265, -0.00661955, 0.530596, 0.00441653, 0.88278, -0.157838, -0.00392896, 0.630596, 0.015697, 0.969637, -0.78394, -0.028914, 0.425591, 0.015697, 1, -0.574409, 0.0010308, 0.25, 0, 1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 4.1, 4.7, 6, 7.9, 10.9, 12.8, 15.3, 16.4, 18.5, 20, 20.1)
 }
-tracks/3/type = "bezier"
+tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("Polygon2D:scale:x")
+tracks/3/path = NodePath("FirstPoint:progress")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
-"handle_modes": PackedInt32Array(0, 0),
-"points": PackedFloat32Array(0, -0.25, 0, 0.416795, 0.0766599, 1, -0.158109, 1.86434, 0.25, 0),
-"times": PackedFloat32Array(0, 1)
+"times": PackedFloat32Array(2.4, 3.1),
+"transitions": PackedFloat32Array(-2, 1),
+"update": 0,
+"values": [0.0, 25.0]
 }
 tracks/4/type = "bezier"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("Polygon2D:scale:y")
+tracks/4/path = NodePath("FirstPoint:scale:x")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
 "handle_modes": PackedInt32Array(0, 0),
-"points": PackedFloat32Array(0, -0.25, 0, 0.416795, 0.121933, 1, -0.352221, 2.26088, 0.25, 0),
-"times": PackedFloat32Array(0, 1)
+"points": PackedFloat32Array(0, -0.25, 0, 0.416795, 0.0766599, 1, -0.158109, 1.86434, 0.25, 0),
+"times": PackedFloat32Array(1, 2)
 }
-tracks/5/type = "value"
+tracks/5/type = "bezier"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath("Polygon2D:progress")
+tracks/5/path = NodePath("FirstPoint:scale:y")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
-"times": PackedFloat32Array(1.4, 2.1),
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.416795, 0.121933, 1, -0.352221, 2.26088, 0.25, 0),
+"times": PackedFloat32Array(1, 2)
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("SecondPoint:progress")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(7.6, 8.3),
 "transitions": PackedFloat32Array(-2, 1),
 "update": 0,
 "values": [0.0, 25.0]
+}
+tracks/7/type = "bezier"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("SecondPoint:scale:x")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.416795, 0.0766599, 1, -0.158109, 1.86434, 0.25, 0),
+"times": PackedFloat32Array(6.2, 7.2)
+}
+tracks/8/type = "bezier"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("SecondPoint:scale:y")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.416795, 0.121933, 1, -0.352221, 2.26088, 0.25, 0),
+"times": PackedFloat32Array(6.2, 7.2)
+}
+tracks/9/type = "value"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath("ThirdPoint:progress")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"times": PackedFloat32Array(18, 18.7),
+"transitions": PackedFloat32Array(-2, 1),
+"update": 0,
+"values": [0.0, 25.0]
+}
+tracks/10/type = "bezier"
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/path = NodePath("ThirdPoint:scale:x")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.416795, 0.0766599, 1, -0.158109, 1.86434, 0.25, 0),
+"times": PackedFloat32Array(16.6, 17.6)
+}
+tracks/11/type = "bezier"
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/path = NodePath("ThirdPoint:scale:y")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.416795, 0.121933, 1, -0.352221, 2.26088, 0.25, 0),
+"times": PackedFloat32Array(16.6, 17.6)
+}
+tracks/12/type = "method"
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/path = NodePath(".")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/keys = {
+"times": PackedFloat32Array(20),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"end"
+}]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_y6ony"]
@@ -91,6 +180,7 @@ _data = {
 blend_mode = 2
 
 [node name="Main" type="Node2D"]
+script = SubResource("GDScript_nbflq")
 
 [node name="GrafikaTask2" type="Sprite2D" parent="."]
 position = Vector2(959, 527)
@@ -114,8 +204,22 @@ libraries = {
 "": SubResource("AnimationLibrary_y6ony")
 }
 
-[node name="Polygon2D" type="Polygon2D" parent="."]
-position = Vector2(1708, 545)
+[node name="FirstPoint" type="Polygon2D" parent="."]
+position = Vector2(483, 179)
+scale = Vector2(1e-05, 1e-05)
+color = Color(0.768627, 0, 0.0431373, 1)
+polygon = PackedVector2Array(0, -20, 10, -17.3205, 17.3205, -10, 20, 8.74228e-07, 17.3205, 10, 10, 17.3205, -1.74846e-06, 20, -10, 17.3205, -17.3205, 10, -20, -2.38498e-07, -17.3205, -10, -10, -17.3205)
+script = ExtResource("3_p21pb")
+
+[node name="SecondPoint" type="Polygon2D" parent="."]
+position = Vector2(1117, 456)
+scale = Vector2(1e-05, 1e-05)
+color = Color(0.768627, 0, 0.0431373, 1)
+polygon = PackedVector2Array(0, -20, 10, -17.3205, 17.3205, -10, 20, 8.74228e-07, 17.3205, 10, 10, 17.3205, -1.74846e-06, 20, -10, 17.3205, -17.3205, 10, -20, -2.38498e-07, -17.3205, -10, -10, -17.3205)
+script = ExtResource("3_p21pb")
+
+[node name="ThirdPoint" type="Polygon2D" parent="."]
+position = Vector2(1700, 537)
 scale = Vector2(1e-05, 1e-05)
 color = Color(0.768627, 0, 0.0431373, 1)
 polygon = PackedVector2Array(0, -20, 10, -17.3205, 17.3205, -10, 20, 8.74228e-07, 17.3205, 10, 10, 17.3205, -1.74846e-06, 20, -10, 17.3205, -17.3205, 10, -20, -2.38498e-07, -17.3205, -10, -10, -17.3205)
