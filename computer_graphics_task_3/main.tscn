@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://4a4b0cjgs7t0" path="res://grafika_task_2.svg" id="1_qr2rm"]
 [ext_resource type="Texture2D" uid="uid://751ewouglds" path="res://car.png" id="2_thm0q"]
-[ext_resource type="Texture2D" path="res://vignette_mask.tres" id="3_d6y50"]
+[ext_resource type="Texture2D" uid="uid://cbkn4yhnsyjts" path="res://vignette_mask.tres" id="3_d6y50"]
 [ext_resource type="Script" path="res://polygon.gd" id="3_p21pb"]
 
 [sub_resource type="GDScript" id="GDScript_nbflq"]
