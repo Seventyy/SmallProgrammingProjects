@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://4a4b0cjgs7t0" path="res://grafika_task_2.svg" id="1_qr2rm"]
 [ext_resource type="Texture2D" uid="uid://751ewouglds" path="res://car.png" id="2_thm0q"]
-[ext_resource type="Texture2D" uid="uid://ym0rolbooexi" path="res://vignette_mask.tres" id="3_d6y50"]
+[ext_resource type="Texture2D" path="res://vignette_mask.tres" id="3_d6y50"]
 [ext_resource type="Script" path="res://polygon.gd" id="3_p21pb"]
 
 [sub_resource type="GDScript" id="GDScript_nbflq"]
@@ -17,6 +17,9 @@ _data = {
 "points": PackedVector2Array(0, 0, 0, 0, 43, 404, -99.5081, 20.7331, 99.5081, -20.7331, 792, 289, -39.685, -3.9685, 39.685, 3.9685, 971, 229, 19.0819, -23.0105, -19.0819, 23.0105, 992, 290, -29.7452, 25.8166, 29.7452, -25.8166, 934, 243, -15.7145, -36.48, 15.7145, 36.48, 1000, 247, -36.1134, -63.0992, 36.1134, 63.0992, 1022, 338, -11.7726, -85.7714, 11.7726, 85.7714, 1080, 540, -23.5451, -69.7944, 23.5451, 69.7944, 1103, 709, -40.363, 28.5905, 40.363, -28.5905, 1187, 783, -27.3724, 25.9565, 27.3724, -25.9565, 1463, 734, -45.306, 22.181, 45.306, -22.181, 1507, 670, 0, 0, 0, 0, 1709, 604)
 }
 point_count = 13
+
+[sub_resource type="Animation" id="Animation_r1ko8"]
+length = 0.001
 
 [sub_resource type="Animation" id="Animation_23j0f"]
 resource_name = "main_animation"
@@ -172,9 +175,6 @@ tracks/12/keys = {
 }]
 }
 
-[sub_resource type="Animation" id="Animation_r1ko8"]
-length = 0.001
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_y6ony"]
 _data = {
 "RESET": SubResource("Animation_r1ko8"),
@@ -196,9 +196,8 @@ metadata/_edit_lock_ = true
 curve = SubResource("Curve2D_v6tww")
 
 [node name="PathFollow2D" type="PathFollow2D" parent="Path2D"]
-position = Vector2(1709, 604)
-rotation = -0.315798
-progress = 2409.91
+position = Vector2(43, 404)
+rotation = -0.152348
 
 [node name="Car" type="Sprite2D" parent="Path2D/PathFollow2D"]
 scale = Vector2(0.13, 0.13)
@@ -212,24 +211,24 @@ libraries = {
 
 [node name="FirstPoint" type="Polygon2D" parent="."]
 position = Vector2(483, 179)
+scale = Vector2(1e-05, 1e-05)
 color = Color(0.768627, 0, 0.0431373, 1)
-polygon = PackedVector2Array(0, -20, 10, -17.3205, 17.3205, -10, 20, 8.74228e-07, 17.3205, 10, 10, 27.3205, -1.74846e-06, 45, -10, 27.3205, -17.3205, 10, -20, -2.38498e-07, -17.3205, -10, -10, -17.3205)
+polygon = PackedVector2Array(0, -20, 10, -17.3205, 17.3205, -10, 20, 8.74228e-07, 17.3205, 10, 10, 17.3205, -1.74846e-06, 20, -10, 17.3205, -17.3205, 10, -20, -2.38498e-07, -17.3205, -10, -10, -17.3205)
 script = ExtResource("3_p21pb")
-progress = 25.0
 
 [node name="SecondPoint" type="Polygon2D" parent="."]
 position = Vector2(1117, 456)
+scale = Vector2(1e-05, 1e-05)
 color = Color(0.768627, 0, 0.0431373, 1)
-polygon = PackedVector2Array(0, -20, 10, -17.3205, 17.3205, -10, 20, 8.74228e-07, 17.3205, 10, 10, 27.3205, -1.74846e-06, 45, -10, 27.3205, -17.3205, 10, -20, -2.38498e-07, -17.3205, -10, -10, -17.3205)
+polygon = PackedVector2Array(0, -20, 10, -17.3205, 17.3205, -10, 20, 8.74228e-07, 17.3205, 10, 10, 17.3205, -1.74846e-06, 20, -10, 17.3205, -17.3205, 10, -20, -2.38498e-07, -17.3205, -10, -10, -17.3205)
 script = ExtResource("3_p21pb")
-progress = 25.0
 
 [node name="ThirdPoint" type="Polygon2D" parent="."]
 position = Vector2(1700, 537)
+scale = Vector2(1e-05, 1e-05)
 color = Color(0.768627, 0, 0.0431373, 1)
-polygon = PackedVector2Array(0, -20, 10, -17.3205, 17.3205, -10, 20, 8.74228e-07, 17.3205, 10, 10, 27.3205, -1.74846e-06, 45, -10, 27.3205, -17.3205, 10, -20, -2.38498e-07, -17.3205, -10, -10, -17.3205)
+polygon = PackedVector2Array(0, -20, 10, -17.3205, 17.3205, -10, 20, 8.74228e-07, 17.3205, 10, 10, 17.3205, -1.74846e-06, 20, -10, 17.3205, -17.3205, 10, -20, -2.38498e-07, -17.3205, -10, -10, -17.3205)
 script = ExtResource("3_p21pb")
-progress = 25.0
 
 [node name="VignetteMask" type="Sprite2D" parent="."]
 material = SubResource("CanvasItemMaterial_kqwbq")
