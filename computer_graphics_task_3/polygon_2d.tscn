@@ -1,0 +1,56 @@
+[gd_scene load_steps=4 format=3 uid="uid://ca4ej2l25s3eg"]
+
+[ext_resource type="Script" path="res://polygon.gd" id="1_ufa2j"]
+
+[sub_resource type="Animation" id="Animation_ytg2l"]
+resource_name = "polygon_anim"
+length = 2.50001
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../Polygon2D:scale:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.416795, 0.0766599, 1, -0.158109, 1.86434, 0.25, 0),
+"times": PackedFloat32Array(0, 1)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../Polygon2D:scale:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.416795, 0.121933, 1, -0.352221, 2.26088, 0.25, 0),
+"times": PackedFloat32Array(0, 1)
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../Polygon2D:progress")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(1.4, 2.1),
+"transitions": PackedFloat32Array(-2, 1),
+"update": 0,
+"values": [0.0, 25.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_b3oma"]
+_data = {
+"polygon_anim": SubResource("Animation_ytg2l")
+}
+
+[node name="Polygon2D" type="Polygon2D"]
+color = Color(0.768627, 0, 0.0431373, 1)
+polygon = PackedVector2Array(0, -20, 10, -17.3205, 17.3205, -10, 20, 8.74228e-07, 17.3205, 10, 10, 17.3205, -1.74846e-06, 20, -10, 17.3205, -17.3205, 10, -20, -2.38498e-07, -17.3205, -10, -10, -17.3205)
+script = ExtResource("1_ufa2j")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_b3oma")
+}

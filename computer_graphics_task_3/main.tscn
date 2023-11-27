@@ -1,0 +1,128 @@
+[gd_scene load_steps=9 format=3 uid="uid://b1xfn5hqixt30"]
+
+[ext_resource type="Texture2D" uid="uid://4a4b0cjgs7t0" path="res://grafika_task_2.svg" id="1_qr2rm"]
+[ext_resource type="Texture2D" uid="uid://751ewouglds" path="res://car.png" id="2_thm0q"]
+[ext_resource type="Texture2D" uid="uid://ym0rolbooexi" path="res://vignette_mask.tres" id="3_d6y50"]
+[ext_resource type="Script" path="res://polygon.gd" id="3_p21pb"]
+
+[sub_resource type="Curve2D" id="Curve2D_v6tww"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 43, 404, -99.5081, 20.7331, 99.5081, -20.7331, 792, 289, -39.685, -3.9685, 39.685, 3.9685, 971, 229, 19.0819, -23.0105, -19.0819, 23.0105, 992, 290, -29.7452, 25.8166, 29.7452, -25.8166, 934, 243, -15.7145, -36.48, 15.7145, 36.48, 1000, 247, -36.1134, -63.0992, 36.1134, 63.0992, 1022, 338, -11.7726, -85.7714, 11.7726, 85.7714, 1080, 540, -23.5451, -69.7944, 23.5451, 69.7944, 1103, 709, -40.363, 28.5905, 40.363, -28.5905, 1187, 783, -27.3724, 25.9565, 27.3724, -25.9565, 1463, 734, -45.306, 22.181, 45.306, -22.181, 1507, 670, 0, 0, 0, 0, 1709, 604)
+}
+point_count = 13
+
+[sub_resource type="Animation" id="Animation_23j0f"]
+resource_name = "main_animation"
+length = 20.0
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("VignetteMask:texture:fill_to:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 2, 0),
+"points": PackedFloat32Array(0.51, -0.25, 0, 0.3, 1.91258, 1.53954, -0.4, -0.286856, 1.05785, 0.758625, 4.96934, -1.1, -1.27214, 0.25, 0),
+"times": PackedFloat32Array(0, 0.8, 2.5)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("VignetteMask:texture:fill_to:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0.5, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/2/type = "bezier"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Path2D/PathFollow2D:progress_ratio")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"handle_modes": PackedInt32Array(0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 0.278055, -0.812233, -0.222377, 0.3, 0.0821355, 0.374225, -0.103091, -0.00470631, 0.429631, 0.0196136, 0.452909, -0.314406, -0.0205726, 1.15417, 0.0755209, 0.544133, -0.298667, -0.0252532, 1.61649, 0.136679, 0.728075, -0.683511, -0.0106364, 0.502663, 0.00782214, 0.759479, -0.492788, -0.0246751, 0.583332, 0.0292089, 0.862667, -0.795265, -0.00661955, 0.530596, 0.00441653, 0.88278, -0.157838, -0.00392896, 0.630596, 0.015697, 0.969637, -0.78394, -0.028914, 0.425591, 0.015697, 1, -0.574409, 0.0010308, 0.25, 0),
+"times": PackedFloat32Array(0, 4.1, 4.7, 6, 7.9, 10.9, 12.8, 15.3, 16.4, 18.5, 20)
+}
+tracks/3/type = "bezier"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Polygon2D:scale:x")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.416795, 0.0766599, 1, -0.158109, 1.86434, 0.25, 0),
+"times": PackedFloat32Array(0, 1)
+}
+tracks/4/type = "bezier"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Polygon2D:scale:y")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.416795, 0.121933, 1, -0.352221, 2.26088, 0.25, 0),
+"times": PackedFloat32Array(0, 1)
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Polygon2D:progress")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(1.4, 2.1),
+"transitions": PackedFloat32Array(-2, 1),
+"update": 0,
+"values": [0.0, 25.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_y6ony"]
+_data = {
+"main_animation": SubResource("Animation_23j0f")
+}
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_kqwbq"]
+blend_mode = 2
+
+[node name="Main" type="Node2D"]
+
+[node name="GrafikaTask2" type="Sprite2D" parent="."]
+position = Vector2(959, 527)
+texture = ExtResource("1_qr2rm")
+metadata/_edit_lock_ = true
+
+[node name="Path2D" type="Path2D" parent="."]
+curve = SubResource("Curve2D_v6tww")
+
+[node name="PathFollow2D" type="PathFollow2D" parent="Path2D"]
+position = Vector2(43, 404)
+rotation = -0.152348
+
+[node name="Car" type="Sprite2D" parent="Path2D/PathFollow2D"]
+scale = Vector2(0.13, 0.13)
+texture = ExtResource("2_thm0q")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "main_animation"
+libraries = {
+"": SubResource("AnimationLibrary_y6ony")
+}
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+position = Vector2(1708, 545)
+scale = Vector2(1e-05, 1e-05)
+color = Color(0.768627, 0, 0.0431373, 1)
+polygon = PackedVector2Array(0, -20, 10, -17.3205, 17.3205, -10, 20, 8.74228e-07, 17.3205, 10, 10, 17.3205, -1.74846e-06, 20, -10, 17.3205, -17.3205, 10, -20, -2.38498e-07, -17.3205, -10, -10, -17.3205)
+script = ExtResource("3_p21pb")
+
+[node name="VignetteMask" type="Sprite2D" parent="."]
+material = SubResource("CanvasItemMaterial_kqwbq")
+texture = ExtResource("3_d6y50")
+centered = false
+metadata/_edit_lock_ = true
