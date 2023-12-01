@@ -1,0 +1,25 @@
+[gd_scene load_steps=3 format=3 uid="uid://6mv8ilgynctq"]
+
+[ext_resource type="Script" path="res://calculator.gd" id="1_q5trp"]
+[ext_resource type="PackedScene" uid="uid://c55wrfjg6k1id" path="res://access_point.tscn" id="2_cq4je"]
+
+[node name="Calculator" type="Node2D"]
+script = ExtResource("1_q5trp")
+strength_a = 81.45
+strength_b = 33.97
+strength_c = 68.355
+
+[node name="AccessPointA" parent="." node_paths=PackedStringArray("calculator") instance=ExtResource("2_cq4je")]
+position = Vector2(60, 40)
+calculator = NodePath("..")
+strength = 21.88
+
+[node name="AccessPointB" parent="." node_paths=PackedStringArray("calculator") instance=ExtResource("2_cq4je")]
+position = Vector2(60, 0)
+calculator = NodePath("..")
+strength = 18.405
+
+[node name="AccessPointC" parent="." node_paths=PackedStringArray("calculator") instance=ExtResource("2_cq4je")]
+position = Vector2(0, 20)
+calculator = NodePath("..")
+strength = 48.075
