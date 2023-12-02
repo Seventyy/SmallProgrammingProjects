@@ -28,19 +28,20 @@ extends Node2D
 		access_point_b.position = Vector2(60, 0)
 		access_point_c.position = Vector2(0, 20)
 
+# depracated
 @export var print_calculations:bool:
 	set(val):
 		print("\nall intersections:\n",
-			calculate_all_intersections([access_point_a, access_point_b, access_point_c])
+			old_calculate_all_intersections([access_point_a, access_point_b, access_point_c])
 			)
 		print("\nthree closest intersections:\n", 
-			find_smallest_distance(
-			calculate_all_intersections([access_point_a, access_point_b, access_point_c])
+			old_find_smallest_distance(
+			old_calculate_all_intersections([access_point_a, access_point_b, access_point_c])
 			))
 		print("\navrage of three closest intersections:\n", 
 			approximate_loaction(
-			find_smallest_distance(
-			calculate_all_intersections([access_point_a, access_point_b, access_point_c])
+			old_find_smallest_distance(
+			old_calculate_all_intersections([access_point_a, access_point_b, access_point_c])
 			)))
 		queue_redraw()
 
@@ -50,7 +51,10 @@ func calculate_intersections(circle1:AccessPoint, circle2:AccessPoint) -> Array[
 	var d:float = sqrt((circle2.position.x - circle1.position.x)**2 + (circle2.position.y - circle1.position.y)**2)
 
 	if d > circle1.strength + circle2.strength or d < abs(circle1.strength - circle2.strength):
-		return []
+		return [
+			circle1.position + circle1.position.direction_to(circle2.position) * circle1.strength,
+			circle2.position + circle2.position.direction_to(circle1.position) * circle2.strength
+			]
 
 	var a:float = (circle1.strength**2 - circle2.strength**2 + d**2) / (2 * d)
 	var h:float = sqrt(circle1.strength**2 - a**2)
@@ -66,7 +70,7 @@ func calculate_intersections(circle1:AccessPoint, circle2:AccessPoint) -> Array[
 
 	return [Vector2(x3, y3), Vector2(x4, y4)]
 
-func calculate_all_intersections(circles: Array[AccessPoint]) -> Array[Vector2]:
+func old_calculate_all_intersections(circles: Array[AccessPoint]) -> Array[Vector2]:
 	var intersections:Array[Vector2]
 	for i in range(len(circles)):
 		for j in range(i + 1, len(circles)):
@@ -78,6 +82,14 @@ func calculate_all_intersections(circles: Array[AccessPoint]) -> Array[Vector2]:
 					intersections.append(intersection_pair[1])
 	return intersections
 
+func calculate_all_intersections(circles: Array[AccessPoint]) -> Array[Vector2]:
+	var intersections:Array[Vector2]
+	
+	intersections += calculate_intersections(circles[0], circles[1])
+	intersections += calculate_intersections(circles[1], circles[2])
+	intersections += calculate_intersections(circles[2], circles[3])
+	return intersections
+
 func calculate_distance(point1: Vector2, point2: Vector2) -> float:
 	return point1.distance_to(point2)
 
@@ -87,7 +99,7 @@ func calculate_total_distance(point1: Vector2, point2: Vector2, point3: Vector2)
 		calculate_distance(point2, point3) + \
 		calculate_distance(point3, point1)
 
-func find_smallest_distance(points: Array[Vector2]) -> Array[Vector2]:
+func old_find_smallest_distance(points: Array[Vector2]) -> Array[Vector2]:
 	var smallest_distance:float = INF
 	var smallest_points:Array[Vector2] = []
 	for i in range(len(points)):
@@ -99,21 +111,34 @@ func find_smallest_distance(points: Array[Vector2]) -> Array[Vector2]:
 					smallest_points = [points[i], points[j], points[k]]
 	return smallest_points
 
+func find_smallest_distance(points: Array[Array]) -> Array[Vector2]:
+	var minimal_distance:float = INF
+	
+	var intersections_ab:Array[Vector2] = points[0]
+	var intersections_bc:Array[Vector2] = points[1]
+	var intersections_ca:Array[Vector2] = points[2]
+	
+	var optimal_points:Array[Vector2] = []
+	
+	
+	
+	return smallest_points
+
 func approximate_loaction(points: Array[Vector2]) -> Vector2:
 	return (points[0] + points[1] + points[2]) / 3
 
-func _draw() -> void:	
+func _draw() -> void:
 	for i in \
-	calculate_all_intersections([access_point_a, access_point_b, access_point_c]):
+	old_calculate_all_intersections([access_point_a, access_point_b, access_point_c]):
 		draw_circle(i, 1, Color.SKY_BLUE)
 	
 	for i in \
-	find_smallest_distance(
-	calculate_all_intersections([access_point_a, access_point_b, access_point_c])):
+	old_find_smallest_distance(
+	old_calculate_all_intersections([access_point_a, access_point_b, access_point_c])):
 		draw_circle(i, 1, Color.YELLOW)
 	
 	draw_circle(
 		approximate_loaction(
-		find_smallest_distance(
-		calculate_all_intersections([access_point_a, access_point_b, access_point_c])
+		old_find_smallest_distance(
+		old_calculate_all_intersections([access_point_a, access_point_b, access_point_c])
 		)), 1, Color.GREEN)

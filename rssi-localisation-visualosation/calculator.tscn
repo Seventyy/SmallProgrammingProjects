@@ -10,16 +10,16 @@ strength_b = 33.97
 strength_c = 68.355
 
 [node name="AccessPointA" parent="." node_paths=PackedStringArray("calculator") instance=ExtResource("2_cq4je")]
-position = Vector2(60, 40)
+position = Vector2(116.557, -13.927)
 calculator = NodePath("..")
-strength = 21.88
+strength = 20.44
 
 [node name="AccessPointB" parent="." node_paths=PackedStringArray("calculator") instance=ExtResource("2_cq4je")]
-position = Vector2(60, 0)
+position = Vector2(92.5826, 10.063)
 calculator = NodePath("..")
 strength = 18.405
 
 [node name="AccessPointC" parent="." node_paths=PackedStringArray("calculator") instance=ExtResource("2_cq4je")]
-position = Vector2(0, 20)
+position = Vector2(38, -22)
 calculator = NodePath("..")
 strength = 48.075
