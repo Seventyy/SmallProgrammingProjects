@@ -1,5 +1,7 @@
 @tool
-class_name AccessPoint extends Marker2D
+class_name AccessPoint extends Node2D
+
+@onready var handle: Node2D = $Handle
 
 @export var calculator:Node2D
 

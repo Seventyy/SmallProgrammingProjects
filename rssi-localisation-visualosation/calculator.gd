@@ -22,34 +22,86 @@ extends Node2D
 		access_point_c.strength = strength_c
 		queue_redraw()
 
+@export var show_reference_path:bool:
+	set(val):
+		show_reference_path = val
+		queue_redraw()
+
 @export var reset_positions:bool:
 	set(val):
-		access_point_a.position = Vector2(60, 40) 
-		access_point_b.position = Vector2(60, 0)
-		access_point_c.position = Vector2(0, 20)
+		access_point_a.position = Vector2(6000, 4000) 
+		access_point_b.position = Vector2(6000, 0)
+		access_point_c.position = Vector2(0, 2000)
 
-# depracated
+@onready var path:PackedVector2Array = PackedVector2Array([
+	Vector2(2000, 0),
+	Vector2(3000, 0),
+	Vector2(3707, 292),
+	Vector2(4000, 1000),
+	Vector2(4000, 2000),
+	Vector2(4292, 2707),
+	Vector2(5000, 3000),
+	Vector2(6000, 3000),
+	Vector2(6000, 4000),
+	Vector2(5000, 4000),
+	Vector2(4000, 4000),
+	Vector2(3000, 4000),
+	Vector2(2000, 4000),
+	Vector2(1000, 3866),
+	Vector2(134, 3000),
+	Vector2(0, 2000),
+	Vector2(134, 1000),
+	Vector2(1000, 134),
+])
+
+#region console_print
 @export var print_calculations:bool:
 	set(val):
 		print("\nall intersections:\n",
-			old_calculate_all_intersections([access_point_a, access_point_b, access_point_c])
+			calculate_all_intersections([access_point_a, access_point_b, access_point_c])
 			)
 		print("\nthree closest intersections:\n", 
-			old_find_smallest_distance(
-			old_calculate_all_intersections([access_point_a, access_point_b, access_point_c])
+			calculate_smallest_perimeter_triplet(
+			calculate_all_intersections([access_point_a, access_point_b, access_point_c])
 			))
 		print("\navrage of three closest intersections:\n", 
-			approximate_loaction(
-			old_find_smallest_distance(
-			old_calculate_all_intersections([access_point_a, access_point_b, access_point_c])
+			calculate_centroid(
+			calculate_smallest_perimeter_triplet(
+			calculate_all_intersections([access_point_a, access_point_b, access_point_c])
 			)))
 		queue_redraw()
+#endregion
+#region old_code
+#func calculate_all_intersections(circles: Array[AccessPoint]) -> Array[Vector2]:
+	#var intersections:Array[Vector2]
+	#for i in range(len(circles)):
+		#for j in range(i + 1, len(circles)):
+			#var intersection_pair:Array[Vector2] = calculate_intersections(circles[i], circles[j])
+			#if not intersection_pair.is_empty():
+				#if not intersections.has(intersection_pair[0]):
+					#intersections.append(intersection_pair[0])
+				#if not intersections.has(intersection_pair[1]):
+					#intersections.append(intersection_pair[1])
+	#return intersections
+#
+#func find_smallest_distance(points: Array[Vector2]) -> Array[Vector2]:
+	#var smallest_distance:float = INF
+	#var smallest_points:Array[Vector2] = []
+	#for i in range(len(points)):
+		#for j in range(i + 1, len(points)):
+			#for k in range(j + 1, points.size()):
+				#var total_distance:float = calculate_total_distance(points[i], points[j], points[k])
+				#if total_distance < smallest_distance:
+					#smallest_distance = total_distance
+					#smallest_points = [points[i], points[j], points[k]]
+	#return smallest_points
+#endregion
 
 func calculate_intersections(circle1:AccessPoint, circle2:AccessPoint) -> Array[Vector2]:
 #  circle1.position.x, circle1.position.y, circle1.strength = circle1
 #  circle2.position.x, circle2.position.y, circle2.strength = circle2
 	var d:float = sqrt((circle2.position.x - circle1.position.x)**2 + (circle2.position.y - circle1.position.y)**2)
-
+	
 	if d > circle1.strength + circle2.strength or d < abs(circle1.strength - circle2.strength):
 		return [
 			circle1.position + circle1.position.direction_to(circle2.position) * circle1.strength,
@@ -70,75 +122,81 @@ func calculate_intersections(circle1:AccessPoint, circle2:AccessPoint) -> Array[
 
 	return [Vector2(x3, y3), Vector2(x4, y4)]
 
-func old_calculate_all_intersections(circles: Array[AccessPoint]) -> Array[Vector2]:
-	var intersections:Array[Vector2]
-	for i in range(len(circles)):
-		for j in range(i + 1, len(circles)):
-			var intersection_pair:Array[Vector2] = calculate_intersections(circles[i], circles[j])
-			if not intersection_pair.is_empty():
-				if not intersections.has(intersection_pair[0]):
-					intersections.append(intersection_pair[0])
-				if not intersections.has(intersection_pair[1]):
-					intersections.append(intersection_pair[1])
-	return intersections
-
 func calculate_all_intersections(circles: Array[AccessPoint]) -> Array[Vector2]:
 	var intersections:Array[Vector2]
 	
 	intersections += calculate_intersections(circles[0], circles[1])
 	intersections += calculate_intersections(circles[1], circles[2])
-	intersections += calculate_intersections(circles[2], circles[3])
+	intersections += calculate_intersections(circles[2], circles[0])
+	
 	return intersections
 
 func calculate_distance(point1: Vector2, point2: Vector2) -> float:
 	return point1.distance_to(point2)
 
-func calculate_total_distance(point1: Vector2, point2: Vector2, point3: Vector2) -> float:
+func calculate_perimeter(points:Array[Vector2]) -> float:
 	return \
-		calculate_distance(point1, point2) + \
-		calculate_distance(point2, point3) + \
-		calculate_distance(point3, point1)
+		calculate_distance(points[0], points[1]) + \
+		calculate_distance(points[1], points[2]) + \
+		calculate_distance(points[2], points[0])
 
-func old_find_smallest_distance(points: Array[Vector2]) -> Array[Vector2]:
-	var smallest_distance:float = INF
-	var smallest_points:Array[Vector2] = []
-	for i in range(len(points)):
-		for j in range(i + 1, len(points)):
-			for k in range(j + 1, points.size()):
-				var total_distance:float = calculate_total_distance(points[i], points[j], points[k])
-				if total_distance < smallest_distance:
-					smallest_distance = total_distance
-					smallest_points = [points[i], points[j], points[k]]
-	return smallest_points
+func calculate_smallest_perimeter_triplet(points: Array[Vector2]) -> Array[Vector2]:
+	var valid_triplets:Array[Vector2] = [
+		points[0], points[2], points[4],
+		points[0], points[2], points[5],
+		points[0], points[3], points[4],
+		points[0], points[3], points[5],
+		points[1], points[2], points[4],
+		points[1], points[2], points[5],
+		points[1], points[3], points[4],
+		points[1], points[3], points[5],
+	]
+	
+	var running_minimum:float = INF
+	var running_triplet:Array[Vector2]
+	for i in range(0,24,3):
+		var triplet:Array[Vector2] = [
+			valid_triplets[i],
+			valid_triplets[i+1],
+			valid_triplets[i+2],
+		]
+		var perimeter:float = calculate_perimeter(triplet)
+		if perimeter < running_minimum:
+			running_minimum = perimeter
+			running_triplet = triplet
+	
+	return running_triplet
 
-func find_smallest_distance(points: Array[Array]) -> Array[Vector2]:
-	var minimal_distance:float = INF
-	
-	var intersections_ab:Array[Vector2] = points[0]
-	var intersections_bc:Array[Vector2] = points[1]
-	var intersections_ca:Array[Vector2] = points[2]
-	
-	var optimal_points:Array[Vector2] = []
-	
-	
-	
-	return smallest_points
-
-func approximate_loaction(points: Array[Vector2]) -> Vector2:
+func calculate_centroid(points: Array[Vector2]) -> Vector2:
 	return (points[0] + points[1] + points[2]) / 3
 
 func _draw() -> void:
-	for i in \
-	old_calculate_all_intersections([access_point_a, access_point_b, access_point_c]):
-		draw_circle(i, 1, Color.SKY_BLUE)
 	
-	for i in \
-	old_find_smallest_distance(
-	old_calculate_all_intersections([access_point_a, access_point_b, access_point_c])):
-		draw_circle(i, 1, Color.YELLOW)
+	if show_reference_path:
+		draw_polyline(path, Color.CHARTREUSE)
 	
-	draw_circle(
-		approximate_loaction(
-		old_find_smallest_distance(
-		old_calculate_all_intersections([access_point_a, access_point_b, access_point_c])
-		)), 1, Color.GREEN)
+	var all_intersections:Array[Vector2] = \
+		calculate_all_intersections([access_point_a, access_point_b, access_point_c])
+	
+	var smallest_perimeter_triplet:Array[Vector2] = \
+		calculate_smallest_perimeter_triplet(
+		all_intersections
+	)
+	
+	var centroid:Vector2 = calculate_centroid( 
+		smallest_perimeter_triplet
+	)
+	
+	for i in all_intersections:
+		draw_circle(i, 100, Color.SKY_BLUE)
+	
+	for i in range(0,6,2):
+		draw_dashed_line(all_intersections[i], all_intersections[i+1], Color.AQUA, -1, 10)
+	
+	#draw_polygon(PackedVector2Array(smallest_perimeter_triplet), PackedColorArray([Color.CHOCOLATE]))
+	
+	for i in smallest_perimeter_triplet:
+		draw_circle(i, 100, Color.YELLOW)
+	
+	draw_circle(centroid, 100, Color.GREEN)
+

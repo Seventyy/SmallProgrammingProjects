@@ -12,9 +12,9 @@ render_priority = 0
 shader = ExtResource("1_pal3n")
 shader_parameter/a = 1.16
 shader_parameter/b = -0.63
-shader_parameter/edge_width = 5.105
-shader_parameter/depth_far = 0.553
-shader_parameter/depth_cutoff = 1.996
+shader_parameter/edge_width = 2.0
+shader_parameter/depth_far = 1.0
+shader_parameter/depth_cutoff = 128.0
 
 [sub_resource type="QuadMesh" id="QuadMesh_bcddk"]
 flip_faces = true
