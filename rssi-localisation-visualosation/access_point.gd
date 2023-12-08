@@ -12,7 +12,7 @@ class_name AccessPoint extends Node2D
 		calculator.queue_redraw()
 
 func _draw() -> void:
-	draw_arc(Vector2.ZERO, strength, 0, TAU, 48, Color.RED)
+	draw_arc(Vector2.ZERO, strength, 0, TAU, 48, Color.WHITE)
 
 func _ready() -> void:
 	set_notify_transform(true)

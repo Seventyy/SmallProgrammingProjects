@@ -1,0 +1,53 @@
+PVector camera_position = new PVector();
+PVector camera_normal = new PVector();
+float camera_speed = 50.0;
+
+float delta;
+
+void setup() {
+  size(800, 600, P3D);
+  // camera_position = new PVector(0,0,10);
+  // perspective(PI/3.0, width/height, 0, 1000);
+}
+
+void draw() {
+  delta = 1/frameRate;
+  background(200);
+  camera_normal = new PVector(0, 0, Float.MAX_VALUE);
+  updateCamera();
+  
+  // camera(camera_position.x, camera_position.y, camera_position.z);
+  // camera(
+  //   camera_position.x, camera_position.y, camera_position.z,
+  //   0, 0, 0,
+  //   0, 1, 0
+  // );
+  
+  camera(
+    camera_position.x, camera_position.y, camera_position.z,
+    0, 0, 0,
+    0, 1, 0
+  );
+
+  fill(#CCFFAA);
+  box(100);
+  
+}
+
+void updateCamera() {
+  if (keyPressed) {
+    if (key == 'w')      camera_position.z -= camera_speed * delta;
+    else if (key == 's') camera_position.z += camera_speed * delta; 
+    else if (key == 'a') camera_position.x -= camera_speed * delta; 
+    else if (key == 'd') camera_position.x += camera_speed * delta; 
+    else if (key == 'z') camera_position.y -= camera_speed * delta; 
+    else if (key == 'x') camera_position.y += camera_speed * delta; 
+    else if (key == 'q') {
+      beginCamera();
+      camera();
+      rotateX(-PI/6);
+      endCamera();
+    }
+    else if (key == 'e') camera_position.y += camera_speed * delta; 
+  }
+}
