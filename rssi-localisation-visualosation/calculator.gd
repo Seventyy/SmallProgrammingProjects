@@ -59,9 +59,9 @@ extends Node2D
 		access_point_c.position = Vector2(0, 4000)
 @export var reset_strength:bool:
 	set(val):
-		access_point_a.strength = 2000
-		access_point_b.strength = 2500
-		access_point_c.strength = 4500
+		access_point_a.strength = 3200
+		access_point_b.strength = 3600
+		access_point_c.strength = 2100
 		reset_handles()
 @export var redraw:bool:
 	set(val):
@@ -169,9 +169,12 @@ func calculate_intersections(circle1:AccessPoint, circle2:AccessPoint) -> Array[
 			circle1.position.distance_to(circle2.position)
 		]
 	elif d < abs(circle1.strength - circle2.strength):
+		var size_sign:int = 1 if circle1.strength < circle2.strength else -1
 		return [
-			circle1.position + circle1.position.direction_to(circle2.position) * circle1.strength,
-			circle2.position + circle2.position.direction_to(circle1.position) * circle2.strength
+			circle1.position + \
+			circle1.position.direction_to(circle2.position) * -size_sign * circle1.strength,
+			circle2.position + \
+			circle2.position.direction_to(circle1.position) * size_sign * circle2.strength
 		] 
 	
 	var a:float = (circle1.strength**2 - circle2.strength**2 + d**2) / (2 * d)
@@ -256,11 +259,11 @@ func _draw() -> void:
 	
 	if show_intersection_pairs:
 		if intersections_ab.size() == 2:
-			draw_dashed_line(intersections_ab[0], intersections_ab[1], Color.AQUA, -1, 100)
+			draw_dashed_line(intersections_ab[0], intersections_ab[1], Color.CADET_BLUE, -1, 100)
 		if intersections_bc.size() == 2:
-			draw_dashed_line(intersections_bc[0], intersections_bc[1], Color.AQUA, -1, 100)
+			draw_dashed_line(intersections_bc[0], intersections_bc[1], Color.CADET_BLUE, -1, 100)
 		if intersections_ca.size() == 2:
-			draw_dashed_line(intersections_ca[0], intersections_ca[1], Color.AQUA, -1, 100)
+			draw_dashed_line(intersections_ca[0], intersections_ca[1], Color.CADET_BLUE, -1, 100)
 	
 	if show_triplet_triangle:
 		draw_polygon(PackedVector2Array(smallest_perimeter_triplet), PackedColorArray([Color.LIGHT_CORAL]))

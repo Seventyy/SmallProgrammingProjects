@@ -1,10 +1,18 @@
-[gd_scene load_steps=3 format=3 uid="uid://c55wrfjg6k1id"]
+[gd_scene load_steps=4 format=3 uid="uid://c55wrfjg6k1id"]
 
 [ext_resource type="Script" path="res://access_point.gd" id="1_tqloe"]
 [ext_resource type="Script" path="res://access_point_handle.gd" id="2_8aq36"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_uxgxx"]
+font_size = 512
 
 [node name="AccessPoint" type="Node2D"]
 script = ExtResource("1_tqloe")
 
 [node name="Handle" type="Node2D" parent="."]
 script = ExtResource("2_8aq36")
+
+[node name="Label" type="Label" parent="."]
+offset_right = 40.0
+offset_bottom = 23.0
+label_settings = SubResource("LabelSettings_uxgxx")
