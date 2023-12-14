@@ -12,33 +12,34 @@ show_secondary_intersections = true
 show_primary_intersections = true
 
 [node name="AccessPointA" parent="." node_paths=PackedStringArray("calculator") instance=ExtResource("2_cq4je")]
+position = Vector2(6000, 4000)
 calculator = NodePath("..")
-strength = 5688.93
+strength = 1310.29
 
 [node name="Handle" parent="AccessPointA" index="0"]
-position = Vector2(5675.42, 391.798)
+position = Vector2(-228.326, 1290.24)
 
 [node name="Label" parent="AccessPointA" index="1"]
 text = "A"
 
 [node name="AccessPointB" parent="." node_paths=PackedStringArray("calculator") instance=ExtResource("2_cq4je")]
-position = Vector2(6000, 2000)
+position = Vector2(6000, 0)
 calculator = NodePath("..")
-strength = 2584.26
+strength = 1266.91
 
 [node name="Handle" parent="AccessPointB" index="0"]
-position = Vector2(-1565.93, 2055.79)
+position = Vector2(192.904, 1252.13)
 
 [node name="Label" parent="AccessPointB" index="1"]
 text = "B"
 
 [node name="AccessPointC" parent="." node_paths=PackedStringArray("calculator") instance=ExtResource("2_cq4je")]
-position = Vector2(0, 4000)
+position = Vector2(0, 2000)
 calculator = NodePath("..")
-strength = 2100.0
+strength = 3307.91
 
 [node name="Handle" parent="AccessPointC" index="0"]
-position = Vector2(0, -2100)
+position = Vector2(-128.145, 3305.42)
 
 [node name="Label" parent="AccessPointC" index="1"]
 text = "C"

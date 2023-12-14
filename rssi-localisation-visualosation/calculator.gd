@@ -1,31 +1,17 @@
 @tool 
 extends Node2D
 
+## references
 @onready var access_point_a:AccessPoint = $AccessPointA
 @onready var access_point_b:AccessPoint = $AccessPointB
 @onready var access_point_c:AccessPoint = $AccessPointC
 
-#region stregths depracated
-#@export var strength_a:float:
-	#set(val):
-		#strength_a = val
-		#access_point_a.strength = strength_a
-		#queue_redraw()
-#@export var strength_b:float:
-	#set(val):
-		#strength_b = val
-		#access_point_b.strength = strength_b
-		#queue_redraw()
-#@export var strength_c:float:
-	#set(val):
-		#strength_c = val
-		#access_point_c.strength = strength_c
-		#queue_redraw()
-#endregion
-
+## rrsi to distance variables
+@export_category("RRSI to Distance Variables")
 @export var intercept:float = -64
 @export var path_loss_exponent:float = 3
 
+@export_category("Visibility Toggles")
 @export var show_reference_path:bool:
 	set(val):
 		show_reference_path = val
@@ -47,21 +33,17 @@ extends Node2D
 		show_primary_intersections = val
 		queue_redraw()
 
-@export var reset_positions_old:bool:
-	set(val):
-		access_point_a.position = Vector2(6000, 4000) 
-		access_point_b.position = Vector2(6000, 0)
-		access_point_c.position = Vector2(0, 2000)
+@export_category("Resets")
 @export var reset_positions:bool:
 	set(val):
-		access_point_a.position = Vector2(0, 0) 
-		access_point_b.position = Vector2(6000, 2000)
-		access_point_c.position = Vector2(0, 4000)
+		access_point_a.position = Vector2(6000,4000)
+		access_point_b.position = Vector2(6000,0)
+		access_point_c.position = Vector2(0,2000)
 @export var reset_strength:bool:
 	set(val):
-		access_point_a.strength = 3200
-		access_point_b.strength = 3600
-		access_point_c.strength = 2100
+		access_point_a.strength = 1500
+		access_point_b.strength = 1500
+		access_point_c.strength = 1500
 		reset_handles()
 @export var redraw:bool:
 	set(val):
@@ -73,88 +55,36 @@ func reset_handles() -> void:
 	access_point_c.handle.position = Vector2.UP * access_point_c.strength
 
 @onready var reference_path:PackedVector2Array = PackedVector2Array([
-	Vector2(2000, 0),
-	Vector2(3000, 0),
-	Vector2(3707, 292),
-	Vector2(4000, 1000),
-	Vector2(4000, 2000),
-	Vector2(4292, 2707),
-	Vector2(5000, 3000),
-	Vector2(6000, 3000),
-	Vector2(6000, 4000),
-	Vector2(5000, 4000),
 	Vector2(4000, 4000),
 	Vector2(3000, 4000),
-	Vector2(2000, 4000),
-	Vector2(1000, 3866),
-	Vector2(134, 3000),
-	Vector2(0, 2000),
-	Vector2(134, 1000),
-	Vector2(1000, 134),
+	Vector2(2293, 3708),
+	Vector2(2000, 3000),
+	Vector2(2000, 2000),
+	Vector2(1708, 1293),
+	Vector2(1000, 1000),
+	Vector2(0, 1000),
+	Vector2(0, 0),
+	Vector2(1000, 0),
+	Vector2(2000, 0),
+	Vector2(3000, 0),
+	Vector2(4000, 0),
+	Vector2(5000, 134),
+	Vector2(5866, 1000),
+	Vector2(6000, 2000),
+	Vector2(5866, 3000),
+	Vector2(5000, 3866),
 ])
-
-#region rssi classes
-#class RssiData:
-	#var data:Array[LapData]
-	#
-	#
-#
-#class LapData:
-	#var access_point_a:Array[int]
-	#var access_point_b:Array[int] 
-	#var access_point_c:Array[int] 
-#endregion
-#region console_print
-#@export var print_calculations:bool:
-	#set(val):
-		#print("\nall intersections:\n",
-			#calculate_all_intersections([access_point_a, access_point_b, access_point_c])
-			#)
-		#print("\nthree closest intersections:\n", 
-			#calculate_smallest_perimeter_triplet(
-			#calculate_all_intersections([access_point_a, access_point_b, access_point_c])
-			#))
-		#print("\navrage of three closest intersections:\n", 
-			#calculate_centroid(
-			#calculate_smallest_perimeter_triplet(
-			#calculate_all_intersections([access_point_a, access_point_b, access_point_c])
-			#)))
-		#queue_redraw()
-#endregion
-#region old_code
-#func calculate_all_intersections(circles: Array[AccessPoint]) -> Array[Vector2]:
-	#var intersections:Array[Vector2]
-	#for i in range(len(circles)):
-		#for j in range(i + 1, len(circles)):
-			#var intersection_pair:Array[Vector2] = calculate_intersections(circles[i], circles[j])
-			#if not intersection_pair.is_empty():
-				#if not intersections.has(intersection_pair[0]):
-					#intersections.append(intersection_pair[0])
-				#if not intersections.has(intersection_pair[1]):
-					#intersections.append(intersection_pair[1])
-	#return intersections
-#
-#func find_smallest_distance(points: Array[Vector2]) -> Array[Vector2]:
-	#var smallest_distance:float = INF
-	#var smallest_points:Array[Vector2] = []
-	#for i in range(len(points)):
-		#for j in range(i + 1, len(points)):
-			#for k in range(j + 1, points.size()):
-				#var total_distance:float = calculate_total_distance(points[i], points[j], points[k])
-				#if total_distance < smallest_distance:
-					#smallest_distance = total_distance
-					#smallest_points = [points[i], points[j], points[k]]
-	#return smallest_points
-#endregion
 
 func rssi_to_distance(strength:float) -> float:
 	return pow(10,((strength-intercept)/(-10*path_loss_exponent)))
 
 func calculate_intersections(circle1:AccessPoint, circle2:AccessPoint) -> Array[Vector2]:
-#  circle1.position.x, circle1.position.y, circle1.strength = circle1
-#  circle2.position.x, circle2.position.y, circle2.strength = circle2
+	#circle1.position.x, circle1.position.y, circle1.strength = circle1
+	#circle2.position.x, circle2.position.y, circle2.strength = circle2
+	
 	var d:float = sqrt((circle2.position.x - circle1.position.x)**2 + (circle2.position.y - circle1.position.y)**2)
 	
+	## proporional outside, this same (broken) proportional inside
 	#if d > circle1.strength + circle2.strength or d < abs(circle1.strength - circle2.strength):
 		#return [
 			#circle1.position + circle1.position.direction_to(circle2.position) * \
@@ -162,21 +92,56 @@ func calculate_intersections(circle1:AccessPoint, circle2:AccessPoint) -> Array[
 			#circle1.position.distance_to(circle2.position)
 		#]
 	
-	if d > circle1.strength + circle2.strength:
-		return [
-			circle1.position + circle1.position.direction_to(circle2.position) * \
-			circle1.strength / (circle1.strength + circle2.strength) * \
-			circle1.position.distance_to(circle2.position)
-		]
-	elif d < abs(circle1.strength - circle2.strength):
-		var size_sign:int = 1 if circle1.strength < circle2.strength else -1
-		return [
-			circle1.position + \
-			circle1.position.direction_to(circle2.position) * -size_sign * circle1.strength,
-			circle2.position + \
-			circle2.position.direction_to(circle1.position) * size_sign * circle2.strength
-		] 
+	## proporional outside, closest two inside
+	#if d > circle1.strength + circle2.strength:
+		#return [
+			#circle1.position + circle1.position.direction_to(circle2.position) * \
+			#circle1.strength / (circle1.strength + circle2.strength) * \
+			#circle1.position.distance_to(circle2.position)
+		#]
+	#elif d < abs(circle1.strength - circle2.strength):
+		#var size_sign:int = 1 if circle1.strength < circle2.strength else -1
+		#return [
+			#circle1.position + \
+			#circle1.position.direction_to(circle2.position) * -size_sign * circle1.strength,
+			#circle2.position + \
+			#circle2.position.direction_to(circle1.position) * size_sign * circle2.strength
+		#] 
 	
+	## newest, proportional both inside and outside
+	var is_inside:bool = d < abs(circle1.strength - circle2.strength)
+	var is_outside:bool = d > circle1.strength + circle2.strength
+	
+	if is_inside or is_outside:
+		if is_inside:
+			var size_sign:int = 1 if circle1.strength < circle2.strength else -1
+			if is_inside == false:
+				size_sign = 1
+			var circle1_near:Vector2 = \
+				circle1.position + circle1.position.direction_to(circle2.position) * -size_sign * circle1.strength
+			var circle2_near:Vector2 = \
+				circle2.position + circle2.position.direction_to(circle1.position) * size_sign * circle2.strength
+			
+			return [
+				circle1_near + circle1_near.direction_to(circle2_near) * \
+				circle1.strength / (circle1.strength + circle2.strength) * \
+				circle1_near.distance_to(circle2_near)
+			]
+			## proportional other way
+			#return [
+				#circle2_near + circle2_near.direction_to(circle1_near) * \
+				#circle1.strength / (circle1.strength + circle2.strength) * \
+				#circle1_near.distance_to(circle2_near)
+			#]
+			
+		elif is_outside:
+			return [
+				circle1.position + circle1.position.direction_to(circle2.position) * \
+				circle1.strength / (circle1.strength + circle2.strength) * \
+				circle1.position.distance_to(circle2.position)
+			]
+	
+	## intersecting circles 
 	var a:float = (circle1.strength**2 - circle2.strength**2 + d**2) / (2 * d)
 	var h:float = sqrt(circle1.strength**2 - a**2)
 	
@@ -190,15 +155,6 @@ func calculate_intersections(circle1:AccessPoint, circle2:AccessPoint) -> Array[
 	var y4:float = y2 + h * (circle2.position.x - circle1.position.x) / d
 	
 	return [Vector2(x3, y3), Vector2(x4, y4)]
-
-#func calculate_all_intersections(circles: Array[AccessPoint]) -> Array[Array]:
-	#var intersections:Array[Array] 
-	#
-	#intersections.append(calculate_intersections(circles[0], circles[1]))
-	#intersections.append(calculate_intersections(circles[1], circles[2]))
-	#intersections.append(calculate_intersections(circles[2], circles[0]))
-	#
-	#return intersections
 
 func calculate_distance(point1: Vector2, point2: Vector2) -> float:
 	return point1.distance_to(point2)
