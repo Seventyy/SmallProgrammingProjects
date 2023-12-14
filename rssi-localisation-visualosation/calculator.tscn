@@ -7,42 +7,53 @@
 script = ExtResource("1_q5trp")
 show_reference_path = true
 show_intersection_pairs = true
-show_triplet_triangle = true
 show_secondary_intersections = true
 show_primary_intersections = true
 
 [node name="AccessPointA" parent="." node_paths=PackedStringArray("calculator") instance=ExtResource("2_cq4je")]
 position = Vector2(6000, 4000)
 calculator = NodePath("..")
-strength = 1310.29
+radius = 1000.0
+strength = -45
 
 [node name="Handle" parent="AccessPointA" index="0"]
-position = Vector2(-228.326, 1290.24)
+position = Vector2(-68.3096, 68.2197)
 
 [node name="Label" parent="AccessPointA" index="1"]
 text = "A"
 
+[node name="StengthLabel" parent="AccessPointA" index="2"]
+text = "-45"
+
 [node name="AccessPointB" parent="." node_paths=PackedStringArray("calculator") instance=ExtResource("2_cq4je")]
 position = Vector2(6000, 0)
 calculator = NodePath("..")
-strength = 1266.91
+radius = 3513.03
+strength = -57
 
 [node name="Handle" parent="AccessPointB" index="0"]
-position = Vector2(192.904, 1252.13)
+position = Vector2(2149.39, 2778.77)
 
 [node name="Label" parent="AccessPointB" index="1"]
 text = "B"
 
+[node name="StengthLabel" parent="AccessPointB" index="2"]
+text = "-57"
+
 [node name="AccessPointC" parent="." node_paths=PackedStringArray("calculator") instance=ExtResource("2_cq4je")]
 position = Vector2(0, 2000)
 calculator = NodePath("..")
-strength = 3307.91
+radius = 4724.11
+strength = -56
 
 [node name="Handle" parent="AccessPointC" index="0"]
-position = Vector2(-128.145, 3305.42)
+position = Vector2(4550.6, 1268.57)
 
 [node name="Label" parent="AccessPointC" index="1"]
 text = "C"
+
+[node name="StengthLabel" parent="AccessPointC" index="2"]
+text = "-56"
 
 [editable path="AccessPointA"]
 [editable path="AccessPointB"]

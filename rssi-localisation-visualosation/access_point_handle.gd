@@ -8,4 +8,4 @@ func _ready() -> void:
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_LOCAL_TRANSFORM_CHANGED:
-		access_point.strength = position.length()
+		access_point.radius = position.length()
