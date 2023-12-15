@@ -176,12 +176,12 @@ func calculate_intersections(circle1:AccessPoint, circle2:AccessPoint) -> Array[
 	var d:float = sqrt((circle2.position.x - circle1.position.x)**2 + (circle2.position.y - circle1.position.y)**2)
 	
 	## proporional outside, this same (broken) proportional inside
-	if d > circle1.radius + circle2.radius or d < abs(circle1.radius - circle2.radius):
-		return [
-			circle1.position + circle1.position.direction_to(circle2.position) * \
-			circle1.radius / (circle1.radius + circle2.radius) * \
-			circle1.position.distance_to(circle2.position)
-		]
+	#if d > circle1.radius + circle2.radius or d < abs(circle1.radius - circle2.radius):
+		#return [
+			#circle1.position + circle1.position.direction_to(circle2.position) * \
+			#circle1.radius / (circle1.radius + circle2.radius) * \
+			#circle1.position.distance_to(circle2.position)
+		#]
 	
 	## proporional outside, closest two inside
 	#if d > circle1.radius + circle2.radius:
@@ -200,37 +200,37 @@ func calculate_intersections(circle1:AccessPoint, circle2:AccessPoint) -> Array[
 		#] 
 	
 	## newest, proportional both inside and outside
-	#var is_inside:bool = d < abs(circle1.radius - circle2.radius)
-	#var is_outside:bool = d > circle1.radius + circle2.radius
-	#
-	#if is_inside or is_outside:
-		#if is_inside:
-			#var size_sign:int = 1 if circle1.radius < circle2.radius else -1
-			#if is_inside == false:
-				#size_sign = 1
-			#var circle1_near:Vector2 = \
-				#circle1.position + circle1.position.direction_to(circle2.position) * -size_sign * circle1.radius
-			#var circle2_near:Vector2 = \
-				#circle2.position + circle2.position.direction_to(circle1.position) * size_sign * circle2.radius
-			#
+	var is_inside:bool = d < abs(circle1.radius - circle2.radius)
+	var is_outside:bool = d > circle1.radius + circle2.radius
+	
+	if is_inside or is_outside:
+		if is_inside:
+			var size_sign:int = 1 if circle1.radius < circle2.radius else -1
+			if is_inside == false:
+				size_sign = 1
+			var circle1_near:Vector2 = \
+				circle1.position + circle1.position.direction_to(circle2.position) * -size_sign * circle1.radius
+			var circle2_near:Vector2 = \
+				circle2.position + circle2.position.direction_to(circle1.position) * size_sign * circle2.radius
+			
+			return [
+				circle1_near + circle1_near.direction_to(circle2_near) * \
+				circle1.radius / (circle1.radius + circle2.radius) * \
+				circle1_near.distance_to(circle2_near)
+			]
+			## proportional other way
 			#return [
-				#circle1_near + circle1_near.direction_to(circle2_near) * \
+				#circle2_near + circle2_near.direction_to(circle1_near) * \
 				#circle1.radius / (circle1.radius + circle2.radius) * \
 				#circle1_near.distance_to(circle2_near)
 			#]
-			### proportional other way
-			##return [
-				##circle2_near + circle2_near.direction_to(circle1_near) * \
-				##circle1.radius / (circle1.radius + circle2.radius) * \
-				##circle1_near.distance_to(circle2_near)
-			##]
-			#
-		#elif is_outside:
-			#return [
-				#circle1.position + circle1.position.direction_to(circle2.position) * \
-				#circle1.radius / (circle1.radius + circle2.radius) * \
-				#circle1.position.distance_to(circle2.position)
-			#]
+			
+		elif is_outside:
+			return [
+				circle1.position + circle1.position.direction_to(circle2.position) * \
+				circle1.radius / (circle1.radius + circle2.radius) * \
+				circle1.position.distance_to(circle2.position)
+			]
 	
 	## intersecting circles 
 	var a:float = (circle1.radius**2 - circle2.radius**2 + d**2) / (2 * d)
