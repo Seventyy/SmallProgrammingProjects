@@ -1,6 +1,10 @@
 @tool 
 class_name Calculator extends Node2D
 
+var displacements:Array[PackedVector2Array]
+var laps:Array[Lap]
+var approximate_path:Array[Vector2]
+
 ## references
 @onready var access_point_a:AccessPoint = $AccessPointA
 @onready var access_point_b:AccessPoint = $AccessPointB
@@ -8,8 +12,16 @@ class_name Calculator extends Node2D
 
 ## rrsi to distance variables
 @export_category("RRSI to Distance Variables")
-@export var intercept:float = -64
-@export var path_loss_exponent:float = 3
+@export var intercept:float = -64:
+	set(val):
+		intercept = val
+		calculate_approximate_path()
+		queue_redraw()
+@export var path_loss_exponent:float = 3:
+	set(val):
+		path_loss_exponent = val
+		calculate_approximate_path()
+		queue_redraw()
 
 @export_category("Visibility Toggles")
 @export var show_reference_path:bool:
@@ -32,6 +44,18 @@ class_name Calculator extends Node2D
 	set(val):
 		show_primary_intersections = val
 		queue_redraw()
+@export var show_centroid:bool:
+	set(val):
+		show_centroid = val
+		queue_redraw()
+@export var show_displasements:bool:
+	set(val):
+		show_displasements = val
+		queue_redraw()
+@export var show_approximate_path:bool:
+	set(val):
+		show_approximate_path = val
+		queue_redraw()
 
 @export_category("Resets")
 @export var reset_positions:bool:
@@ -44,17 +68,57 @@ class_name Calculator extends Node2D
 		access_point_a.radius = 1500
 		access_point_b.radius = 1500
 		access_point_c.radius = 1500
-		reset_handles()
+		
+		access_point_a.handle.position = Vector2.RIGHT * access_point_a.radius
+		access_point_b.handle.position = Vector2.RIGHT * access_point_b.radius
+		access_point_c.handle.position = Vector2.RIGHT * access_point_c.radius
 @export var redraw:bool:
 	set(val):
 		queue_redraw()
 
-func reset_handles() -> void:
-	access_point_a.handle.position = Vector2.RIGHT * access_point_a.radius
-	access_point_b.handle.position = Vector2.RIGHT * access_point_b.radius
-	access_point_c.handle.position = Vector2.RIGHT * access_point_c.radius
+@export_category("Path approximation")
+@export var path_gradient:Gradient
 
-@onready var reference_path:PackedVector2Array = PackedVector2Array([
+@export var calculate_approximate_path_button:bool:
+	set(val):
+		calculate_approximate_path()
+		queue_redraw()
+
+## data
+class Lap:
+	var ap_a_readings:Array[int]
+	var ap_b_readings:Array[int]
+	var ap_c_readings:Array[int]
+
+func set_laps_data() -> void:
+	laps.clear()
+	
+	var lap_1:Lap = Lap.new()
+	var lap_2:Lap = Lap.new()
+	var lap_3:Lap = Lap.new()
+	var lap_4:Lap = Lap.new()
+	
+	lap_1.ap_a_readings = [-45, -47, -48, -56, -58, -58, -57, -64, -55, -61, -57, -63, -50, -52, -51, -44, -54, -36]
+	lap_2.ap_a_readings = [-39, -48, -51, -55, -54, -45, -53, -63, -58, -61, -56, -62, -47, -48, -52, -41, -50, -36]
+	lap_3.ap_a_readings = [-48, -45, -52, -54, -58, -56, -57, -64, -50, -53, -59, -55, -54, -51, -39, -44, -44, -41]
+	lap_4.ap_a_readings = [-44, -48, -54, -50, -55, -59, -54, -58, -58, -57, -54, -52, -50, -49, -46, -40, -45, -43]
+	
+	lap_1.ap_b_readings = [-57, -47, -46, -50, -42, -58, -47, -52, -55, -49, -48, -51, -52, -58, -58, -54, -58, -58]
+	lap_2.ap_b_readings = [-60, -53, -51, -43, -54, -54, -39, -52, -51, -53, -51, -49, -53, -53, -51, -54, -56, -51]
+	lap_3.ap_b_readings = [-50, -46, -41, -49, -44, -46, -49, -48, -44, -49, -39, -55, -54, -56, -61, -55, -59, -50]
+	lap_4.ap_b_readings = [-48, -55, -48, -45, -42, -47, -41, -40, -36, -49, -53, -56, -53, -58, -56, -53, -58, -50]
+	
+	lap_1.ap_c_readings = [-56, -60, -59, -53, -54, -48, -50, -63, -57, -53, -48, -56, -41, -45, -37, -48, -42, -52]
+	lap_2.ap_c_readings = [-59, -54, -50, -49, -52, -49, -55, -56, -58, -53, -56, -58, -47, -40, -34, -48, -51, -52]
+	lap_3.ap_c_readings = [-54, -56, -56, -49, -52, -56, -50, -55, -52, -56, -54, -51, -47, -40, -50, -46, -45, -46]
+	lap_4.ap_c_readings = [-58, -56, -50, -50, -52, -58, -61, -60, -58, -50, -56, -42, -49, -40, -42, -48, -50, -46]
+	
+	laps.append(lap_1)
+	laps.append(lap_2)
+	laps.append(lap_3)
+	laps.append(lap_4)
+
+var reference_path:PackedVector2Array = PackedVector2Array([
 	Vector2(4000, 4000),
 	Vector2(3000, 4000),
 	Vector2(2293, 3708),
@@ -75,9 +139,36 @@ func reset_handles() -> void:
 	Vector2(5000, 3866),
 ])
 
-func rssi_to_distance(strength:float) -> float:
-	return pow(10,((strength-intercept)/(-10*path_loss_exponent))) * 1000
+## path approximation
+func calculate_displasements() -> void:
+	set_laps_data()
+	displacements.clear()
+	for i in reference_path.size():
+		var resoults:Array[Vector2] 
+		
+		for j in laps.size():
+			access_point_a.strength = laps[j].ap_a_readings[i]
+			access_point_b.strength = laps[j].ap_b_readings[i]
+			access_point_c.strength = laps[j].ap_c_readings[i]
+			
+			resoults.append(get_centroid())
+		
+		displacements.append(PackedVector2Array(resoults))
 
+func calculate_approximate_path() -> void:
+	calculate_displasements()
+	approximate_path.clear()
+	for d in displacements:
+		var running_avarage:Vector2
+		for v in d:
+			running_avarage += v
+		approximate_path.append(running_avarage/4)
+
+func rssi_to_distance(strength:float) -> float:
+	#return 400.5
+	return pow(10,((strength-intercept)/(-10*path_loss_exponent))) * 1_000
+
+## centroid calculations
 func calculate_intersections(circle1:AccessPoint, circle2:AccessPoint) -> Array[Vector2]:
 	#circle1.position.x, circle1.position.y, circle1.radius = circle1
 	#circle2.position.x, circle2.position.y, circle2.radius = circle2
@@ -187,6 +278,16 @@ func calculate_smallest_perimeter_triplet(
 func calculate_centroid(points: Array[Vector2]) -> Vector2:
 	return (points[0] + points[1] + points[2]) / 3
 
+func get_centroid() -> Vector2:
+	return calculate_centroid( 
+		calculate_smallest_perimeter_triplet(
+			calculate_intersections(access_point_a, access_point_b),
+			calculate_intersections(access_point_b, access_point_c),
+			calculate_intersections(access_point_c, access_point_a)
+		)
+	)
+
+## drawing
 func _draw() -> void:
 	#var reference_path_closed:PackedVector2Array = Array(reference_path) + [reference_path[0]]
 	
@@ -230,5 +331,16 @@ func _draw() -> void:
 		for i in smallest_perimeter_triplet:
 			draw_circle(i, 100, Color.YELLOW)
 	
-	draw_circle(centroid, 100, Color.GREEN)
-
+	if show_centroid:
+		draw_circle(centroid, 100, Color.GREEN)
+		
+	#for i in 1:
+	if show_displasements:
+		for i in reference_path.size():
+			for j in laps.size():
+				var color:Color = path_gradient.sample(1.0*i/reference_path.size()).darkened(0.2*j)
+				draw_line(reference_path[i], displacements[i][j], color)
+				draw_circle(displacements[i][j], 35, color)
+	
+	if show_approximate_path:
+		draw_polyline(approximate_path, Color.YELLOW, 50)
