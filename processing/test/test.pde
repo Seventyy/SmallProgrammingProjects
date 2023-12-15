@@ -34,11 +34,11 @@ void draw() {
   // );
   
   updateCamera();
-  // camera(
-  //   camera_position.x, camera_position.y, camera_position.z,
-  //   camera_normal.x * 1000000, camera_normal.y * 1000000, camera_normal.z * 1000000,
-  //   0, 1, 0
-  // );
+  camera(
+    camera_position.x, camera_position.y, camera_position.z,
+    camera_normal.x * 1000000, camera_normal.y * 1000000, camera_normal.z * 1000000,
+    0, 1, 0
+  );
 
   // camera(mouseX, height/2, (height/2) / tan(PI/6), width/2, height/2, 0, 0, 1, 0);
  
@@ -52,48 +52,48 @@ void draw() {
   
 }
 
-void updateCamera() {
- rotationAngle = map(mouseX, 0, width, 0, TWO_PI);
- elevationAngle = map(mouseY, 0, height, 0, PI);
+//void updateCamera() {
+// rotationAngle = map(mouseX, 0, width, 0, TWO_PI);
+// elevationAngle = map(mouseY, 0, height, 0, PI);
 
- centerX = cos(rotationAngle) * sin(elevationAngle);
- centerY = sin(rotationAngle) * sin(elevationAngle);
- centerZ = -cos(elevationAngle);
+// centerX = cos(rotationAngle) * sin(elevationAngle);
+// centerY = sin(rotationAngle) * sin(elevationAngle);
+// centerZ = -cos(elevationAngle);
 
- camera(0, 0, 0, centerX, centerY, centerZ, 0, 0, 1);
-}
+// camera(0, 0, 0, centerX, centerY, centerZ, 0, 0, 1);
+//}
 
 
-// void updateCamera() {
-//   if (keyPressed) {
-//     if (key == 'w') {
-//       camera_position = PVector.add(camera_position, PVector.mult(camera_normal.normalize(), camera_speed * delta));
-//     } 
-//     else if (key == 's') {
-//       camera_position = PVector.add(camera_position, PVector.mult(camera_normal.normalize(), -camera_speed * delta));
-//     } 
-//     else if (key == 'a') {
-//       PVector vec = new PVector(camera_normal.x, camera_normal.z);
-//       vec.rotate(-PI/2 * delta);
-//       camera_normal = new PVector(vec.x, camera_normal.y, vec.y);
-//     } 
-//     else if (key == 'd') {
-//       PVector vec = new PVector(camera_normal.x, camera_normal.z);
-//       vec.rotate(PI/2 * delta);
-//       camera_normal = new PVector(vec.x, camera_normal.y, vec.y);
-//     }
-//     else if (key == ' ') {
-//       PVector vec = new PVector(camera_normal.y, camera_normal.z);
-//       vec.rotate(-PI/2 * delta);
-//       camera_normal = new PVector(camera_normal.x, vec.x, vec.y);
-//     } 
-//     else if (keyPressed && key == CODED && keyCode == SHIFT) {
-//       PVector vec = new PVector(camera_normal.y, camera_normal.z);
-//       vec.rotate(PI/2 * delta);
-//       camera_normal = new PVector(camera_normal.x, vec.x, vec.y);
-//     }
-//   }
-// }
+ void updateCamera() {
+   if (keyPressed) {
+     if (key == 'w') {
+       camera_position = PVector.add(camera_position, PVector.mult(camera_normal.normalize(), camera_speed * delta));
+     } 
+     else if (key == 's') {
+       camera_position = PVector.add(camera_position, PVector.mult(camera_normal.normalize(), -camera_speed * delta));
+     } 
+     else if (key == 'a') {
+       PVector vec = new PVector(camera_normal.x, camera_normal.z);
+       vec.rotate(-PI/2 * delta);
+       camera_normal = new PVector(vec.x, camera_normal.y, vec.y);
+     } 
+     else if (key == 'd') {
+       PVector vec = new PVector(camera_normal.x, camera_normal.z);
+       vec.rotate(PI/2 * delta);
+       camera_normal = new PVector(vec.x, camera_normal.y, vec.y);
+     }
+     else if (key == ' ') {
+       PVector vec = new PVector(camera_normal.y, camera_normal.z);
+       vec.rotate(-PI/2 * delta);
+       camera_normal = new PVector(camera_normal.x, vec.x, vec.y);
+     } 
+     else if (keyPressed && key == CODED && keyCode == SHIFT) {
+       PVector vec = new PVector(camera_normal.y, camera_normal.z);
+       vec.rotate(PI/2 * delta);
+       camera_normal = new PVector(camera_normal.x, vec.x, vec.y);
+     }
+   }
+ }
 
 
 void draw_cubes(){
