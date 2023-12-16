@@ -1,0 +1,67 @@
+Sun sun;
+Planet planet;
+
+float delta = 1 / frameRate;
+
+void setup() {
+  size(1280, 720);
+  noStroke();
+
+  sun = new Sun( new PVector(1280/2, 720/2), 50.0, new color(234, 235, 14));
+}
+
+void draw() {
+  background(0);
+  
+  sun.display();
+  planet.display();
+}
+
+class CelestialBody {
+  PVector global_position;
+} 
+
+class Sun extends CelestialBody {
+  float diameter;
+  color colorr;
+    
+  Sun(PVector _position, float _diameter, color _colorr) {
+    diameter = _diameter;
+    colorr = _colorr;
+    global_position = _position;
+  }
+ 
+  void display() {
+    fill(colorr);
+    ellipse(0, 0, diameter, diameter);
+  }
+}
+
+class Planet extends CelestialBody {
+  Planet primary;
+  float distance;
+  float speed;
+  float diameter;
+  color colorr;
+
+  PVector relative_position;
+  
+  Planet(Planet _primary, float _distance, float _speed, float _diameter, color _colorr) {
+    primary = _primary;
+    distance = _distance;
+    speed = _speed;
+    diameter = _diameter;
+    colorr = _colorr;
+
+    relative_position = new PVector(distance, 0);
+  }
+ 
+  void display() {
+    global_position = primary.global_position.add(relative_position);
+
+    fill(colorr);
+    ellipse(0, 0, diameter, diameter);
+
+    relative_position.rotate(speed * delta);
+  }
+}

@@ -1,0 +1,81 @@
+import java.util.ArrayList;
+
+CelestialBody sun;
+ArrayList<CelestialBody> planets = new ArrayList<>();
+ArrayList<CelestialBody> moons = new ArrayList<>();
+
+float delta = 1 / frameRate / 3;
+
+void setup() {
+  size(1280, 720);
+  
+
+  sun = new CelestialBody(color(255, 209, 102), 75.0);
+  
+  planets.add(new CelestialBody(sun, color(239, 71 , 111), 20.0, 100.0, 0.8*PI));
+  planets.add(new CelestialBody(sun, color(247, 140, 107), 25.0, 210.0, 0.6*PI));
+  planets.add(new CelestialBody(sun, color(6  , 214, 160), 60.0, 350.0, 0.3*PI));
+  planets.add(new CelestialBody(sun, color(17 , 138, 178), 50.0, 490.0, 0.1*PI));
+
+  moons.add(new CelestialBody(planets.get(0), color(249, 153, 175), 4.0, 35.0, 2.2*PI));
+  moons.add(new CelestialBody(planets.get(0), color(244, 107, 139), 6.0, 25.0, 2.8*PI));
+  moons.add(new CelestialBody(planets.get(1), color(255, 205, 189), 7.0, 37.5, 1.2*PI));
+  moons.add(new CelestialBody(planets.get(1), color(255, 173, 147), 8.0, 27.5, 2.4*PI));
+  moons.add(new CelestialBody(planets.get(2), color(47 , 219, 176), 6.0, 50.0, 2.6*PI));
+  moons.add(new CelestialBody(planets.get(2), color(90 , 225, 191), 9.0, 62.5, 1.8*PI));
+  moons.add(new CelestialBody(planets.get(3), color(51 , 153, 187), 5.0, 35.0, 1.2*PI));
+} 
+
+void draw() {
+  background(7, 59, 76);
+  
+  sun.display();
+  for (CelestialBody planet : planets) { planet.display(); }
+  for (CelestialBody moon : moons) { moon.display(); }
+}
+
+class CelestialBody {
+  CelestialBody primary;
+  color colorr;
+  float diameter;
+  float distance;
+  float speed;
+
+  PVector global_position;
+  PVector relative_position;
+  
+  CelestialBody(color _colorr, float _diameter) {
+    primary = null;
+    distance = 0.0;
+    speed = 0.0;
+    diameter = _diameter;
+    colorr = _colorr;
+
+    global_position = new PVector(width/2, height/2);
+    relative_position = new PVector(0, 0);
+  }
+
+  CelestialBody(CelestialBody _primary, color _colorr, float _diameter, float _distance, float _speed) {
+    primary = _primary;
+    colorr = _colorr;
+    diameter = _diameter;
+    distance = _distance;
+    speed = _speed;
+
+    relative_position = new PVector(distance, 0);
+    relative_position.rotate(random(0, TWO_PI));
+    global_position = new PVector(0,0);
+  }
+ 
+  void display() {
+    if (primary != null) {
+      global_position.x = primary.global_position.x + relative_position.x;
+      global_position.y = primary.global_position.y + relative_position.y;
+    }
+    
+    fill(colorr);
+    ellipse(global_position.x, global_position.y, diameter, diameter);
+
+    relative_position.rotate(speed * delta);
+  }
+}

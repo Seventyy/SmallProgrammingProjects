@@ -66,16 +66,16 @@ void draw() {
   pointLight(255,  250,  220,  0,  0,  0);
 
    // planet + 2 moons + beacon
-   pushMatrix();
-    rotateY(0.8*t);
-    translate(420, 0, 0);
-    pushMatrix();
-      rotateY(3*t);
-      translate(36, 0, 0);
-      spotLight(10, 10, 255, 0, 0, 0, 1, 0, 0, 0.5*PI, 5);
-      rotateZ(-0.5*PI);
-      shape(beacon_o);
-      shape(beacon_i);
+  pushMatrix();
+  rotateY(0.8*t);
+  translate(420, 0, 0);
+  pushMatrix();
+    rotateY(3*t);
+    translate(36, 0, 0);
+    spotLight(10, 10, 255, 0, 0, 0, 1, 0, 0, 0.5*PI, 5);
+    rotateZ(-0.5*PI);
+    shape(beacon_o);
+    shape(beacon_i);
     popMatrix();
     pushMatrix();
       rotateY(4.6*t);

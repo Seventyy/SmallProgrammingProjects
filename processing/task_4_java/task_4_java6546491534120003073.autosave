@@ -1,0 +1,48 @@
+CelestialBody sun, p1, p2, p3;
+float delta = 1 / frameRate;
+
+void setup() {
+  size(1280, 720);
+  noStroke();
+  
+  sun = new CelestialBody( new PVector(1280/2, 720/2),  16, TWO_PI);
+}
+
+void draw() {
+  background(102);
+  
+  p1.update(mouseX, mouseY);
+  p2.update(mouseX, mouseY);
+  p3.update(mouseX, mouseY);
+
+  p1.display();
+  p2.display();
+  p3.display();
+}
+
+class CelestialBody {
+  CelestialBody primary;
+  PVector pos;
+  float radius;
+  float speed;
+  float angle = 0.0;
+  
+  CelestialBody(PVector _pos, float _radius, float _speed, CelestialBody primary) {
+    pos = _pos;
+    radius = _radius;
+    speed = _speed;
+ }
+ 
+  void display() {
+    // pushMatrix();
+    pos.rotate(speed * delta);
+
+    // translate(x, y);
+    fill(255);
+    ellipse(0, 0, size, size);
+    // rotate(angle);
+    // fill(153, 204, 0);
+    // ellipse(size/4, 0, size/2, size/2);
+    // popMatrix();
+  }
+}

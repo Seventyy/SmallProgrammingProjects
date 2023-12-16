@@ -1,0 +1,128 @@
+import java.util.ArrayList;
+
+CelestialBody sun;
+ArrayList<CelestialBody> planets = new ArrayList<>();
+ArrayList<CelestialBody> moons = new ArrayList<>();
+ArrayList<Asteroid> asteroids = new ArrayList<>();
+
+float delta = 1 / frameRate;
+
+void setup() {
+  size(1280, 720);
+  noStroke();
+
+  sun = new CelestialBody(color(255, 209, 102), 75.0);
+  
+  planets.add(new CelestialBody(sun, color(239, 71 , 111), 20.0, 100.0, 0.26*PI));
+  planets.add(new CelestialBody(sun, color(247, 140, 107), 25.0, 210.0, 0.19*PI));
+  planets.add(new CelestialBody(sun, color(6  , 214, 160), 60.0, 350.0, 0.09*PI));
+  planets.add(new CelestialBody(sun, color(17 , 138, 178), 50.0, 490.0, 0.03*PI));
+
+  moons.add(new CelestialBody(planets.get(0), color(244, 107, 139), 11.0, 25.0, 0.93*PI));
+  moons.add(new CelestialBody(planets.get(0), color(249, 153, 175), 9.0, 35.0, 0.73*PI));
+  
+  moons.add(new CelestialBody(planets.get(1), color(255, 173, 147), 13.0, 22.5, 0.79*PI));
+  moons.add(new CelestialBody(planets.get(1), color(255, 205, 189), 10.0, 37.5, 0.39*PI));
+  
+  moons.add(new CelestialBody(planets.get(2), color(47 , 219, 176), 12.0, 47.5, 0.86*PI));
+  moons.add(new CelestialBody(planets.get(2), color(90 , 225, 191), 14.0, 62.5, 0.60*PI));
+  
+  moons.add(new CelestialBody(planets.get(3), color(89, 175, 203), 18.0, 40.0, 0.40*PI));
+
+  asteroids.add(new Asteroid());
+} 
+
+void draw() {
+  background(7, 59, 76);
+  
+  sun.display();
+  for (CelestialBody planet : planets) { planet.display(); }
+  for (CelestialBody moon : moons) { moon.display(); }
+  for (Asteroid asteroid : asteroids) { asteroid.display(planets); }
+}
+
+class CelestialBody {
+  CelestialBody primary;
+  color colorr;
+  float diameter;
+  float distance;
+  float speed;
+
+  PVector global_position;
+  PVector relative_position;
+  
+  CelestialBody(color _colorr, float _diameter) {
+    primary = null;
+    distance = 0.0;
+    speed = 0.0;
+    diameter = _diameter;
+    colorr = _colorr;
+
+    global_position = new PVector(width/2, height/2);
+    relative_position = new PVector(0, 0);
+  }
+
+  CelestialBody(CelestialBody _primary, color _colorr, float _diameter, float _distance, float _speed) {
+    primary = _primary;
+    colorr = _colorr;
+    diameter = _diameter;
+    distance = _distance;
+    speed = _speed;
+
+    relative_position = new PVector(distance, 0);
+    //relative_position.rotate(random(0, TWO_PI));
+    global_position = new PVector(0,0);
+  }
+ 
+  void display() {
+    if (primary != null) {
+      global_position.x = primary.global_position.x + relative_position.x;
+      global_position.y = primary.global_position.y + relative_position.y;
+    }
+    
+    fill(colorr);
+    ellipse(global_position.x, global_position.y, diameter, diameter);
+
+    //relative_position.rotate(speed * delta);
+  }
+}
+
+class Asteroid {
+  float g_constant;
+  float speed;
+  float max_speed;
+  
+  PVector force;
+  PVector velocity;
+  PVector position;
+  
+  Asteroid() {
+    position = new PVector(random(0, width), random(0, height));
+    g_constant = 0.1;
+    max_speed = 500;
+    force = new PVector(0,0);
+    velocity = new PVector(10,0);
+    position = new PVector(500, 100);
+  }
+ 
+  void display(ArrayList<CelestialBody> planets) {
+
+    for (CelestialBody planet : planets) {
+      float distance = PVector.sub(planet.global_position, position).mag();
+      if (distance <= planet.diameter/2)
+        velocity.rotate(PI);
+        
+      PVector direction = PVector.sub(planet.global_position, position).normalize();
+      float magnitude = pow(planet.diameter, 3.0) / pow(distance, 2.0);
+      //float magnitude = planet.diameter / PVector.sub(planet.global_position, position).mag();
+      force.add(PVector.mult(direction, magnitude * g_constant));
+    }
+    
+    velocity.add(force);
+    position.add(PVector.mult(velocity, delta));
+    fill(100);
+    ellipse(position.x, position.y, 10, 10);
+
+    force = new PVector(0,0);
+  }
+}

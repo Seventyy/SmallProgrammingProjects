@@ -1,0 +1,47 @@
+Planet p1, p2, p3;
+
+void setup() {
+  size(1280, 720);
+  noStroke();
+  p1 = new Planet( 250,  16, 120);
+  p2 = new Planet( 164, 185,  80);  
+  p3 = new Planet( 420, 230, 220);
+}
+
+void draw() {
+  background(102);
+  
+  p1.update(mouseX, mouseY);
+  p2.update(mouseX, mouseY);
+  p3.update(mouseX, mouseY);
+
+  p1.display();
+  p2.display();
+  p3.display();
+}
+
+class Planet {
+  PVector pos;
+  float radius;
+  float angle = 0.0;
+  
+  Planet(PVector _pos, float _radius) {
+    pos = _pos;
+    radius = _radius;
+ }
+
+  void update(int mx, int my) {
+    angle = atan2(my-y, mx-x);
+  }
+  
+  void display() { 
+    pushMatrix();
+    translate(x, y);
+    fill(255);
+    ellipse(0, 0, size, size);
+    rotate(angle);
+    fill(153, 204, 0);
+    ellipse(size/4, 0, size/2, size/2);
+    popMatrix();
+  }
+}
