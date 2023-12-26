@@ -1,7 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://6mv8ilgynctq"]
+[gd_scene load_steps=3 format=3 uid="uid://6mv8ilgynctq"]
 
 [ext_resource type="Script" path="res://calculator.gd" id="1_q5trp"]
-[ext_resource type="PackedScene" uid="uid://c55wrfjg6k1id" path="res://access_point.tscn" id="2_cq4je"]
 
 [sub_resource type="Gradient" id="Gradient_upt3i"]
 offsets = PackedFloat32Array(0, 0.5, 1)
@@ -10,57 +9,9 @@ metadata/_snap_enabled = true
 
 [node name="Calculator" type="Node2D"]
 script = ExtResource("1_q5trp")
-intercept = -43.0
-path_loss_exponent = 2473.01
+intercept = -57.0
+path_loss_exponent = 1.77
 show_reference_path = true
-show_displasements = true
+show_approximations = true
+show_approximate_path = true
 path_gradient = SubResource("Gradient_upt3i")
-
-[node name="AccessPointA" parent="." node_paths=PackedStringArray("calculator") instance=ExtResource("2_cq4je")]
-position = Vector2(6000, 4000)
-calculator = NodePath("..")
-radius = 1000.0
-strength = -43
-
-[node name="Handle" parent="AccessPointA" index="0"]
-position = Vector2(1500, 0)
-
-[node name="Label" parent="AccessPointA" index="1"]
-text = "A"
-
-[node name="StengthLabel" parent="AccessPointA" index="2"]
-text = "-43"
-
-[node name="AccessPointB" parent="." node_paths=PackedStringArray("calculator") instance=ExtResource("2_cq4je")]
-position = Vector2(6000, 0)
-calculator = NodePath("..")
-radius = 1000.65
-strength = -50
-
-[node name="Handle" parent="AccessPointB" index="0"]
-position = Vector2(1500, 0)
-
-[node name="Label" parent="AccessPointB" index="1"]
-text = "B"
-
-[node name="StengthLabel" parent="AccessPointB" index="2"]
-text = "-50"
-
-[node name="AccessPointC" parent="." node_paths=PackedStringArray("calculator") instance=ExtResource("2_cq4je")]
-position = Vector2(0, 2000)
-calculator = NodePath("..")
-radius = 1000.28
-strength = -46
-
-[node name="Handle" parent="AccessPointC" index="0"]
-position = Vector2(1500, 0)
-
-[node name="Label" parent="AccessPointC" index="1"]
-text = "C"
-
-[node name="StengthLabel" parent="AccessPointC" index="2"]
-text = "-46"
-
-[editable path="AccessPointA"]
-[editable path="AccessPointB"]
-[editable path="AccessPointC"]

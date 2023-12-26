@@ -1,77 +1,21 @@
 @tool 
 class_name Calculator extends Node2D
 
-var displacements:Array[PackedVector2Array]
-var laps:Array[Lap]
-var approximate_path:Array[Vector2]
-
-## references
-@onready var access_point_a:AccessPoint = $AccessPointA
-@onready var access_point_b:AccessPoint = $AccessPointB
-@onready var access_point_c:AccessPoint = $AccessPointC
+const a_position:Vector2 = Vector2(6000,4000)
+const b_position:Vector2 = Vector2(6000,0)
+const c_position:Vector2 = Vector2(0,2000)
 
 ## rrsi to distance variables
 @export_category("RRSI to Distance Variables")
-@export var intercept:float = -64:
-	set(val):
-		intercept = val
-		calculate_approximate_path()
-		queue_redraw()
-@export var path_loss_exponent:float = 3:
-	set(val):
-		path_loss_exponent = val
-		calculate_approximate_path()
-		queue_redraw()
+@export var intercept:float = -64
+@export var path_loss_exponent:float = 3
 
 @export_category("Visibility Toggles")
-@export var show_reference_path:bool:
-	set(val):
-		show_reference_path = val
-		queue_redraw()
-@export var show_intersection_pairs:bool:
-	set(val):
-		show_intersection_pairs = val
-		queue_redraw()
-@export var show_triplet_triangle:bool:
-	set(val):
-		show_triplet_triangle = val
-		queue_redraw()
-@export var show_secondary_intersections:bool:
-	set(val):
-		show_secondary_intersections = val
-		queue_redraw()
-@export var show_primary_intersections:bool:
-	set(val):
-		show_primary_intersections = val
-		queue_redraw()
-@export var show_centroid:bool:
-	set(val):
-		show_centroid = val
-		queue_redraw()
-@export var show_displasements:bool:
-	set(val):
-		show_displasements = val
-		queue_redraw()
-@export var show_approximate_path:bool:
-	set(val):
-		show_approximate_path = val
-		queue_redraw()
+@export var show_reference_path:bool
+@export var show_approximations:bool
+@export var show_approximate_path:bool
 
 @export_category("Resets")
-@export var reset_positions:bool:
-	set(val):
-		access_point_a.position = Vector2(6000,4000)
-		access_point_b.position = Vector2(6000,0)
-		access_point_c.position = Vector2(0,2000)
-@export var reset_radii:bool:
-	set(val):
-		access_point_a.radius = 1500
-		access_point_b.radius = 1500
-		access_point_c.radius = 1500
-		
-		access_point_a.handle.position = Vector2.RIGHT * access_point_a.radius
-		access_point_b.handle.position = Vector2.RIGHT * access_point_b.radius
-		access_point_c.handle.position = Vector2.RIGHT * access_point_c.radius
 @export var redraw:bool:
 	set(val):
 		queue_redraw()
@@ -79,10 +23,6 @@ var approximate_path:Array[Vector2]
 @export_category("Path approximation")
 @export var path_gradient:Gradient
 
-@export var calculate_approximate_path_button:bool:
-	set(val):
-		calculate_approximate_path()
-		queue_redraw()
 @export var optimise:bool:
 	set(val):
 		optimise_path()
@@ -93,8 +33,8 @@ class Lap:
 	var ap_b_readings:Array[int]
 	var ap_c_readings:Array[int]
 
-func set_laps_data() -> void:
-	laps.clear()
+func get_laps_data() -> Array[Lap]:
+	var laps:Array[Lap]
 	
 	var lap_1:Lap = Lap.new()
 	var lap_2:Lap = Lap.new()
@@ -120,163 +60,149 @@ func set_laps_data() -> void:
 	laps.append(lap_2)
 	laps.append(lap_3)
 	laps.append(lap_4)
+	
+	return laps
 
-var reference_path:PackedVector2Array = PackedVector2Array([
-	Vector2(4000, 4000),
-	Vector2(3000, 4000),
-	Vector2(2293, 3708),
-	Vector2(2000, 3000),
-	Vector2(2000, 2000),
-	Vector2(1708, 1293),
-	Vector2(1000, 1000),
-	Vector2(0, 1000),
-	Vector2(0, 0),
-	Vector2(1000, 0),
-	Vector2(2000, 0),
-	Vector2(3000, 0),
-	Vector2(4000, 0),
-	Vector2(5000, 134),
-	Vector2(5866, 1000),
-	Vector2(6000, 2000),
-	Vector2(5866, 3000),
-	Vector2(5000, 3866),
-])
+func get_reference_path() -> PackedVector2Array:
+	return PackedVector2Array([
+		Vector2(4000, 4000),
+		Vector2(3000, 4000),
+		Vector2(2293, 3708),
+		Vector2(2000, 3000),
+		Vector2(2000, 2000),
+		Vector2(1708, 1293),
+		Vector2(1000, 1000),
+		Vector2(0, 1000),
+		Vector2(0, 0),
+		Vector2(1000, 0),
+		Vector2(2000, 0),
+		Vector2(3000, 0),
+		Vector2(4000, 0),
+		Vector2(5000, 134),
+		Vector2(5866, 1000),
+		Vector2(6000, 2000),
+		Vector2(5866, 3000),
+		Vector2(5000, 3866),
+	])
 
 func optimise_path() -> void:
-	var running_smallest_error:float = INF
+	var laps_data:Array[Lap] = get_laps_data()
+	var approximations:Array[PackedVector2Array] = get_approximations(laps_data)
+	
+	var running_smallest_error_sum:float = INF
 	var running_best_intercept:float
 	var running_best_path_loss_exponent:float
-	for i in range(-60, -40, 1):
+	
+	for i in range(-280, -30, 1):
 		for p in range(10, 50, 1):
-			var new_p:float = p / 10
+		#for p in range(10, 50, 1).map(func(n:float) -> float: return n / 10.0):
+		#print([1, 2, 3].map(func(number): return -number)) 
+			p = p / 10
+			
 			intercept = i
-			path_loss_exponent = new_p
-			var error:float = calculate_error()
+			path_loss_exponent = p
+			
+			var error_sum:float = calculate_error_sum(approximations)
 			#print(error)
-			if error < running_smallest_error:
-				running_smallest_error = error
+			if error_sum < running_smallest_error_sum:
+				running_smallest_error_sum = error_sum
 				running_best_intercept = i
-				running_best_path_loss_exponent = new_p
+				running_best_path_loss_exponent = p
 		print(i)
+	print("smallest error:", running_smallest_error_sum)
+	print("running_best_intercept:", running_best_intercept)
+	print("running_best_path_loss_exponent:", running_best_path_loss_exponent)
+	
 	intercept = running_best_intercept
-	path_loss_exponent = running_smallest_error
-	print("smallest error:", running_smallest_error)
+	path_loss_exponent = running_best_path_loss_exponent
 
 ## optimisation
-func calculate_error() -> float:
+func calculate_error_sum(approximations:Array[PackedVector2Array]) -> float:
+	var reference_path = get_reference_path()
+	
 	var running_sum:float
-	var denominator:int
-	for i in reference_path.size():
-		for j in laps.size():
-			running_sum += reference_path[i].distance_to(displacements[i][j])
-			denominator += 1
-	return running_sum / denominator
+	for reference_point_index in reference_path.size():
+		for lap_index in approximations[reference_point_index].size():
+			running_sum += reference_path[reference_point_index].distance_to(approximations[reference_point_index][lap_index])
+	return running_sum
 
 ## path approximation
-func calculate_displasements() -> void:
-	set_laps_data()
-	displacements.clear()
-	for i in reference_path.size():
+func get_approximations(laps:Array[Lap]) -> Array[PackedVector2Array]:
+	var reference_path = get_reference_path()
+	var approximations:Array[PackedVector2Array]
+	
+	for reference_point_index in reference_path.size():
 		var resoults:Array[Vector2] 
 		
-		for j in laps.size():
-			access_point_a.strength = laps[j].ap_a_readings[i]
-			access_point_b.strength = laps[j].ap_b_readings[i]
-			access_point_c.strength = laps[j].ap_c_readings[i]
-			
-			resoults.append(get_centroid())
+		for lap_index in laps.size():
+			resoults.append(approximate_position(
+				a_position, rssi_to_distance(laps[lap_index].ap_a_readings[reference_point_index]),
+				b_position, rssi_to_distance(laps[lap_index].ap_b_readings[reference_point_index]),
+				c_position, rssi_to_distance(laps[lap_index].ap_c_readings[reference_point_index])
+			))
 		
-		displacements.append(PackedVector2Array(resoults))
+		approximations.append(PackedVector2Array(resoults))
+	return approximations
 
-func calculate_approximate_path() -> void:
-	calculate_displasements()
-	approximate_path.clear()
-	for d in displacements:
+func get_approximate_path(approximations:Array[PackedVector2Array]) -> Array[Vector2]:
+	var approximate_path:Array[Vector2]
+	
+	for reference_point_approximations in approximations:
 		var running_avarage:Vector2
-		for v in d:
-			running_avarage += v
-		approximate_path.append(running_avarage/4)
+		for approximation in reference_point_approximations:
+			running_avarage += approximation
+		approximate_path.append(running_avarage/reference_point_approximations.size())
+	
+	return approximate_path
 
 func rssi_to_distance(strength:float) -> float:
-	#return 400.5
 	return pow(10,((strength-intercept)/(-10*path_loss_exponent))) * 1_000
 
 ## centroid calculations
-func calculate_intersections(circle1:AccessPoint, circle2:AccessPoint) -> Array[Vector2]:
-	#circle1.position.x, circle1.position.y, circle1.radius = circle1
-	#circle2.position.x, circle2.position.y, circle2.radius = circle2
+func calculate_intersections(
+		circle1_position:Vector2, circle1_radius:float,
+		circle2_position:Vector2, circle2_radius:float
+	) -> Array[Vector2]:
+	var d:float = sqrt((circle2_position.x - circle1_position.x)**2 + (circle2_position.y - circle1_position.y)**2)
 	
-	var d:float = sqrt((circle2.position.x - circle1.position.x)**2 + (circle2.position.y - circle1.position.y)**2)
-	
-	## proporional outside, this same (broken) proportional inside
-	#if d > circle1.radius + circle2.radius or d < abs(circle1.radius - circle2.radius):
-		#return [
-			#circle1.position + circle1.position.direction_to(circle2.position) * \
-			#circle1.radius / (circle1.radius + circle2.radius) * \
-			#circle1.position.distance_to(circle2.position)
-		#]
-	
-	## proporional outside, closest two inside
-	#if d > circle1.radius + circle2.radius:
-		#return [
-			#circle1.position + circle1.position.direction_to(circle2.position) * \
-			#circle1.radius / (circle1.radius + circle2.radius) * \
-			#circle1.position.distance_to(circle2.position)
-		#]
-	#elif d < abs(circle1.radius - circle2.radius):
-		#var size_sign:int = 1 if circle1.radius < circle2.radius else -1
-		#return [
-			#circle1.position + \
-			#circle1.position.direction_to(circle2.position) * -size_sign * circle1.radius,
-			#circle2.position + \
-			#circle2.position.direction_to(circle1.position) * size_sign * circle2.radius
-		#] 
-	
-	## newest, proportional both inside and outside
-	var is_inside:bool = d < abs(circle1.radius - circle2.radius)
-	var is_outside:bool = d > circle1.radius + circle2.radius
+	var is_inside:bool = d < abs(circle1_radius - circle2_radius)
+	var is_outside:bool = d > circle1_radius + circle2_radius
 	
 	if is_inside or is_outside:
 		if is_inside:
-			var size_sign:int = 1 if circle1.radius < circle2.radius else -1
+			var size_sign:int = 1 if circle1_radius < circle2_radius else -1
 			if is_inside == false:
 				size_sign = 1
 			var circle1_near:Vector2 = \
-				circle1.position + circle1.position.direction_to(circle2.position) * -size_sign * circle1.radius
+				circle1_position + circle1_position.direction_to(circle2_position) * -size_sign * circle1_radius
 			var circle2_near:Vector2 = \
-				circle2.position + circle2.position.direction_to(circle1.position) * size_sign * circle2.radius
+				circle2_position + circle2_position.direction_to(circle1_position) * size_sign * circle2_radius
 			
 			return [
 				circle1_near + circle1_near.direction_to(circle2_near) * \
-				circle1.radius / (circle1.radius + circle2.radius) * \
+				circle1_radius / (circle1_radius + circle2_radius) * \
 				circle1_near.distance_to(circle2_near)
 			]
-			## proportional other way
-			#return [
-				#circle2_near + circle2_near.direction_to(circle1_near) * \
-				#circle1.radius / (circle1.radius + circle2.radius) * \
-				#circle1_near.distance_to(circle2_near)
-			#]
 			
 		elif is_outside:
 			return [
-				circle1.position + circle1.position.direction_to(circle2.position) * \
-				circle1.radius / (circle1.radius + circle2.radius) * \
-				circle1.position.distance_to(circle2.position)
+				circle1_position + circle1_position.direction_to(circle2_position) * \
+				circle1_radius / (circle1_radius + circle2_radius) * \
+				circle1_position.distance_to(circle2_position)
 			]
 	
 	## intersecting circles 
-	var a:float = (circle1.radius**2 - circle2.radius**2 + d**2) / (2 * d)
-	var h:float = sqrt(circle1.radius**2 - a**2)
+	var a:float = (circle1_radius**2 - circle2_radius**2 + d**2) / (2 * d)
+	var h:float = sqrt(circle1_radius**2 - a**2)
 	
-	var x2:float = circle1.position.x + a * (circle2.position.x - circle1.position.x) / d
-	var y2:float = circle1.position.y + a * (circle2.position.y - circle1.position.y) / d
+	var x2:float = circle1_position.x + a * (circle2_position.x - circle1_position.x) / d
+	var y2:float = circle1_position.y + a * (circle2_position.y - circle1_position.y) / d
 	
-	var x3:float = x2 + h * (circle2.position.y - circle1.position.y) / d
-	var y3:float = y2 - h * (circle2.position.x - circle1.position.x) / d
+	var x3:float = x2 + h * (circle2_position.y - circle1_position.y) / d
+	var y3:float = y2 - h * (circle2_position.x - circle1_position.x) / d
 	
-	var x4:float = x2 - h * (circle2.position.y - circle1.position.y) / d
-	var y4:float = y2 + h * (circle2.position.x - circle1.position.x) / d
+	var x4:float = x2 - h * (circle2_position.y - circle1_position.y) / d
+	var y4:float = y2 + h * (circle2_position.x - circle1_position.x) / d
 	
 	return [Vector2(x3, y3), Vector2(x4, y4)]
 
@@ -311,69 +237,43 @@ func calculate_smallest_perimeter_triplet(
 func calculate_centroid(points: Array[Vector2]) -> Vector2:
 	return (points[0] + points[1] + points[2]) / 3
 
-func get_centroid() -> Vector2:
+func approximate_position(
+		circle1_position:Vector2, circle1_radius:float,
+		circle2_position:Vector2, circle2_radius:float,
+		circle3_position:Vector2, circle3_radius:float
+	) -> Vector2:
 	return calculate_centroid( 
 		calculate_smallest_perimeter_triplet(
-			calculate_intersections(access_point_a, access_point_b),
-			calculate_intersections(access_point_b, access_point_c),
-			calculate_intersections(access_point_c, access_point_a)
+			calculate_intersections(
+				circle1_position, circle1_radius,
+				circle2_position, circle2_radius),
+			calculate_intersections(
+				circle2_position, circle2_radius,
+				circle3_position, circle3_radius),
+			calculate_intersections(
+				circle3_position, circle3_radius,
+				circle1_position, circle1_radius),
 		)
 	)
 
+
 ## drawing
 func _draw() -> void:
-	#var reference_path_closed:PackedVector2Array = Array(reference_path) + [reference_path[0]]
-	
+	var reference_path = get_reference_path()
 	if show_reference_path:
-		draw_polyline(reference_path, Color.DEEP_PINK)
-		draw_circle(reference_path[0], 10, Color.DEEP_PINK)
-	
-	var intersections_ab: Array[Vector2] = calculate_intersections(access_point_a, access_point_b)
-	var intersections_bc: Array[Vector2] = calculate_intersections(access_point_b, access_point_c)
-	var intersections_ca: Array[Vector2] = calculate_intersections(access_point_c, access_point_a)
-	
-	var all_intersections:Array[Vector2] = \
-		intersections_ab + intersections_bc + intersections_ca
-	
-	var smallest_perimeter_triplet:Array[Vector2] = \
-		calculate_smallest_perimeter_triplet(
-		intersections_ab, intersections_bc, intersections_ca
-	)
-	
-	var centroid:Vector2 = calculate_centroid( 
-		smallest_perimeter_triplet
-	)
-	
-	if show_secondary_intersections:
-		for i in all_intersections.filter(func(point):
-			return not point in smallest_perimeter_triplet):
-			draw_circle(i, 100, Color.DIM_GRAY)
-	
-	if show_intersection_pairs:
-		if intersections_ab.size() == 2:
-			draw_dashed_line(intersections_ab[0], intersections_ab[1], Color.CADET_BLUE, -1, 100)
-		if intersections_bc.size() == 2:
-			draw_dashed_line(intersections_bc[0], intersections_bc[1], Color.CADET_BLUE, -1, 100)
-		if intersections_ca.size() == 2:
-			draw_dashed_line(intersections_ca[0], intersections_ca[1], Color.CADET_BLUE, -1, 100)
-	
-	if show_triplet_triangle:
-		draw_polygon(PackedVector2Array(smallest_perimeter_triplet), PackedColorArray([Color.LIGHT_CORAL]))
-	
-	if show_primary_intersections:
-		for i in smallest_perimeter_triplet:
-			draw_circle(i, 100, Color.YELLOW)
-	
-	if show_centroid:
-		draw_circle(centroid, 100, Color.GREEN)
+		draw_polyline(reference_path, Color.WHITE)
+		draw_circle(reference_path[0], 10, Color.WHITE)
 		
-	#for i in 1:
-	if show_displasements:
+	var laps:Array[Lap] = get_laps_data()
+	var approximations:Array[PackedVector2Array] = get_approximations(laps)
+	var approximate_path:Array[Vector2] = get_approximate_path(approximations)
+	
+	if show_approximations:
 		for i in reference_path.size():
 			for j in laps.size():
 				var color:Color = path_gradient.sample(1.0*i/reference_path.size()).darkened(0.2*j)
-				draw_line(reference_path[i], displacements[i][j], color)
-				draw_circle(displacements[i][j], 35, color)
+				draw_line(reference_path[i], approximations[i][j], color)
+				draw_circle(approximations[i][j], 35, color)
 	
 	if show_approximate_path:
 		draw_polyline(approximate_path, Color.YELLOW, 50)
