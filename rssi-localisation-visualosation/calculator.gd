@@ -83,6 +83,9 @@ var approximate_path:Array[Vector2]
 	set(val):
 		calculate_approximate_path()
 		queue_redraw()
+@export var optimise:bool:
+	set(val):
+		optimise_path()
 
 ## data
 class Lap:
@@ -138,6 +141,36 @@ var reference_path:PackedVector2Array = PackedVector2Array([
 	Vector2(5866, 3000),
 	Vector2(5000, 3866),
 ])
+
+func optimise_path() -> void:
+	var running_smallest_error:float = INF
+	var running_best_intercept:float
+	var running_best_path_loss_exponent:float
+	for i in range(-60, -40, 1):
+		for p in range(10, 50, 1):
+			var new_p:float = p / 10
+			intercept = i
+			path_loss_exponent = new_p
+			var error:float = calculate_error()
+			#print(error)
+			if error < running_smallest_error:
+				running_smallest_error = error
+				running_best_intercept = i
+				running_best_path_loss_exponent = new_p
+		print(i)
+	intercept = running_best_intercept
+	path_loss_exponent = running_smallest_error
+	print("smallest error:", running_smallest_error)
+
+## optimisation
+func calculate_error() -> float:
+	var running_sum:float
+	var denominator:int
+	for i in reference_path.size():
+		for j in laps.size():
+			running_sum += reference_path[i].distance_to(displacements[i][j])
+			denominator += 1
+	return running_sum / denominator
 
 ## path approximation
 func calculate_displasements() -> void:

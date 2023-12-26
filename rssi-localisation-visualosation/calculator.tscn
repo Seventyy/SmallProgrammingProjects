@@ -10,21 +10,20 @@ metadata/_snap_enabled = true
 
 [node name="Calculator" type="Node2D"]
 script = ExtResource("1_q5trp")
-intercept = -49.115
-path_loss_exponent = 1.045
+intercept = -43.0
+path_loss_exponent = 2473.01
 show_reference_path = true
 show_displasements = true
-show_approximate_path = true
 path_gradient = SubResource("Gradient_upt3i")
 
 [node name="AccessPointA" parent="." node_paths=PackedStringArray("calculator") instance=ExtResource("2_cq4je")]
 position = Vector2(6000, 4000)
 calculator = NodePath("..")
-radius = 259.916
+radius = 1000.0
 strength = -43
 
 [node name="Handle" parent="AccessPointA" index="0"]
-position = Vector2(1152, -2614)
+position = Vector2(1500, 0)
 
 [node name="Label" parent="AccessPointA" index="1"]
 text = "A"
@@ -33,13 +32,13 @@ text = "A"
 text = "-43"
 
 [node name="AccessPointB" parent="." node_paths=PackedStringArray("calculator") instance=ExtResource("2_cq4je")]
-position = Vector2(0, 2000)
+position = Vector2(6000, 0)
 calculator = NodePath("..")
-radius = 1215.32
+radius = 1000.65
 strength = -50
 
 [node name="Handle" parent="AccessPointB" index="0"]
-position = Vector2(-504, 1919)
+position = Vector2(1500, 0)
 
 [node name="Label" parent="AccessPointB" index="1"]
 text = "B"
@@ -48,13 +47,13 @@ text = "B"
 text = "-50"
 
 [node name="AccessPointC" parent="." node_paths=PackedStringArray("calculator") instance=ExtResource("2_cq4je")]
-position = Vector2(6000, 0)
+position = Vector2(0, 2000)
 calculator = NodePath("..")
-radius = 503.401
+radius = 1000.28
 strength = -46
 
 [node name="Handle" parent="AccessPointC" index="0"]
-position = Vector2(3380, 549)
+position = Vector2(1500, 0)
 
 [node name="Label" parent="AccessPointC" index="1"]
 text = "C"
