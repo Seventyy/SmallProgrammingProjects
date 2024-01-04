@@ -9,8 +9,8 @@ metadata/_snap_enabled = true
 
 [node name="Calculator" type="Node2D"]
 script = ExtResource("1_q5trp")
-intercept = -57.0
-path_loss_exponent = 1.77
+intercept = -47.07
+path_loss_exponent = 1.08
 show_reference_path = true
 show_approximations = true
 show_approximate_path = true

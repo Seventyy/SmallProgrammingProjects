@@ -7,8 +7,14 @@ const c_position:Vector2 = Vector2(6000,0)
 
 ## rrsi to distance variables
 @export_category("RRSI to Distance Variables")
-@export var intercept:float = -64
-@export var path_loss_exponent:float = 3
+@export var intercept:float = -64:
+	set(val):
+		intercept = val
+		queue_redraw()
+@export var path_loss_exponent:float = 3:
+	set(val):
+		path_loss_exponent = val
+		queue_redraw()
 
 @export_category("Visibility Toggles")
 @export var show_reference_path:bool
@@ -26,6 +32,10 @@ const c_position:Vector2 = Vector2(6000,0)
 @export var optimise:bool:
 	set(val):
 		optimise_path()
+
+@export var print_error_sum:bool:
+	set(val):
+		print(calculate_error_sum(get_approximations(get_laps_data())))
 
 ## data
 class Lap:
