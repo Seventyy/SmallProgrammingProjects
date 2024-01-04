@@ -2,8 +2,8 @@
 class_name Calculator extends Node2D
 
 const a_position:Vector2 = Vector2(6000,4000)
-const b_position:Vector2 = Vector2(6000,0)
-const c_position:Vector2 = Vector2(0,2000)
+const b_position:Vector2 = Vector2(0,2000)
+const c_position:Vector2 = Vector2(6000,0)
 
 ## rrsi to distance variables
 @export_category("RRSI to Distance Variables")
