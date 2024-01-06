@@ -7,38 +7,23 @@ ArrayList<CelestialBody> moons = new ArrayList<>();
 float delta;
 
 void setup() {
-  size(2560, 1440, P3D);
+  size(1280, 720, P3D);
   noStroke();
-  
 
   fill(255, 209, 102);
-  //specular(255, 255, 255);
-  emissive(255, 209, 102); 
   sun = new CelestialBody(createShape(SPHERE, 75));
-  //pointLight(255, 255, 204, 0, 0, 0);
   
-  
-  emissive(0, 0, 0); 
-  fill(239, 71 , 111);
   PShape planet_1 = loadShape("icosahedron.obj");
-  planet_1.setTexture(loadImage("planet_1_texture.png")); 
+  planet_1.setTexture(loadImage("planet_1_texture.png"));
+  
+  fill(239, 71 , 111);
   planets.add(new CelestialBody(sun, 20.0/2, 100.0, 0.26*PI, planet_1));
-
   fill(247, 140, 107);
-  PShape planet_2 = loadShape("icosahedron.obj");
-  planet_2.setTexture(loadImage("planet_2_texture.png"));
-  specular(255, 255, 255);
-  planets.add(new CelestialBody(sun, 25.0/2, 210.0, 0.19*PI, planet_2));
-
+  planets.add(new CelestialBody(sun, 25.0/2, 210.0, 0.19*PI, loadShape("icosahedron.obj").setTexture(loadImage("planet_2_texture.png"))));
   fill(6  , 214, 160);
-  PShape planet_3 = loadShape("icosahedron.obj");
-  planet_3.setTexture(loadImage("planet_3_texture.png"));
-  planets.add(new CelestialBody(sun, 60.0/2, 350.0, 0.09*PI, planet_3));
-
+  planets.add(new CelestialBody(sun, 60.0/2, 350.0, 0.09*PI, loadShape("icosahedron.obj").setTexture(loadImage("planet_3_texture.png"))));
   fill(17 , 138, 178);
-  PShape planet_4 = loadShape("icosahedron.obj");
-  planet_4.setTexture(loadImage("planet_4_texture.png"));
-  planets.add(new CelestialBody(sun, 50.0/2, 490.0, 0.03*PI, planet_4));
+  planets.add(new CelestialBody(sun, 50.0/2, 490.0, 0.03*PI, loadShape("icosahedron.obj").setTexture(loadImage("planet_4_texture.png"))));
 
   fill(244, 107, 139);
   moons.add(new CelestialBody(planets.get(0), 11.0, 25.0,-0.93*PI, createShape(BOX, 1)));
@@ -63,12 +48,8 @@ void setup() {
 
 void draw() {
   delta = 1/frameRate;
-  
-  directionalLight(255, 255, 255, 0, 1, -1); 
-
-  
   background(7, 59, 76);
-  //lights();
+  lights();
   
   sun.display();
   for (CelestialBody planet : planets) { planet.display(); }
@@ -103,7 +84,7 @@ class CelestialBody {
     distance = _distance;
     speed = _speed;
     shape = _shape;
-  
+
     relative_position = new PVector(distance, 0);
     relative_position.rotate(random(0, TWO_PI));
     global_position = new PVector(0,0);
@@ -115,8 +96,6 @@ class CelestialBody {
     if (primary != null) {
       global_position.x = primary.global_position.x + relative_position.x;
       global_position.y = primary.global_position.y + relative_position.y;
-    } else {
-      pointLight(255, 255, 204, global_position.x, global_position.y, 0);
     }
     
     pushMatrix();
