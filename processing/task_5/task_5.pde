@@ -68,7 +68,6 @@ void draw() {
   directionalLight(255, 255, 255, 0, 1, -1); 
   directionalLight(1, 1, 1, 0, 1, -1); 
   lightSpecular(255, 255, 255);
-
   
   background(7, 59, 76);
   //lights();
@@ -129,7 +128,11 @@ class CelestialBody {
       spotLight(255, 255, 255,
        global_position.x+scale, global_position.y, 0,
        1, 0, 0, PI/16, 600);
-    } else {
+      pushMatrix();
+      translate(global_position.x+scale, global_position.y, 0);
+      sphere(10);
+      popMatrix();
+    }  {
       pushMatrix();
       translate(global_position.x, global_position.y, 0);
       shape(shape);

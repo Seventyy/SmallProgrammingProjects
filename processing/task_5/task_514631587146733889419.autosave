@@ -1,0 +1,44 @@
+  PImage textureImage;
+PShape customGeometry;
+
+void setup() {
+  size(800, 800, P3D);
+
+  // Load texture image
+  textureImage = loadImage("planet_1_texture.png");
+
+  // Load custom geometry from an OBJ file
+  customGeometry = loadShape("icosahedron.obj");
+
+  // Set the custom geometry to have a unique color
+  customGeometry.setFill(color(255, 200, 200)); // Some color of your choice
+}
+
+void draw() {
+  background(0);
+
+  // Create a textured sphere
+  pushMatrix();
+  translate(width * 0.3, height * 0.5);
+  noStroke();
+  textureMode(NORMAL);
+  sphereDetail(50);
+  beginShape(SPHERE);
+  texture(textureImage);
+  endShape();
+  popMatrix();
+
+  // Create a colored box with specular highlights
+  pushMatrix();
+  translate(width * 0.5, height * 0.5);
+  fill(0, 0, 255); // Set fill color to blue
+  specular(255, 255, 255); // Set specular color to white
+  box(100);
+  popMatrix();
+
+  // Display the custom geometry with its own unique color
+  pushMatrix();
+  translate(width * 0.7, height * 0.5);
+  shape(customGeometry);
+  popMatrix();
+}
