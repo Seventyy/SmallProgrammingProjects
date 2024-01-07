@@ -1,6 +1,6 @@
 # Blender 3.5.1
 # www.blender.org
-mtllib grafika_ujowy_statek.mtl
+mtllib spaceship.mtl
 o Cube
 v 2.344190 0.249905 -3.153338
 v 2.344190 -0.249905 -3.153338
