@@ -106,6 +106,12 @@ void draw() {
     0, 1, 0
   );
 
+  // println(camera_position);
+  // pushMatrix();
+  // translate(camera_position.x, camera_position.y - 100, camera_position.z);
+  // shape(spaceship);
+  // popMatrix();
+  
   fill(55);
   pushMatrix();
   float ship_distance = 20;
@@ -179,7 +185,10 @@ class CelestialBody {
       popMatrix();
     } 
     
+      
+    
     pushMatrix();
+    // global_position.z = deviation*deviation_scale;
     translate(global_position.x, global_position.y, global_position.z);
     shape(shape);
     popMatrix();
