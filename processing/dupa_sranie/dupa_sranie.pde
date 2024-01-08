@@ -4,6 +4,11 @@ import java.util.Arrays;
 PImage bg;
 PShape monke;
 PImage banana;
+PShape spaceship;
+
+PVector spaceship_position;
+float spaceship_speed;
+float fov = PI / 3.0;
 
 ArrayList<Planet> planets = new ArrayList<>();
 
@@ -14,11 +19,18 @@ void setup() {
   bg = loadImage("bg.bmp");
   monke = loadShape("monke.obj");
   banana = loadImage("banana.png");
-  
+  spaceship = loadShape("spaceship.obj");
+
   monke.setTexture(banana);
   monke.rotate(PI);
   monke.scale(80);
+
+  spaceship.setTexture(banana);
+  spaceship.scale(20);
   
+  spaceship_position = new PVector(1000, 0, 0);
+  spaceship_speed = 1000;
+
   planets.add(new Planet(700.0, 0.2*PI));
 
   planets.add(new Planet(color(20 , 75 , 160), 35, 120.0, 1.2*PI, 120.0/4, new ArrayList<>(Arrays.asList(
@@ -48,10 +60,15 @@ void draw() {
   
   lightSpecular(255, 255, 255);
   directionalLight(100, 100, 100, 1, 0, -1); 
-  // directionalLight(1, 1, 1, 1, 0, -1); 
+
+  updateSpaceship();
 
   translate(width/2, height/2);
 
+  perspective(fov, float(width)/float(height), ((height/2.0) / tan(PI*60.0/360.0))/10.0, ((height/2.0) / tan(PI*60.0/360.0))*10.0);
+  camera(0, cos(PI*mouseY/height) * 1000, sin(PI*mouseY/height) * 1000,
+    0, 0, 0,
+    0, 1, 0);
 
   fill(250, 250, 100);
   specular(250, 250, 100);
@@ -62,11 +79,35 @@ void draw() {
 
   emissive(0, 0, 0); 
 
-
   for (Planet planet : planets) { 
     planet.update();
     planet.draw(); 
   }
+
+  pushMatrix();
+  translate(spaceship_position.x, spaceship_position.y, spaceship_position.z);
+  shape(spaceship);
+  popMatrix();
+}
+
+void mouseWheel(MouseEvent event) {
+ fov -= event.getCount() * PI / 180; 
+ fov = constrain(fov, PI/6, PI/2); 
+}
+
+void updateSpaceship() {
+  if (keyPressed && key == 'w') {
+    spaceship_position.y -= spaceship_speed / 60;
+  } 
+  if (keyPressed && key == 's') {
+    spaceship_position.y += spaceship_speed / 60;
+  } 
+  if (keyPressed && key == 'a') {
+    spaceship_position.x -= spaceship_speed / 60;
+  } 
+  if (keyPressed && key == 'd') {
+    spaceship_position.x += spaceship_speed / 60;
+  } 
 }
 
 class Planet {
@@ -116,21 +157,15 @@ class Planet {
     } else {
       spotLight(
         255, 0, 255,
-        position.x, position.y-85, position.z,
+        position.x, position.y-80, position.z,
         0, -1, 0,
-        PI,
-        10
+        PI, 10
         );
       
       pushMatrix();
       translate(position.x, position.y, position.z);
       shape(monke);
       popMatrix();
-
-      // pushMatrix();
-      // translate(position.x, position.y-150, position.z);
-      // sphere(50);
-      // popMatrix();
     }
     
     for (Moon moon : moons) {
@@ -147,6 +182,7 @@ class Planet {
     position.rotate(angular_velocity / 60);
     for (Moon moon : moons) {
       moon.position.rotate(moon.angular_velocity / 60);
+      moon.position.z = sin(moon.position.heading() + moon.z_offset) * moon.z_max;
     }
 
     position.z = sin(position.heading() + z_offset) * z_max;
@@ -175,3 +211,4 @@ class Moon {
     position.rotate(random(0, TWO_PI));
   }
 }
+
