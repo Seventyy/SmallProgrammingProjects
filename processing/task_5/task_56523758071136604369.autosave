@@ -27,6 +27,7 @@ void setup() {
   specular(250);
   shininess(20);
   sun = new CelestialBody(createShape(SPHERE, 75));
+  //pointLight(255, 255, 204, 0, 0, 0);
   emissive(0, 0, 0);
   
   /// PLANETY
@@ -76,7 +77,7 @@ void setup() {
   shininess(20);
   
   fill(89 , 175, 203);  
-  moons.add(new CelestialBody(planets.get(3), 18.0, 40.0, 0.40*PI, createShape(BOX, 1), 11));
+  moons.add(new CelestialBody(planets.get(3), 18.0, 40.0, 0.40*PI, createShape(BOX, 1), 11));  
 
 } 
 
@@ -87,7 +88,6 @@ void draw() {
   //directionalLight(63, 63, 63, 0, 1, -1); 
   lightSpecular(255, 255, 255);
   directionalLight(127,127,127, 0, 1, -1); 
-  pointLight(255, 255, 204, 0, 0, 0);
   
   background(7, 59, 76);
   //lights();
@@ -109,13 +109,6 @@ void draw() {
   // translate(camera_position.x, camera_position.y - 100, camera_position.z);
   // shape(spaceship);
   // popMatrix();
-  
-  
-  pushMatrix();
-  float ship_distance = 30;
-  translate(camera_position.x, camera_position.y + ship_distance, camera_position.z);
-  shape(spaceship);
-  popMatrix();
 }
 
 class CelestialBody {
@@ -125,7 +118,7 @@ class CelestialBody {
   float distance;
   float speed;
   int id;
-  float phase;
+  float deviation;
   float deviation_scale;
   PShape shape;
 
@@ -139,7 +132,6 @@ class CelestialBody {
     scale = 1.0;
     shape = _shape;
     id = 0;
-    phase = 0;
 
     global_position = new PVector(0, 0);
     relative_position = new PVector(0, 0);
@@ -152,7 +144,7 @@ class CelestialBody {
     speed = _speed;
     shape = _shape;
     id = _id;
-    phase = random(0, TWO_PI);
+    deviation = 0;
   
     deviation_scale = random(distance*0.2, distance*0.6);
 
@@ -168,8 +160,11 @@ class CelestialBody {
       global_position.x = primary.global_position.x + relative_position.x;
       global_position.y = primary.global_position.y + relative_position.y;
       global_position.z = primary.global_position.z + relative_position.z;
-    } 
-    
+      // deviation = sin(relative_position.heading());
+    } else {
+      // pointLight(255, 255, 204, global_position.x, global_position.y, 0);
+    }
+
     if (id == 4) {
       spotLight(255, 255, 255,
        global_position.x+scale, global_position.y, global_position.z,
@@ -187,7 +182,6 @@ class CelestialBody {
     popMatrix();
 
     relative_position.rotate(speed * delta);
-    relative_position.z = sin(relative_position.heading() + phase) * deviation_scale;
   }
 }
 

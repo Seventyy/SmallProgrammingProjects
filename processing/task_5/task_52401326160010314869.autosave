@@ -19,21 +19,16 @@ void setup() {
   
   spaceship = loadShape("spaceship.obj");
 
-  camera_position = new PVector(0, 0, 500);
+  camera_position = new PVector(0, 0, 0);
   camera_normal = new PVector(0, 0, -1);
 
   fill(255, 209, 102);
   emissive(255, 209, 102); 
-  specular(250);
-  shininess(20);
   sun = new CelestialBody(createShape(SPHERE, 75));
+  //pointLight(255, 255, 204, 0, 0, 0);
   emissive(0, 0, 0);
   
   /// PLANETY
-  PShape planet_4 = loadShape("icosahedron.obj");
-  planet_4.setTexture(loadImage("planet_4_texture.png"));
-  planets.add(new CelestialBody(sun, 50.0/2, 490.0, 0.03*PI, planet_4, 4));
-  
   PShape planet_1 = loadShape("icosahedron.obj");
   planet_1.setTexture(loadImage("planet_1_texture.png")); 
   planets.add(new CelestialBody(sun, 20.0/2, 100.0, 0.26*PI, planet_1, 1));
@@ -46,34 +41,26 @@ void setup() {
   planet_3.setTexture(loadImage("planet_3_texture.png"));
   planets.add(new CelestialBody(sun, 60.0/2, 350.0, 0.09*PI, planet_3, 3));
 
+  PShape planet_4 = loadShape("icosahedron.obj");
+  planet_4.setTexture(loadImage("planet_4_texture.png"));
+  planets.add(new CelestialBody(sun, 50.0/2, 490.0, 0.03*PI, planet_4, 4));
 
   /// KSIĘŻYCE
-  specular(250);
-  shininess(5);
-  
   fill(244, 107, 139);
   moons.add(new CelestialBody(planets.get(0), 11.0, 25.0,-0.93*PI, createShape(BOX, 1), 5));
   fill(249, 153, 175);  
   moons.add(new CelestialBody(planets.get(0), 9.0, 35.0, -0.73*PI, createShape(BOX, 1), 6));
-  
-  specular(250);
-  shininess(20);
   
   fill(255, 173, 147);  
   moons.add(new CelestialBody(planets.get(1), 13.0, 22.5, 0.79*PI, createShape(BOX, 1), 7));
   fill(255, 205, 189);  
   moons.add(new CelestialBody(planets.get(1), 10.0, 37.5,-0.39*PI, createShape(BOX, 1), 8));
   
-  specular(50);
-  shininess(20);
-  
+  specular(255, 255, 255);
   fill(47 , 219, 176);  
   moons.add(new CelestialBody(planets.get(2), 12.0, 47.5,-0.86*PI, createShape(BOX, 1), 9));  
   fill(90 , 225, 191);  
   moons.add(new CelestialBody(planets.get(2), 14.0, 62.5,-0.60*PI, createShape(BOX, 1), 10));
-  
-  specular(50, 255, 255);
-  shininess(20);
   
   fill(89 , 175, 203);  
   moons.add(new CelestialBody(planets.get(3), 18.0, 40.0, 0.40*PI, createShape(BOX, 1), 11));
@@ -84,10 +71,8 @@ void setup() {
 void draw() {
   delta = 1/frameRate;
   
-  //directionalLight(63, 63, 63, 0, 1, -1); 
+  directionalLight(63, 63, 63, 0, 1, -1); 
   lightSpecular(255, 255, 255);
-  directionalLight(127,127,127, 0, 1, -1); 
-  pointLight(255, 255, 204, 0, 0, 0);
   
   background(7, 59, 76);
   //lights();
@@ -96,7 +81,7 @@ void draw() {
   for (CelestialBody planet : planets) { planet.display(); }
   for (CelestialBody moon : moons) { moon.display(); }
 
-  perspective(fov, float(width)/float(height), 1, 1000000);
+  perspective(fov, float(width)/float(height), 1, 10000);
   updateCamera();
   camera(
     camera_position.x, camera_position.y, camera_position.z,
@@ -109,13 +94,6 @@ void draw() {
   // translate(camera_position.x, camera_position.y - 100, camera_position.z);
   // shape(spaceship);
   // popMatrix();
-  
-  
-  pushMatrix();
-  float ship_distance = 30;
-  translate(camera_position.x, camera_position.y + ship_distance, camera_position.z);
-  shape(spaceship);
-  popMatrix();
 }
 
 class CelestialBody {
@@ -125,7 +103,7 @@ class CelestialBody {
   float distance;
   float speed;
   int id;
-  float phase;
+  float deviation;
   float deviation_scale;
   PShape shape;
 
@@ -139,7 +117,6 @@ class CelestialBody {
     scale = 1.0;
     shape = _shape;
     id = 0;
-    phase = 0;
 
     global_position = new PVector(0, 0);
     relative_position = new PVector(0, 0);
@@ -152,7 +129,7 @@ class CelestialBody {
     speed = _speed;
     shape = _shape;
     id = _id;
-    phase = random(0, TWO_PI);
+    deviation = 0;
   
     deviation_scale = random(distance*0.2, distance*0.6);
 
@@ -167,27 +144,38 @@ class CelestialBody {
     if (primary != null) {
       global_position.x = primary.global_position.x + relative_position.x;
       global_position.y = primary.global_position.y + relative_position.y;
-      global_position.z = primary.global_position.z + relative_position.z;
-    } 
-    
+      // global_position.z = primary.global_position.z;
+      //deviation = sin(relative_position.heading());
+    } else {
+      // pointLight(255, 255, 204, global_position.x, global_position.y, 0);
+    }
+
     if (id == 4) {
       spotLight(255, 255, 255,
-       global_position.x+scale, global_position.y, global_position.z,
+       global_position.x+scale, 0, global_position.y,
        1, 0, 0, PI/16, 600);
       pushMatrix();
-      translate(global_position.x+scale, global_position.y, global_position.z);
+      translate(global_position.x+scale, 0, global_position.y);
       sphere(10);
       popMatrix();
-    } 
-    
+      }  
+      //if (id == 3){
+      //  println("new");
+      //  println(relative_position);
+      //  println(new PVector(relative_position.x, relative_position.z));
+      //  println(PVector.angleBetween(new PVector(relative_position.x, relative_position.y), new PVector(1,0)));
+      //  println(deviation_scale);
+      //  println(deviation);
+      //  println(deviation*deviation_scale);
+      //}
     pushMatrix();
     // global_position.z = deviation*deviation_scale;
-    translate(global_position.x, global_position.y, global_position.z);
+    translate(global_position.x, deviation*deviation_scale, global_position.y);
     shape(shape);
     popMatrix();
+    
 
     relative_position.rotate(speed * delta);
-    relative_position.z = sin(relative_position.heading() + phase) * deviation_scale;
   }
 }
 
