@@ -21,23 +21,23 @@ void setup() {
   
   planets.add(new Planet(700.0, 0.2*PI));
 
-  planets.add(new Planet(color(20 , 75 , 160), 35, 120.0, 1.2*PI, new ArrayList<>(Arrays.asList(
-    new Moon(color(210, 220, 230), 6.0, 35.0, 2.2*PI)
+  planets.add(new Planet(color(20 , 75 , 160), 35, 120.0, 1.2*PI, 120.0/4, new ArrayList<>(Arrays.asList(
+    new Moon(color(210, 220, 230), 6.0, 35.0, 2.2*PI, 35.0 / 2)
   ))));
 
-  planets.add(new Planet(color(150, 80 , 250), 25, 200.0, 0.8*PI, new ArrayList<>(Arrays.asList(
-    new Moon(color(250, 80 , 25 ), 9.0, 27.5, 2.4*PI),
-    new Moon(color(100, 200, 100), 4.0, 37.5, 1.2*PI)
+  planets.add(new Planet(color(150, 80 , 250), 25, 200.0, 0.8*PI, 200.0/4, new ArrayList<>(Arrays.asList(
+    new Moon(color(250, 80 , 25 ), 9.0, 27.5, 2.4*PI, 27.5 / 2),
+    new Moon(color(100, 200, 100), 4.0, 37.5, 1.2*PI, 37.5 / 2)
   ))));
 
-  planets.add(new Planet(color(200, 0  , 40 ), 60, 360.0, 0.3*PI, new ArrayList<>(Arrays.asList(
-    new Moon(color(0  , 250, 150), 8.0, 50.0, 2.6*PI),
-    new Moon(color(250 , 70 , 10 ), 5.5, 62.5, 1.8*PI)
+  planets.add(new Planet(color(200, 0  , 40 ), 60, 360.0, 0.3*PI, 360.0/4, new ArrayList<>(Arrays.asList(
+    new Moon(color(0  , 250, 150), 8.0, 50.0, 2.6*PI, 50.0 / 2),
+    new Moon(color(250 , 70 , 10 ), 5.5, 62.5, 1.8*PI, 62.5 / 2)
   ))));
 
-  planets.add(new Planet(color(80 , 250, 130), 50, 500.0, 0.2*PI, new ArrayList<>(Arrays.asList(
-    new Moon(color(70 , 220, 150), 6.5, 35.0, 1.2*PI),
-    new Moon(color(90 , 260, 210), 10.0, 60.0, 2.8*PI)
+  planets.add(new Planet(color(80 , 250, 130), 50, 500.0, 0.2*PI, 500.0/4, new ArrayList<>(Arrays.asList(
+    new Moon(color(70 , 220, 150), 6.5, 35.0, 1.2*PI, 35.0 / 2),
+    new Moon(color(90 , 260, 210), 10.0, 60.0, 2.8*PI, 60.0 / 2)
   ))));
 
 } 
@@ -76,6 +76,8 @@ class Planet {
   float angular_velocity;
   ArrayList<Moon> moons;
   boolean is_monke;
+  float z_max;
+  float z_offset;
 
   PVector position;
 
@@ -88,13 +90,15 @@ class Planet {
     position = new PVector(distance, 0, 0);
     position.rotate(random(0, TWO_PI));
   }
-  Planet(color _body_color, float _size, float _distance, float _angular_velocity, ArrayList<Moon> _moons) {
+  Planet(color _body_color, float _size, float _distance, float _angular_velocity, float _z_max, ArrayList<Moon> _moons) {
     body_color = _body_color;
     size = _size;
     distance = _distance;
     angular_velocity = _angular_velocity;
     moons = _moons;
     is_monke = false;
+    z_max = _z_max;
+    z_offset = random(0, TWO_PI);
 
     position = new PVector(distance, 0, 0);
     position.rotate(random(0, TWO_PI));
@@ -144,6 +148,8 @@ class Planet {
     for (Moon moon : moons) {
       moon.position.rotate(moon.angular_velocity / 60);
     }
+
+    position.z = sin(position.heading() + z_offset) * z_max;
   }
 }
 
@@ -152,14 +158,18 @@ class Moon {
   float size;
   float distance;
   float angular_velocity;
+  float z_max;
+  float z_offset;
 
   PVector position;
 
-  Moon(color _body_color, float _size, float _distance, float _angular_velocity) {
+  Moon(color _body_color, float _size, float _distance, float _angular_velocity, float _z_max) {
     body_color = _body_color;
     size = _size;
     distance = _distance;
     angular_velocity = _angular_velocity;
+    z_max = _z_max;
+    z_offset = random(0, TWO_PI);
 
     position = new PVector(distance, 0);
     position.rotate(random(0, TWO_PI));
