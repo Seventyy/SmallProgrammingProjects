@@ -19,7 +19,6 @@ void setup() {
   
   spaceship = loadShape("spaceship.obj");
   spaceship.rotate(PI);
-  spaceship.setTexture(loadImage("planet_2_texture.png"));
 
   camera_position = new PVector(0, 0, 500);
   camera_normal = new PVector(0, 0, -1);
@@ -111,8 +110,7 @@ void draw() {
   // translate(camera_position.x, camera_position.y - 100, camera_position.z);
   // shape(spaceship);
   // popMatrix();
-  
-  fill(55);
+    
   pushMatrix();
   float ship_distance = 20;
   translate(
@@ -229,7 +227,7 @@ void updateCamera() {
 }
 
 
-void mouseWheel(MouseEvent e) {
-  fov -= e.getCount() * PI / 180; 
+void mouseWheel(MouseEvent event) {
+  fov -= event.getCount() * PI / 180; 
   fov = constrain(fov, PI/6, PI/2); 
 }
