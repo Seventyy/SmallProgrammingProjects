@@ -1,0 +1,45 @@
+[gd_scene load_steps=3 format=3 uid="uid://b7nftujj4bpyy"]
+
+[ext_resource type="Script" path="res://visualisation.gd" id="1_obvy3"]
+[ext_resource type="PackedScene" uid="uid://c55wrfjg6k1id" path="res://access_point.tscn" id="2_6s72b"]
+
+[node name="Visualisation" type="Node2D"]
+script = ExtResource("1_obvy3")
+show_reference_path = true
+show_intersection_pairs = true
+show_triplet_triangle = true
+show_secondary_intersections = true
+show_primary_intersections = true
+show_centroid = true
+metadata/_edit_lock_ = true
+
+[node name="AccessPointA" parent="." node_paths=PackedStringArray("calculator") instance=ExtResource("2_6s72b")]
+position = Vector2(6000, 4000)
+calculator = NodePath("..")
+radius = 1500.0
+strength = 7145
+
+[node name="Handle" parent="AccessPointA" index="0"]
+position = Vector2(1500, 0)
+
+[node name="AccessPointB" parent="." node_paths=PackedStringArray("calculator") instance=ExtResource("2_6s72b")]
+position = Vector2(6000, 0)
+calculator = NodePath("..")
+radius = 1500.0
+strength = 7145
+
+[node name="Handle" parent="AccessPointB" index="0"]
+position = Vector2(1500, 0)
+
+[node name="AccessPointC" parent="." node_paths=PackedStringArray("calculator") instance=ExtResource("2_6s72b")]
+position = Vector2(0, 2000)
+calculator = NodePath("..")
+radius = 1500.0
+strength = 7145
+
+[node name="Handle" parent="AccessPointC" index="0"]
+position = Vector2(1500, 0)
+
+[editable path="AccessPointA"]
+[editable path="AccessPointB"]
+[editable path="AccessPointC"]
