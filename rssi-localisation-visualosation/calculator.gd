@@ -35,7 +35,13 @@ const c_position:Vector2 = Vector2(6000,0)
 
 @export var print_error_sum:bool:
 	set(val):
-		print(calculate_error_sum(get_approximations(get_laps_data())))
+		print(calculate_avarage_error(get_approximations(get_laps_data())))
+
+@export var print_path:bool:
+	set(val):
+		var approx := get_approximate_path(get_approximations(get_laps_data()))
+		for i in approx.size():
+			printt(i, get_reference_path()[i], approx[i])
 
 ## data
 class Lap:
@@ -103,22 +109,20 @@ func optimise_path() -> void:
 	var running_best_intercept:float
 	var running_best_path_loss_exponent:float
 	
-	for i in range(-280, -30, 1):
-		for p in range(10, 50, 1):
-		#for p in range(10, 50, 1).map(func(n:float) -> float: return n / 10.0):
-		#print([1, 2, 3].map(func(number): return -number)) 
-			p = p / 10
+	for i in range(-100, -10, 1):
+		for p in range(1000, 2000, 1).map(func(n:float) -> float: return n / 1000.0):
 			
 			intercept = i
 			path_loss_exponent = p
 			
-			var error_sum:float = calculate_error_sum(approximations)
-			#print(error)
+			approximations = get_approximations(laps_data)
+			var error_sum:float = calculate_avarage_error(approximations)
+			#printt(i, str(p).pad_decimals(2), error_sum)
 			if error_sum < running_smallest_error_sum:
 				running_smallest_error_sum = error_sum
 				running_best_intercept = i
 				running_best_path_loss_exponent = p
-		print(i)
+	
 	print("smallest error:", running_smallest_error_sum)
 	print("running_best_intercept:", running_best_intercept)
 	print("running_best_path_loss_exponent:", running_best_path_loss_exponent)
@@ -127,20 +131,19 @@ func optimise_path() -> void:
 	path_loss_exponent = running_best_path_loss_exponent
 
 ## optimisation
-func calculate_error_sum(approximations:Array[PackedVector2Array]) -> float:
+func calculate_avarage_error(approximations:Array[PackedVector2Array]) -> float:
 	var reference_path = get_reference_path()
 	
 	var running_sum:float
 	for reference_point_index in reference_path.size():
 		for lap_index in approximations[reference_point_index].size():
 			running_sum += reference_path[reference_point_index].distance_to(approximations[reference_point_index][lap_index])
-	return running_sum
+	return running_sum / approximations.size() / approximations[0].size()
 
 ## path approximation
 func get_approximations(laps:Array[Lap]) -> Array[PackedVector2Array]:
 	var reference_path = get_reference_path()
 	var approximations:Array[PackedVector2Array]
-	
 	for reference_point_index in reference_path.size():
 		var resoults:Array[Vector2] 
 		
