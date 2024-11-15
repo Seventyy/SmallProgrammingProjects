@@ -1,7 +1,9 @@
 res://default_env.tres
-res://cartoon_shader/test_scene2.tscn
-res://materials/ground_material.tres
-res://materials/blockade_material.tres
-res://materials/wall_material.tres
-res://materials/bush_material.tres
 res://cartoon_shader/quad.gdshader
+res://node_2d.tscn
+res://node_2d.gdshader
+res://2d outline/node_2d.tscn
+res://2d outline/new_shader_material.tres
+res://2d outline/new_shader.tres
+res://2d outline/outline.gdshader
+res://2d outline/afgagf.gdshader
