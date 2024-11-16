@@ -1,11 +1,11 @@
 ea4bc82a6ad023ab7ee23ee620429895
-::res://::1731710633
+::res://::1731755219
 bush.obj::Mesh::1551181351151470417::1688406835::1688406835::1::::<><>::
-default_env.tres::Environment::6195913438915413492::1731710632::0::1::::<><>::
+default_env.tres::Environment::6195913438915413492::1731755219::0::1::::<><>::
 icon.png::CompressedTexture2D::2749532521973025061::1651162775::1681041383::1::::<><>::
 Main.tscn::PackedScene::6466917428122786427::1684758770::0::1::::<><>::res://tile_map.gd<>uid://bff5ntfmcdndt::::res://icon.png<>res://Tile0.tscn<>res://Tile1.tscn<>res://Tile2.tscn<>res://Tile3.tscn<>res://Tile4.tscn<>res://Tile5.tscn<>res://Tile12.tscn<>res://Tile14.tscn<>res://Tile15.tscn<>res://Tile13.tscn<>res://Tile16.tscn<>res://Tile7.tscn<>res://Tile6.tscn<>res://Tile8.tscn<>res://Tile9.tscn<>res://Tile10.tscn<>res://Tile11.tscn
 mars_tileset_first.png::CompressedTexture2D::7295035096046580420::1651162816::1681041383::1::::<><>::
-node_2d.gdshader::Shader::-1::1731710633::0::1::::<><>::
+node_2d.gdshader::Shader::-1::1731755219::0::1::::<><>::
 per_object.gdshader::Shader::-1::1688408674::0::1::::<><>::
 retrive_mission_location_1.tscn::PackedScene::5261652555239232289::1681041692::0::1::::<><>::uid://6r7804qcw5w5::::res://addons/kenney_prototypes/assets/colors/light/materials/material_010.tres
 test_scene_3.tscn::PackedScene::8347364162168501314::1701078622::0::1::::<><>::res://cartoon_shader/embyrdev.gdshader<>uid://p4kyfy5knyoi::::res://cartoon_shader/ground_tile_v2.obj<>uid://bhilbtava0wf1::::res://materials/ground_material.tres<>uid://c3hodegthhn3q::::res://materials/blockade_material.tres<>uid://cnmkc5frlmbyd::::res://cartoon_shader/rock.obj<>uid://33ddla2kc8fi::::res://materials/wall_material.tres<>uid://wdny3exledif::::res://bush.obj<>uid://mjm8vg25jy4a::::res://materials/bush_material.tres
@@ -13,21 +13,24 @@ Tile.gd::GDScript::-1::1681041359::0::1::::<>Sprite2D<>::
 Tile.tscn::PackedScene::-1::1681041359::0::1::::<><>::res://mars_tileset_first.png<>res://Tile.gd
 Tiles.gd::GDScript::-1::1681041359::0::1::::<>Node<>::
 tile_map.gd::GDScript::-1::1681041359::0::1::::<>Node2D<>::
-::res://2d outline/::1731712276
+::res://2d outline/::1731755378
+afgagf.gdshader::Shader::-1::1731755219::0::1::::<><>::
 knight.png::CompressedTexture2D::1288098782465656309::1731701233::1731701234::1::::<><>::
 knight_body.png::CompressedTexture2D::159293785133416783::1731712276::1731712276::1::::<><>::
 knight_shield.png::CompressedTexture2D::6268744378686979226::1731712276::1731712276::1::::<><>::
 knight_sword.png::CompressedTexture2D::8116614141442381061::1731712276::1731712276::1::::<><>::
-node_2d.tscn::PackedScene::925323977176882036::1731710632::0::1::::<><>::uid://d34cogh4v41la::::res://2d outline/new_shader_material.tres<>uid://sl72fmhhqs74::::res://2d outline/knight.png
-new_shader_material.tres::ShaderMaterial::9184563390212737270::1731710633::0::1::::<><>::uid://eg04f5comku7::::res://2d outline/new_shader.tres
-new_shader.tres::Shader::294711662989838448::1731710633::0::1::::<><>::
-::res://cartoon_shader/::1731710633
+knight_sword_no_margins.png::CompressedTexture2D::877900660170853436::1731755363::1731755382::1::::<><>::
+new_shader.tres::Shader::294711662989838448::1731755219::0::1::::<><>::
+new_shader_material.tres::ShaderMaterial::9184563390212737270::1731714278::0::1::::<><>::res://2d outline/outline.gdshader
+node_2d.tscn::PackedScene::925323977176882036::1731755219::0::1::::<><>::res://2d outline/afgagf.gdshader<>uid://sl72fmhhqs74::::res://2d outline/knight.png<>uid://bff5ntfmcdndt::::res://icon.png<>uid://cjfsspe64os2::::res://2d outline/knight_body.png<>uid://cvkvklqchkmg5::::res://2d outline/knight_shield.png<>uid://dnv0pjd0s4trp::::res://2d outline/knight_sword.png
+outline.gdshader::Shader::-1::1731755219::0::1::::<><>::
+::res://cartoon_shader/::1731755219
 color_rect.gd::GDScript::-1::1681050039::0::1::::<>TextureRect<>::
 embyrdev.gdshader::Shader::-1::1688410921::0::1::::<><>::
 every_block2.gdshader::Shader::-1::1688410921::0::1::::<><>::
 every_block.gdshader::Shader::-1::1688431589::0::1::::<><>::
 ground_tile_v2.obj::Mesh::1113349939488623372::1681041492::1681049973::1::::<><>::
-quad.gdshader::Shader::-1::1731710633::0::1::::<><>::
+quad.gdshader::Shader::-1::1731755219::0::1::::<><>::
 rock.obj::Mesh::5710681193456916775::1681521032::1681521032::1::::<><>::
 test_scene2.tscn::PackedScene::4343792358188290703::1701739395::0::1::::<><>::res://cartoon_shader/quad.gdshader<>res://cartoon_shader/every_block.gdshader<>res://cartoon_shader/every_block2.gdshader<>uid://p4kyfy5knyoi::::res://cartoon_shader/ground_tile_v2.obj<>uid://cnmkc5frlmbyd::::res://cartoon_shader/rock.obj<>uid://wdny3exledif::::res://bush.obj
 test_scene.gdshader::Shader::-1::1688410921::0::1::::<><>::

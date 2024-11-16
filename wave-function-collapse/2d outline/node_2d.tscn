@@ -5,15 +5,14 @@
 [ext_resource type="Texture2D" uid="uid://bff5ntfmcdndt" path="res://icon.png" id="2_pi2hv"]
 [ext_resource type="Texture2D" uid="uid://cjfsspe64os2" path="res://2d outline/knight_body.png" id="3_mmjjj"]
 [ext_resource type="Texture2D" uid="uid://cvkvklqchkmg5" path="res://2d outline/knight_shield.png" id="4_fe5o8"]
-[ext_resource type="Texture2D" uid="uid://dnv0pjd0s4trp" path="res://2d outline/knight_sword.png" id="5_fm6eo"]
+[ext_resource type="Texture2D" uid="uid://mri5plcbv61u" path="res://2d outline/knight_sword_no_margins.png" id="5_48w8r"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_4xb4r"]
 shader = ExtResource("2_he51d")
-shader_parameter/color = Color(0, 0, 0, 1)
+shader_parameter/color = Color(0, 1, 0, 1)
 shader_parameter/width = 10.0
 shader_parameter/pattern = 1
 shader_parameter/inside = false
-shader_parameter/add_margins = false
 
 [node name="Node2D" type="Node2D"]
 
@@ -41,7 +40,7 @@ texture = ExtResource("4_fe5o8")
 
 [node name="Sprite2D3" type="Sprite2D" parent="CanvasGroup"]
 position = Vector2(473, 14)
-texture = ExtResource("5_fm6eo")
+texture = ExtResource("5_48w8r")
 
 [node name="Icon" type="Sprite2D" parent="CanvasGroup"]
 position = Vector2(404, 546)
