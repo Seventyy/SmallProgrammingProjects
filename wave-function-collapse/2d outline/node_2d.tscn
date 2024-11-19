@@ -1,0 +1,54 @@
+[gd_scene load_steps=8 format=3 uid="uid://ngh7la2pdig7"]
+
+[ext_resource type="Shader" path="res://2d outline/afgagf.gdshader" id="2_he51d"]
+[ext_resource type="Texture2D" uid="uid://sl72fmhhqs74" path="res://2d outline/knight.png" id="2_m2qd3"]
+[ext_resource type="Texture2D" uid="uid://cjfsspe64os2" path="res://2d outline/knight_body.png" id="3_mmjjj"]
+[ext_resource type="Texture2D" uid="uid://cvkvklqchkmg5" path="res://2d outline/knight_shield.png" id="4_fe5o8"]
+[ext_resource type="Texture2D" uid="uid://mri5plcbv61u" path="res://2d outline/knight_sword_no_margins.png" id="5_48w8r"]
+[ext_resource type="Texture2D" uid="uid://db61frrwkjniy" path="res://mars_tileset_first.png" id="6_17l8l"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4xb4r"]
+shader = ExtResource("2_he51d")
+shader_parameter/color = Color(0, 0, 0, 1)
+shader_parameter/width = 10.0
+shader_parameter/pattern = 1
+shader_parameter/border_mode = 0
+
+[node name="Node2D" type="Node2D"]
+
+[node name="BackBufferCopy" type="BackBufferCopy" parent="."]
+visible = false
+
+[node name="Sprite2D2" type="Sprite2D" parent="BackBufferCopy"]
+texture = ExtResource("2_m2qd3")
+
+[node name="BackBufferCopy2" type="BackBufferCopy" parent="."]
+visible = false
+
+[node name="Sprite2D2" type="Sprite2D" parent="BackBufferCopy2"]
+texture = ExtResource("2_m2qd3")
+
+[node name="CanvasGroup" type="CanvasGroup" parent="."]
+material = SubResource("ShaderMaterial_4xb4r")
+fit_margin = 25.0
+
+[node name="Sprite2D" type="Sprite2D" parent="CanvasGroup"]
+texture = ExtResource("3_mmjjj")
+
+[node name="Sprite2D2" type="Sprite2D" parent="CanvasGroup"]
+position = Vector2(-203, 94)
+texture = ExtResource("4_fe5o8")
+
+[node name="Sprite2D3" type="Sprite2D" parent="CanvasGroup"]
+position = Vector2(481, 75)
+texture = ExtResource("5_48w8r")
+
+[node name="Icon" type="Sprite2D" parent="CanvasGroup"]
+position = Vector2(404, 546)
+scale = Vector2(3.37043, 3.64604)
+texture = ExtResource("6_17l8l")
+
+[node name="Icon2" type="Sprite2D" parent="."]
+position = Vector2(3455, 860)
+scale = Vector2(3.37043, 3.64604)
+texture = ExtResource("3_mmjjj")

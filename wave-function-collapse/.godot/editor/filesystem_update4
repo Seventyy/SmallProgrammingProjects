@@ -1,7 +1,0 @@
-res://default_env.tres
-res://cartoon_shader/test_scene2.tscn
-res://materials/ground_material.tres
-res://materials/blockade_material.tres
-res://materials/wall_material.tres
-res://materials/bush_material.tres
-res://cartoon_shader/quad.gdshader

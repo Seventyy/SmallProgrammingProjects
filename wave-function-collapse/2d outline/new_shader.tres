@@ -1,0 +1,94 @@
+[gd_resource type="Shader" format=3 uid="uid://eg04f5comku7"]
+
+[resource]
+code = "//shader_type canvas_item;
+//
+//uniform float outline_width :hint_range(0.0, 10.0, 0.1) = 2.0;
+//uniform vec4 outline_color : source_color;
+//
+//uniform sampler2D screen_texture: hint_screen_texture, filter_nearest, repeat_disable;
+//
+//void fragment() {
+	//vec4 col = texture(screen_texture, SCREEN_UV);
+	//vec2 ps = SCREEN_PIXEL_SIZE;
+	//float a;
+	//float maxa = col.a;
+	//float mina = col.a;
+//
+	//a = texture(screen_texture, SCREEN_UV + vec2(0.0, -outline_width) * ps).a;
+	//maxa = max(a, maxa);
+	//mina = min(a, mina);
+//
+	//a = texture(screen_texture, SCREEN_UV + vec2(0.0, outline_width) * ps).a;
+	//maxa = max(a, maxa);
+	//mina = min(a, mina);
+//
+	//a = texture(screen_texture, SCREEN_UV + vec2(-outline_width, 0.0) * ps).a;
+	//maxa = max(a, maxa);
+	//mina = min(a, mina);
+//
+	//a = texture(screen_texture, SCREEN_UV + vec2(outline_width, 0.0) * ps).a;
+	//maxa = max(a, maxa);
+	//mina = min(a, mina);
+//
+	//vec4 color = mix(col, outline_color, maxa - mina);
+//
+	//if(color.a > 0.0001) {
+		//color.rgb /= color.a;
+	//}
+//
+	//COLOR = color;
+//}
+
+shader_type canvas_item;
+render_mode unshaded;
+
+uniform sampler2D screen_texture : hint_screen_texture, repeat_disable, filter_nearest;
+
+uniform vec3 outline_color: source_color;
+uniform float progress: hint_range(0.0, 1.0);
+uniform float width: hint_range(0.0, 0.1, 0.001) = 0.001;
+
+void fragment() {
+	vec4 c = textureLod(screen_texture, SCREEN_UV, 0.0);
+
+	if (c.a > 0.0001) {
+		c.rgb /= c.a;
+	}
+
+	//vec4 line_neg_y = vec4(outline_color.rgb, texture(TEXTURE, vec2(UV.x, UV.y - width)).a);
+	//vec4 line_pos_y = vec4(outline_color.rgb, texture(TEXTURE, vec2(UV.x, UV.y + width)).a);
+	//vec4 line_neg_x = vec4(outline_color.rgb, texture(TEXTURE, vec2(UV.x - width, UV.y)).a);
+	//vec4 line_pos_x = vec4(outline_color.rgb, texture(TEXTURE, vec2(UV.x + width, UV.y)).a);
+	//vec4 outline_y = mix(line_neg_y, line_pos_y, line_pos_y);
+	//vec4 outline_x = mix(line_neg_x, line_pos_x, line_pos_x);
+	//vec4 outline = mix(outline_y, outline_x, outline_x);
+	//COLOR.rgba = mix(COLOR, outline, progress * (1.0 - COLOR.a));
+	
+	COLOR *= c;
+	//COLOR = vec4(outline_color, 1);
+}
+
+
+//shader_type canvas_item;
+//
+//uniform vec3 outline_color: source_color;
+//uniform float progress: hint_range(0.0, 1.0);
+//uniform float width: hint_range(0.0, 0.1, 0.001) = 0.001;
+//
+//uniform sampler2D back_buffer: hint_screen_texture;
+//uniform vec2 a;
+//
+//
+//void fragment() {
+	//vec4 line_neg_y = vec4(outline_color.rgb, texture(TEXTURE, vec2(UV.x, UV.y - width)).a);
+	//vec4 line_pos_y = vec4(outline_color.rgb, texture(TEXTURE, vec2(UV.x, UV.y + width)).a);
+	//vec4 line_neg_x = vec4(outline_color.rgb, texture(TEXTURE, vec2(UV.x - width, UV.y)).a);
+	//vec4 line_pos_x = vec4(outline_color.rgb, texture(TEXTURE, vec2(UV.x + width, UV.y)).a);
+	//vec4 outline_y = mix(line_neg_y, line_pos_y, line_pos_y);
+	//vec4 outline_x = mix(line_neg_x, line_pos_x, line_pos_x);
+	//vec4 outline = mix(outline_y, outline_x, outline_x);
+	////COLOR.rgba = mix(COLOR, outline, progress * (1.0 - COLOR.a));
+	////COLOR.rgba = texture(back_buffer, SCREEN_UV + a);
+	//COLOR = vec4(1,0,0,1);
+//}"

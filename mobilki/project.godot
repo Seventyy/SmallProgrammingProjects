@@ -10,10 +10,10 @@ config_version=5
 
 [application]
 
-config/name="rssi-localisation-visualosation"
-config/features=PackedStringArray("4.3", "Forward Plus")
+config/name="Mobilki"
+config/features=PackedStringArray("4.2", "Mobile")
 config/icon="res://icon.svg"
 
 [rendering]
 
-environment/defaults/default_clear_color=Color(0.0862745, 0.0823529, 0.141176, 1)
+renderer/rendering_method="mobile"

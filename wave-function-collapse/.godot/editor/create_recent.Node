@@ -1,3 +1,6 @@
+CanvasGroup
+Sprite2D
+BackBufferCopy
 Button
 HSplitContainer
 GridContainer
@@ -9,10 +12,3 @@ ColorRect
 MeshInstance3D
 TextureRect
 Node3D
-SubViewport
-CanvasLayer
-Node
-Camera3D
-DirectionalLight3D
-WorldEnvironment
-StaticBody3D
